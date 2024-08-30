@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackgroundWhite"
+    tools:context=".fragments.InputMnemoFragment">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="center|center_horizontal|center_vertical"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="124dp"
+            android:layout_height="124dp"
+            android:layout_marginVertical="@dimen/button_main_vert_margin"
+            android:src="@drawable/img_repeat" />
+
+        <TextView
+            android:id="@+id/textView"
+            style="@style/text_big"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:text="@string/title_repeat_mnemo" />
+
+        <TextView
+            android:id="@+id/fr_input_mnemo_desc"
+            style="@style/text_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/desc_repeat_mnemo" />
+
+        <LinearLayout
+            android:id="@+id/fr_input_mnemo_input_lay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:orientation="vertical">
+
+        </LinearLayout>
+
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="48dp"-->
+<!--            android:layout_marginHorizontal="48dp"-->
+<!--            android:gravity="center_vertical"-->
+<!--            android:padding="12dp"-->
+<!--            android:layout_marginBottom="12dp"-->
+<!--            android:background="@drawable/bkg_input_ligth"-->
+<!--            android:orientation="horizontal">-->
+
+<!--            <TextView-->
+<!--                style="@style/text_general"-->
+<!--                android:textColor="@color/grey_text"-->
+<!--                android:id="@+id/textView5"-->
+<!--                android:gravity="end"-->
+<!--                android:layout_width="24dp"-->
+<!--                android:layout_height="20dp"-->
+<!--                android:layout_marginEnd="16dp"-->
+<!--                android:text="1" />-->
+
+<!--            <EditText-->
+<!--                style="@style/text_general"-->
+<!--                android:background="@android:color/transparent"-->
+<!--                android:id="@+id/editTextText"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:ems="6"-->
+<!--                android:inputType="text"-->
+<!--                android:text="Name" />-->
+<!--        </LinearLayout>-->
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="48dp"-->
+<!--            android:layout_marginHorizontal="48dp"-->
+<!--            android:gravity="center_vertical"-->
+<!--            android:padding="12dp"-->
+<!--            android:layout_marginBottom="12dp"-->
+<!--            android:background="@drawable/bkg_input_ligth"-->
+<!--            android:orientation="horizontal">-->
+
+<!--            <TextView-->
+<!--                style="@style/text_general"-->
+<!--                android:textColor="@color/grey_text"-->
+<!--                android:id="@+id/textView5"-->
+<!--                android:gravity="end"-->
+<!--                android:layout_width="24dp"-->
+<!--                android:layout_height="20dp"-->
+<!--                android:layout_marginEnd="16dp"-->
+<!--                android:text="1" />-->
+
+<!--            <EditText-->
+<!--                style="@style/text_general"-->
+<!--                android:background="@android:color/transparent"-->
+<!--                android:id="@+id/editTextText"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:ems="6"-->
+<!--                android:inputType="text"-->
+<!--                android:text="Name" />-->
+<!--        </LinearLayout>-->
+
+        <Button
+            android:id="@+id/fr_input_mneno_btn_done"
+            style="@style/button_general"
+            android:text="@string/btn_continue" />
+
+
+    </LinearLayout>
+
+    <ImageButton
+        style="@style/button_back"
+        android:id="@+id/fr_setpin_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

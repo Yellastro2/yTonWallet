@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/welcomeFrag">
+
+    <fragment
+        android:id="@+id/welcomeFrag"
+        android:name="com.yellastro.mytonwallet.fragments.WelcomeFrag"
+        android:label="fragment_welcome"
+        tools:layout="@layout/fragment_welcome" >
+        <action
+            android:id="@+id/action_welcomeFrag_to_newCreateFragment2"
+            app:destination="@id/newCreateFragment2"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popExitAnim="@android:anim/fade_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/pincodeFragment"
+        android:name="com.yellastro.mytonwallet.fragments.PincodeFragment"
+        android:label="fragment_pincode"
+        tools:layout="@layout/fragment_pincode" >
+        <action
+            android:id="@+id/action_pincodeFragment_to_walletFragment"
+            app:destination="@id/walletFragment"
+            app:popUpToInclusive="true"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popExitAnim="@android:anim/fade_out"/>
+    </fragment>
+    <fragment
+        android:id="@+id/setPinFragment"
+        android:name="com.yellastro.mytonwallet.fragments.SetPinFragment"
+        android:label="fragment_set_pin"
+        tools:layout="@layout/fragment_set_pin" >
+        <action
+            android:id="@+id/action_setPinFragment_self"
+            app:destination="@id/setPinFragment"
+            app:popUpTo="@id/setPinFragment"
+
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popExitAnim="@android:anim/fade_out"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_setPinFragment_to_useBioFragment"
+            app:destination="@id/useBioFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popExitAnim="@android:anim/fade_out"
+            app:popUpTo="@id/newCreateFragment2" />
+        <action
+            android:id="@+id/action_setPinFragment_to_mnemoShowFragment"
+            app:destination="@id/mnemoShowFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popExitAnim="@android:anim/fade_out"
+            app:popUpTo="@id/newCreateFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/newCreateFragment2"
+        android:name="com.yellastro.mytonwallet.fragments.NewCreateFragment"
+        android:label="fragment_new_create"
+        tools:layout="@layout/fragment_new_create" >
+        <action
+            android:id="@+id/action_newCreateFragment2_to_setPinFragment"
+            app:destination="@id/setPinFragment"
+            app:launchSingleTop="true"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popExitAnim="@android:anim/fade_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/useBioFragment"
+        android:name="com.yellastro.mytonwallet.fragments.UseBioFragment"
+        android:label="fragment_use_bio"
+        tools:layout="@layout/fragment_use_bio" >
+        <action
+            android:id="@+id/action_useBioFragment_to_mnemoShowFragment"
+            app:destination="@id/mnemoShowFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popExitAnim="@android:anim/fade_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/mnemoShowFragment"
+        android:name="com.yellastro.mytonwallet.fragments.MnemoShowFragment"
+        android:label="fragment_mnemo_show"
+        tools:layout="@layout/fragment_mnemo_show" >
+        <action
+            android:id="@+id/action_mnemoShowFragment_to_inputMnemoFragment"
+            app:destination="@id/inputMnemoFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popExitAnim="@android:anim/fade_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/inputMnemoFragment"
+        android:name="com.yellastro.mytonwallet.fragments.InputMnemoFragment"
+        android:label="fragment_input_mnemo"
+        tools:layout="@layout/fragment_input_mnemo" >
+        <action
+            android:id="@+id/action_inputMnemoFragment_to_walletFragment"
+            app:destination="@id/walletFragment"
+            app:popUpTo="@+id/main_nav_graph"
+            app:popUpToInclusive="true"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popExitAnim="@android:anim/fade_out"/>
+    </fragment>
+    <fragment
+        android:id="@+id/walletFragment"
+        android:name="com.yellastro.mytonwallet.fragments.WalletFragment"
+        android:label="fragment_wallet"
+        tools:layout="@layout/fragment_wallet" />
+</navigation>

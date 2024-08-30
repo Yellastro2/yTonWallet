@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">yTonWallet</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="use_6_pin">Use 6-Digit Passcode</string>
+    <string name="use_4_pin">Use 4-Digit Passcode</string>
+    <string name="title_set_pin">Set passcode</string>
+    <string name="deck_set_pin">Enter the 4 digits in the passcode.</string>
+
+    <string name="title_conf_pin">Confirm passcode</string>
+    <string name="deck_conf_pin">Re-enter the 4 digits in the passcode.</string>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="use_biometrics">Use Biometrics?</string>
+    <string name="desc_bio">MyTonWallet uses biometric authentication to unlock and authorize transactions.</string>
+    <string name="btn_enable">Enable</string>
+    <string name="btn_skip">Skip</string>
+    <string name="title_setpas">Set passcode</string>
+    <string name="desc_welcome">Securely store and send crypto.</string>
+    <string name="btn_create_wallet">Create New Wallet</string>
+    <string name="btn_import_wallet">Import Existing Wallet</string>
+    <string name="desc_showmnemo">Write down these 24 words in this exact order and keep them in a secure place. Do not share this list with anyone.</string>
+    <string name="title_showmnemo">Your recovery phrase</string>
+    <string name="btn_done">Done</string>
+    <string name="desc_repeat_mnemo">Let’s check that you wrote it down correctly. Please enter the words PART, PART and PART.</string>
+    <string name="title_repeat_mnemo">Let’s test</string>
+    <string name="btn_continue">Continue</string>
+</resources>

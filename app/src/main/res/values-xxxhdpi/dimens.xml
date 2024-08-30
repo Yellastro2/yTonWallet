@@ -1,0 +1,25 @@
+<resources>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="button_main_vert_margin">10dp</dimen>
+    <dimen name="button_main_horz_margin">46dp</dimen>
+
+    <dimen name="pin_dot_size">16dp</dimen>
+    <dimen name="pin_dot_stroke">1dp</dimen>
+
+    <dimen name="margin_80">80dp</dimen>
+    <dimen name="margin_72">72dp</dimen>
+    <dimen name="margin_48">48dp</dimen>
+    <dimen name="margin_48_dialog">0dp</dimen>
+    <dimen name="margin_16_dialog">8dp</dimen>
+    <dimen name="margin_32">32dp</dimen>
+    <dimen name="margin_8">8dp</dimen>
+
+    <dimen name="margin_238">238dp</dimen>
+    <dimen name="margin_212">212dp</dimen>
+
+
+    <dimen name="pin_btn_size">80dp</dimen>
+
+    <dimen name="text_size_regular">16sp</dimen>
+    <dimen name="text_size_big">28sp</dimen>
+</resources>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="button_general" parent="@android:style/Widget.Button">
+        <item name="android:textSize">@dimen/text_size_regular</item>
+        <item name="android:background">@drawable/select_button</item>
+        <item name="android:backgroundTint">@null</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:focusable">true</item>
+        <item name="android:clickable">true</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_marginTop">@dimen/margin_32</item>
+        <item name="android:layout_marginHorizontal">@dimen/button_main_horz_margin</item>
+        <item name="android:layout_marginVertical">@dimen/button_main_vert_margin</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <style name="text_description" parent="text_general">
+        <item name="android:gravity">center</item>
+        <item name="android:paddingHorizontal">15dp</item>
+        <item name="android:layout_marginHorizontal">@dimen/margin_48</item>
+        <item name="android:layout_marginBottom">@dimen/margin_32</item>
+    </style>
+</resources>
