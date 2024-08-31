@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.MyTonWallet" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.MyTonWallet" parent="Theme.Material3.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/blue_white</item>
         <item name="colorPrimaryVariant">@color/blue_white</item>
@@ -14,11 +14,6 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
-    <!-- Base application theme. -->
-    <style name="Base.Theme.MyTonWallet" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-    </style>
 
     <style name="text_general">
         <item name="android:textColor">@color/black</item>
@@ -28,6 +23,10 @@
     <style name="text_big" parent="text_general">
         <item name="android:textSize">@dimen/text_size_big</item>
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="text_toolbar_title" parent="text_big">
+        <item name="android:textSize">@dimen/text_size_22</item>
     </style>
 
     <style name="text_description" parent="text_general">
@@ -53,6 +52,7 @@
         <item name="android:textColor">@color/blue_white</item>
         <item name="android:background">?android:selectableItemBackground</item>
     </style>
+
     <style name="pin_row">
         <item name="android:gravity">center</item>
         <item name="android:layout_width">match_parent</item>
@@ -75,5 +75,14 @@
         <item name="android:background">?android:selectableItemBackground</item>
         <item name="android:src">@drawable/ic_back</item>
     </style>
+
+    <style name="Theme.MyTonWallet.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.MyTonWallet.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.MyTonWallet.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

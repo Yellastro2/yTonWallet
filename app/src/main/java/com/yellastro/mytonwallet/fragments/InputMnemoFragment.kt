@@ -22,6 +22,7 @@ import com.yellastro.mytonwallet.MNEMO
 import com.yellastro.mytonwallet.MNEMO_LIST
 import com.yellastro.mytonwallet.PREF_KEY
 import com.yellastro.mytonwallet.R
+import com.yellastro.mytonwallet.views.InputMnemoView
 import com.yellastro.mytonwallet.yDialog
 import kotlin.random.Random
 
@@ -34,7 +35,7 @@ class InputMnemoFragment : Fragment() {
     val mMnemoParts = ArrayList<Int>()
     lateinit var mMnemo: List<String>
 
-    val mvInputs = ArrayList<AutoCompleteTextView>()
+    val mvInputs = ArrayList<InputMnemoView>()
 
     lateinit var navController: NavController
 
@@ -85,60 +86,66 @@ class InputMnemoFragment : Fragment() {
         for (qPart in mMnemoParts){
             fDesc = fDesc.replaceFirst("PART","<b>${qPart}</b>")
 
-            LayoutInflater.from(requireContext()).inflate(R.layout.mnemo_input_item_view, fvInputLay)
-            val qCurentCount = fvInputLay.childCount
-            val qInputLay: View = fvInputLay.getChildAt(qCurentCount-1)
+            mvInputs.add( InputMnemoView(requireContext(),
+                fvInputLay,
+                qPart,
+                {onInputDone()})
+            )
 
-            qInputLay.findViewById<TextView>(R.id.it_mneno_input_num).setText("${qPart}")
-
-            val qvInputText = qInputLay.findViewById<AutoCompleteTextView>(R.id.it_mneno_input_text)
-            mvInputs.add(qvInputText)
-
-            qvInputText.addTextChangedListener(object : TextWatcher {
-                override fun afterTextChanged(s: Editable) {
-                    if (MNEMO_LIST.any { qMnemoWord ->
-                            qMnemoWord.startsWith(s.toString())
-                        } || s.isEmpty())
-                    {
-                        qInputLay.setBackgroundResource(R.drawable.bkg_input_ligth)
-                    }else{
-                        qInputLay.setBackgroundResource(R.drawable.bkg_input_ligth_wrong)
-                    }
-
-                }
-
-                override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-
-                }
-                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-            })
-
-            ArrayAdapter<String>(requireContext(),
-                android.R.layout.simple_list_item_1,
-                MNEMO_LIST).also { adapter ->
-                qvInputText.setAdapter(adapter)
-            }
-            qvInputText.setOnKeyListener(View.OnKeyListener { view, i, keyEvent ->
-
-                if ((keyEvent.action == KeyEvent.ACTION_UP) &&
-                    (keyEvent.keyCode == KeyEvent.KEYCODE_ENTER))
-                {
-                    if (qCurentCount < fvInputLay.childCount){
-                        val qNextInput = mvInputs[qCurentCount]
-                        getViewKeyboard(qNextInput)
-                    }else{
-                        onInputDone()
-                    }
-
-                    return@OnKeyListener true
-                }
-                return@OnKeyListener false
-            })
+//            LayoutInflater.from(requireContext()).inflate(R.layout.mnemo_input_item_view, fvInputLay)
+//            val qCurentCount = fvInputLay.childCount
+//            val qInputLay: View = fvInputLay.getChildAt(qCurentCount-1)
+//
+//            qInputLay.findViewById<TextView>(R.id.it_mneno_input_num).setText("${qPart}")
+//
+//            val qvInputText = qInputLay.findViewById<AutoCompleteTextView>(R.id.it_mneno_input_text)
+//            mvInputs.add(qvInputText)
+//
+//            qvInputText.addTextChangedListener(object : TextWatcher {
+//                override fun afterTextChanged(s: Editable) {
+//                    if (MNEMO_LIST.any { qMnemoWord ->
+//                            qMnemoWord.startsWith(s.toString())
+//                        } || s.isEmpty())
+//                    {
+//                        qInputLay.setBackgroundResource(R.drawable.bkg_input_ligth)
+//                    }else{
+//                        qInputLay.setBackgroundResource(R.drawable.bkg_input_ligth_wrong)
+//                    }
+//
+//                }
+//
+//                override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+//
+//                }
+//                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+//            })
+//
+//            ArrayAdapter<String>(requireContext(),
+//                android.R.layout.simple_list_item_1,
+//                MNEMO_LIST).also { adapter ->
+//                qvInputText.setAdapter(adapter)
+//            }
+//            qvInputText.setOnKeyListener(View.OnKeyListener { view, i, keyEvent ->
+//
+//                if ((keyEvent.action == KeyEvent.ACTION_UP) &&
+//                    (keyEvent.keyCode == KeyEvent.KEYCODE_ENTER))
+//                {
+//                    if (qCurentCount < fvInputLay.childCount){
+//                        val qNextInput = mvInputs[qCurentCount]
+//                        getViewKeyboard(qNextInput)
+//                    }else{
+//                        onInputDone()
+//                    }
+//
+//                    return@OnKeyListener true
+//                }
+//                return@OnKeyListener false
+//            })
         }
 
         view.findViewById<TextView>(R.id.fr_input_mnemo_desc).setText(Html.fromHtml(fDesc))
-
-        getViewKeyboard(mvInputs[0])
+        mvInputs[0]
+            .getViewKeyboard(mvInputs[0].mvInput)
     }
 
     fun onInputDone(){
@@ -149,10 +156,8 @@ class InputMnemoFragment : Fragment() {
         }else{
             yDialog(requireContext())
                 .yCreate()
-                .setOnclick(R.id.dial_btn_one,{ clearMnemo() })
-                .setOnclick(R.id.dial_btn_thwo,{
-                    navController.popBackStack()
-                })
+                .setonFirstButtonClick { clearMnemo() }
+                .setonSecondButtonClick { navController.popBackStack() }
                 .show()
         }
     }
@@ -163,7 +168,7 @@ class InputMnemoFragment : Fragment() {
 
     private fun checkInput(): Boolean {
         for (i in 0..<mvInputs.size){
-            val qInput = mvInputs[i]
+            val qInput = mvInputs[i].mvInput
             val qTypedWord = qInput.text.toString().trim()
             val qMnemoWord = mMnemo[mMnemoParts[i]-1].trim()
             if (qTypedWord != qMnemoWord)
@@ -172,11 +177,6 @@ class InputMnemoFragment : Fragment() {
         return true
     }
 
-    fun getViewKeyboard(fView: View){
-        if (fView.requestFocus()) {
-            val imm = requireContext().getSystemService(InputMethodManager::class.java)
-            imm.showSoftInput(fView, InputMethodManager.SHOW_IMPLICIT)
-        }
-    }
+
 
 }

@@ -29,28 +29,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2">
 
-<!--        <ImageView-->
-<!--            android:id="@+id/imageView3"-->
-<!--            style="@style/pin_dot"-->
-<!--            android:src="@drawable/bkg_pin_fill" />-->
-
-<!--        <ImageView-->
-
-<!--            android:id="@+id/imageView4"-->
-<!--            style="@style/pin_dot"-->
-<!--            android:src="@drawable/bkg_pin_fill" />-->
-
-<!--        <ImageView-->
-
-<!--            android:id="@+id/imageView5"-->
-<!--            style="@style/pin_dot"-->
-<!--            android:src="@drawable/bkg_pin_empty" />-->
-
-<!--        <ImageView-->
-
-<!--            android:id="@+id/imageView6"-->
-<!--            style="@style/pin_dot"-->
-<!--            android:src="@drawable/bkg_pin_empty" />-->
     </LinearLayout>
 
     <TextView

@@ -16,6 +16,9 @@
             app:enterAnim="@android:anim/fade_in"
             app:exitAnim="@android:anim/fade_out"
             app:popExitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/action_welcomeFrag_to_importMnemoFragment"
+            app:destination="@id/importMnemoFragment" />
     </fragment>
     <fragment
         android:id="@+id/pincodeFragment"
@@ -115,4 +118,9 @@
         android:name="com.yellastro.mytonwallet.fragments.WalletFragment"
         android:label="fragment_wallet"
         tools:layout="@layout/fragment_wallet" />
+    <fragment
+        android:id="@+id/importMnemoFragment"
+        android:name="com.yellastro.mytonwallet.fragments.ImportMnemoFragment"
+        android:label="fragment_import_mnemo"
+        tools:layout="@layout/fragment_import_mnemo" />
 </navigation>

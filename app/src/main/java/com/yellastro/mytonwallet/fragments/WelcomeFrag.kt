@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.yellastro.mytonwallet.R
 
@@ -70,7 +69,8 @@ class WelcomeFrag : Fragment() {
 
         view.findViewById<View>(R.id.welcome_frag_btn_import).setOnClickListener {
             val navController = findNavController()
-//            navController.navigate(R.id.action_welcomeFrag_to_pincodeFragment)
+            navController.navigate(R.id.action_welcomeFrag_to_importMnemoFragment)
         }
+//        startActivity(Intent(requireContext(),ScrollingActivity::class.java))
     }
 }

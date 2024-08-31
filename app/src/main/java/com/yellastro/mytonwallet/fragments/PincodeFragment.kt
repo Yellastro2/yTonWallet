@@ -1,6 +1,7 @@
 package com.yellastro.mytonwallet.fragments
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -38,6 +39,8 @@ class PincodeFragment : Fragment() {
 
     val viewModel: PincodeModel by viewModels()
     lateinit var mPin: String
+
+    lateinit var mvPinDots: PinView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,7 +88,7 @@ class PincodeFragment : Fragment() {
             }
     }
 
-    lateinit var mvPinDots: PinView
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -120,9 +123,10 @@ class PincodeFragment : Fragment() {
         if (mPin != viewModel.mPincode)
             wrong()
         else{
-            ColorAnimation.animateColor(requireContext(),
+            ColorAnimation.animateColor_v1(requireContext(),
                 R.color.white,
                 R.color.blue_white,
+                300L,
                 {fColor -> mvPinDots.setColor(fColor)},
                 {
                     navController.popBackStack(R.id.pincodeFragment,true)
@@ -133,11 +137,15 @@ class PincodeFragment : Fragment() {
     }
 
     private fun wrong() {
+
+
+
         ColorAnimation.animateColor(requireContext(),
             R.color.white,
             R.color.red,
             {fColor -> mvPinDots.setColor(fColor)},
             {
+                mvPinDots.clear()
                 mvPinDots.setDots(0)
                 viewModel.mPincode = ""
 

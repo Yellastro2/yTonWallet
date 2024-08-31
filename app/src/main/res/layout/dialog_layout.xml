@@ -9,9 +9,10 @@
     android:padding="12dp">
 
     <TextView
+
         style="@style/text_big"
         android:textSize="22sp"
-        android:id="@+id/textView5"
+        android:id="@+id/dial_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
@@ -21,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/dial_body"
         style="@style/text_general"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -30,7 +31,7 @@
         android:text="The secret words you have entered don’t match your recovery phrase."
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintTop_toBottomOf="@+id/dial_title" />
 
     <Button
         android:id="@+id/dial_btn_one"
@@ -42,7 +43,7 @@
         android:text="Try again"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginHorizontal="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        app:layout_constraintTop_toBottomOf="@+id/dial_body" />
 
     <Button
         android:id="@+id/dial_btn_thwo"
@@ -55,5 +56,5 @@
         android:textSize="14sp"
         android:text="Show phrase"
         app:layout_constraintEnd_toStartOf="@+id/dial_btn_one"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        app:layout_constraintTop_toBottomOf="@+id/dial_body" />
 </androidx.constraintlayout.widget.ConstraintLayout>

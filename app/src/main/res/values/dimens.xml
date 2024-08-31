@@ -12,6 +12,8 @@
     <dimen name="margin_32">32dp</dimen>
     <dimen name="margin_8">8dp</dimen>
 
+    <dimen name="margin_64">64dp</dimen>
+
     <dimen name="margin_238">238dp</dimen>
     <dimen name="margin_212">212dp</dimen>
 
@@ -20,4 +22,8 @@
 
     <dimen name="text_size_regular">16sp</dimen>
     <dimen name="text_size_big">28sp</dimen>
+    <dimen name="text_size_22">22sp</dimen>
+
+    <dimen name="text_margin">16dp</dimen>
+    <dimen name="app_bar_height">180dp</dimen>
 </resources>

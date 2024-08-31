@@ -7,7 +7,7 @@ import android.widget.ImageView
 import com.yellastro.mytonwallet.R
 
 class PinView(
-    context: Context,
+    val context: Context,
     parent: ViewGroup,
     val pinsize: Int,
     val dotEmpty: Int = R.drawable.bkg_pin_empty,
@@ -29,11 +29,13 @@ class PinView(
 
         for (i in 0..<pinsize){
             val qvDot = (mvPinDots.getChildAt(i) as ImageView)
+
             if (i < fSize){
                 qvDot.setImageResource(dotFill)
             }else{
                 qvDot.setImageResource(dotEmpty)
             }
+
         }
     }
 
@@ -43,6 +45,13 @@ class PinView(
             val qDrawable = qvDot.drawable
             qDrawable.setTint(fColor)
             qvDot.setImageDrawable(qDrawable)
+        }
+    }
+
+    fun clear(){
+        for (i in 0..<pinsize) {
+            val qvDot = (mvPinDots.getChildAt(i) as ImageView)
+            qvDot.drawable.setTintList(null)
         }
     }
 }
