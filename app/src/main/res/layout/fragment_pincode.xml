@@ -20,7 +20,7 @@
 
     <LinearLayout
         android:id="@+id/pin_frag_dots"
-        android:layout_width="128dp"
+        android:layout_width="wrap_content"
         android:layout_height="32dp"
         android:layout_marginTop="@dimen/margin_72"
         android:gravity="center"

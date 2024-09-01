@@ -18,8 +18,7 @@
             android:id="@+id/app_bar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/app_bar_height"
-            app:elevation="0dp"
-            android:theme="@style/Theme.MyTonWallet.AppBarOverlay">
+            app:elevation="0dp">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:background="@color/white"
@@ -66,7 +65,7 @@
                     app:layout_collapseMode="pin"
                     android:fadingEdgeLength="0dp"
                     app:navigationIcon="@drawable/ic_back"
-
+                    app:titleTextColor="@color/black"
                     app:title="@string/title_import_mnemo" />
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>

@@ -1,5 +1,6 @@
 package com.yellastro.mytonwallet.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.Html
@@ -14,7 +15,9 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.widget.NestedScrollView
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import com.yellastro.mytonwallet.MNEMO
 import com.yellastro.mytonwallet.MNEMO_LIST
+import com.yellastro.mytonwallet.PREF_KEY
 import com.yellastro.mytonwallet.R
 import com.yellastro.mytonwallet.views.InputMnemoView
 import com.yellastro.mytonwallet.yDialog
@@ -98,8 +101,16 @@ class ImportMnemoFragment : Fragment() {
 
     fun onInputDone(){
         if (true){ // TODO
-            navController.popBackStack(R.id.welcomeFrag,true)
-            navController.navigate(R.id.walletFragment)
+//            navController.popBackStack(R.id.welcomeFrag,true)
+//            navController.navigate(R.id.walletFragment)
+            requireActivity()
+                .getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE)
+                .edit()
+                .putString(MNEMO,
+                    mvInputs.map { qObj ->
+                        qObj.mvInput.text.toString()
+                    }.joinToString()).apply()
+            navController.navigate(R.id.action_importMnemoFragment_to_setPinFragment)
 
         }else{
             yDialog(requireContext())

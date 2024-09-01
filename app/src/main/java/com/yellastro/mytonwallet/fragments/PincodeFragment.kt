@@ -23,14 +23,10 @@ import com.yellastro.mytonwallet.viewmodels.PincodeModel
 import com.yellastro.mytonwallet.views.PinView
 
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
 val ROW_COUNT = 4
 val ROW_SIZE = 3
-val PIN_SIZE = 4
+var PIN_SIZE = 4
 
 class PincodeFragment : Fragment() {
 
@@ -47,15 +43,12 @@ class PincodeFragment : Fragment() {
 
         navController = findNavController()
 
-        val window = requireActivity().window
 
-        window.setStatusBarColor(ContextCompat.getColor(requireContext(),R.color.blue_white))
-        window.setNavigationBarColor(ContextCompat.getColor(requireActivity(),R.color.blue_white))
-        val decor = window.decorView
-        decor.setSystemUiVisibility(0)
 
         mPin = requireContext().getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE)
             .getString(PIN,"")!!
+
+        PIN_SIZE = mPin.length
 
     }
 
@@ -68,25 +61,6 @@ class PincodeFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_pincode, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment PincodeFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            PincodeFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
 
 
 
@@ -102,6 +76,17 @@ class PincodeFragment : Fragment() {
 
         mvPinDots.setDots(viewModel.mPincode.length)
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        val window = requireActivity().window
+
+        window.setStatusBarColor(ContextCompat.getColor(requireContext(),R.color.blue_white))
+        window.setNavigationBarColor(ContextCompat.getColor(requireActivity(),R.color.blue_white))
+        val decor = window.decorView
+        decor.setSystemUiVisibility(0)
     }
 
 

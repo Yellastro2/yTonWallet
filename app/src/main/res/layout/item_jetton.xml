@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/it_jetton_image_main"
+        android:layout_width="@dimen/size_img_48"
+        android:layout_height="@dimen/size_img_48"
+        android:layout_marginVertical="@dimen/margin_8"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@drawable/img_jet_holder" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/grey_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/it_jetton_image_main" />
+
+    <TextView
+        style="@style/text_big"
+        android:textSize="16sp"
+        android:id="@+id/it_jetton_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="10dp"
+        android:text="Staked TON"
+        app:layout_constraintStart_toEndOf="@+id/it_jetton_image_main"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        style="@style/text_general"
+        android:textSize="14sp"
+        android:textColor="@color/grey_text"
+        android:id="@+id/it_jetton_desc1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:text="$8.00"
+        app:layout_constraintStart_toEndOf="@+id/it_jetton_image_main"
+        app:layout_constraintTop_toBottomOf="@+id/it_jetton_title" />
+
+    <TextView
+        style="@style/text_general"
+        android:textSize="14sp"
+        android:textColor="@color/green"
+        android:id="@+id/it_jetton_desc2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:text="APY 4%"
+        app:layout_constraintStart_toEndOf="@+id/it_jetton_desc1"
+        app:layout_constraintTop_toBottomOf="@+id/it_jetton_title" />
+
+    <TextView
+        style="@style/text_general"
+        android:id="@+id/it_jetton_value"
+        android:textColor="@color/green"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="16dp"
+        android:text="1000 TON"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        style="@style/text_general"
+        android:textSize="14sp"
+        android:textColor="@color/grey_text"
+        android:id="@+id/it_jetton_value_usd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="$8,000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/it_jetton_value" />
+
+    <ImageView
+        android:id="@+id/it_jetton_image_staking"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="-2dp"
+        android:layout_marginBottom="-2dp"
+        app:layout_constraintBottom_toBottomOf="@+id/it_jetton_image_main"
+        app:layout_constraintEnd_toEndOf="@+id/it_jetton_image_main"
+        app:srcCompat="@drawable/ic_stacking" />
+</androidx.constraintlayout.widget.ConstraintLayout>

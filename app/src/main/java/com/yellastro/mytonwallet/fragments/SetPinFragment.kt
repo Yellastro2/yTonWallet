@@ -4,6 +4,7 @@ import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.provider.Settings
 import android.text.Editable
@@ -24,6 +25,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.vectordrawable.graphics.drawable.ArgbEvaluator
+import com.yellastro.mytonwallet.MNEMO
 import com.yellastro.mytonwallet.PIN
 import com.yellastro.mytonwallet.PREF_KEY
 import com.yellastro.mytonwallet.R
@@ -90,7 +92,7 @@ class SetPinFragment : Fragment(R.layout.fragment_set_pin) {
             yShowKeyboard()
         }
 
-        yShowKeyboard()
+
 
 
         mvInput.addTextChangedListener(object : TextWatcher {
@@ -123,6 +125,8 @@ class SetPinFragment : Fragment(R.layout.fragment_set_pin) {
             fvChangeSize.setText(fNewText)
             setSize(viewModel.mPinSize)
         }
+
+        yShowKeyboard()
 
     }
 
@@ -178,10 +182,12 @@ class SetPinFragment : Fragment(R.layout.fragment_set_pin) {
     }
 
     private fun nextStep() {
-        requireActivity()
+        val fPref = requireActivity()
             .getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE)
-            .edit()
+
+        fPref.edit()
             .putString(PIN,viewModel.mPincode).apply()
+
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
             val biometricManager = androidx.biometric.BiometricManager.from(requireContext())
@@ -189,25 +195,42 @@ class SetPinFragment : Fragment(R.layout.fragment_set_pin) {
                 BiometricManager.BIOMETRIC_SUCCESS -> {
                     // Device allow to use biometric, send user to bio screen.
                     Log.d("MY_APP_TAG", "App can authenticate using biometrics.")
-                    navController.navigate(R.id.action_setPinFragment_to_useBioFragment)
+                    endWithPinAndBio(fPref,true)
                 }
+
                 BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE -> {
                     // Device unavaible, send user to mnemo screen.
                     Log.e("MY_APP_TAG", "No biometric features available on this device.")
-                    navController.navigate(R.id.action_setPinFragment_to_mnemoShowFragment)
+                    endWithPinAndBio(fPref,false)
                 }
+
                 BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE -> {
                     // Device unavaible, send user to mnemo screen.
                     Log.e("MY_APP_TAG", "Biometric features are currently unavailable.")
-                    navController.navigate(R.id.action_setPinFragment_to_mnemoShowFragment)
+                    endWithPinAndBio(fPref,false)
                 }
+
                 BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
                     // Device allow to use biometric, send user to bio screen.
-                    navController.navigate(R.id.action_setPinFragment_to_useBioFragment)
+                    endWithPinAndBio(fPref,true)
                 }
             }
-        }else{
-            navController.navigate(R.id.action_setPinFragment_to_mnemoShowFragment)
+        } else {
+            endWithPinAndBio(fPref,false)
+        }
+
+    }
+
+    fun endWithPinAndBio(fPref: SharedPreferences,isBio: Boolean){
+        if (isBio){
+            navController.navigate(R.id.action_setPinFragment_to_useBioFragment)
+        }else {
+            if (fPref.contains(MNEMO)) {
+                navController.popBackStack(R.id.welcomeFrag, true)
+                navController.navigate(R.id.walletFragment)
+            } else {
+                navController.navigate(R.id.action_setPinFragment_to_mnemoShowFragment)
+            }
         }
     }
 

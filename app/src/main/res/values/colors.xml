@@ -6,7 +6,7 @@
     <color name="black">#FF000000</color>
     <color name="red">#FF0000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="green">#22C629</color>
+    <color name="green">#3CA930</color>
     <color name="white_trans_36">#59FFFFFF</color>
     <color name="white_trans_15">#26FFFFFF</color>
     <color name="white_trans_66">#A6FFFFFF</color>
@@ -14,4 +14,6 @@
     <color name="grey_text">#717579</color>
     <color name="grey_white_bkg">#F4F4F5</color>
     <color name="blue_white">#1F8EFE</color>
+    <color name="blue_white_alpha">#261F8EFE</color>
+    <color name="grey_background">#DFE1E5</color>
 </resources>
