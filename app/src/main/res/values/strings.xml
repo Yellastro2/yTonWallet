@@ -37,6 +37,12 @@
     <string name="title_dial_wrongmnemo">Wrong phrase</string>
     <string name="body_dial_wrongmnemo">Looks like you entered an invalid mnemonic phrase.</string>
     <string name="btn_close">Close</string>
+
+    <string name="wrd_send">Sent</string>
+    <string name="wrd_received">Received</string>
+    <string name="wrd_swap">Swapped</string>
+    <string name="wrd_today">Today</string>
+
     <string name="large_text">
         "Material is the metaphor.\n\n"
 

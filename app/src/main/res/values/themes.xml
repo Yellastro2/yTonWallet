@@ -24,7 +24,7 @@
         <item name="android:colorMultiSelectHighlight">@color/blue_white</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
+        <item name="android:fontFamily">@font/roboto</item>
     </style>
 
     <style name="text_general">
@@ -34,6 +34,7 @@
 
     <style name="text_big" parent="text_general">
         <item name="android:textSize">@dimen/text_size_big</item>
+<!--        <item name="android:textFontWeight">500</item>-->
         <item name="android:textStyle">bold</item>
     </style>
 
@@ -100,6 +101,11 @@
         <item name="android:orientation">vertical</item>
         <item name="android:gravity">center</item>
         <item name="android:layout_marginHorizontal">@dimen/margin_8</item>
+    </style>
+
+    <style name="circleImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
     </style>
 
 

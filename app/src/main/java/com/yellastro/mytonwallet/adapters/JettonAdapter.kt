@@ -10,9 +10,26 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.yellastro.mytonwallet.R
 import com.yellastro.mytonwallet.entitis.yJetton
+import kotlin.math.abs
+import kotlin.math.round
+
+fun floatToPrint(fValue: Float): String {
+    var fValueStr = ""
+    if (fValue % 1F == 0.0F || abs(fValue) > 500){
+        fValueStr = "%,d".format(fValue.toInt())
+    }else if (abs(fValue) > 0.001){
+//            fValueStr = "%,d".format(round(fValue * 100 ) / 100)
+        fValueStr = (round(fValue * 100 ) / 100).toString()
+    }else
+//            fValueStr = "%,d".format(fValue)
+        fValueStr = (fValue).toString()
+
+
+    return fValueStr
+}
 
 class JettonAdapter() :
-    RecyclerView.Adapter<JettonAdapter.ViewHolder>() {
+    RecyclerView.Adapter<EntityHolder>() {
 
 
     var dataSet = ArrayList<yJetton>()
@@ -23,45 +40,54 @@ class JettonAdapter() :
         notifyDataSetChanged()
     }
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val mvTitle: TextView
-        val mvDesc1: TextView
-        val mvDesc2: TextView
-        val mvValue: TextView
-        val mvValueUsd: TextView
-        val mvIcon: ImageView
-        val mvStakIcon: ImageView
 
 
-        init {
-            mvTitle = view.findViewById(R.id.it_jetton_title)
-            mvDesc1 = view.findViewById(R.id.it_jetton_desc1)
-            mvDesc2 = view.findViewById(R.id.it_jetton_desc2)
-            mvValue = view.findViewById(R.id.it_jetton_value)
-            mvValueUsd = view.findViewById(R.id.it_jetton_value_usd)
-            mvIcon = view.findViewById(R.id.it_jetton_image_main)
-            mvStakIcon = view.findViewById(R.id.it_jetton_image_staking)
-        }
-    }
-
-    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): EntityHolder {
         val view = LayoutInflater.from(viewGroup.context)
             .inflate(R.layout.item_jetton, viewGroup, false)
 
-        return ViewHolder(view)
+        return EntityHolder(view)
     }
 
-    override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
+    @SuppressLint("SetTextI18n")
+    override fun onBindViewHolder(viewHolder: EntityHolder, position: Int) {
         viewHolder.mvTitle.text = dataSet[position].title
-        viewHolder.mvDesc1.text = dataSet[position].usdPrice
-        viewHolder.mvDesc2.text = dataSet[position].APY
-        viewHolder.mvValue.text = dataSet[position].value
-        viewHolder.mvValueUsd.text = dataSet[position].valueUsd
+
+        viewHolder.mvValue.text = "${floatToPrint(dataSet[position].value)} ${dataSet[position].symbol}"
+
+        viewHolder.mvDesc1.text = "$"+floatToPrint(dataSet[position].usdPrice)
+        viewHolder.mvDesc2.text = "APY "+floatToPrint(dataSet[position].APY)+"%"
+
+        viewHolder.mvValueUsd.text = "$"+floatToPrint(dataSet[position].valueUsd)
         viewHolder.mvIcon.load(dataSet[position].image)
-        viewHolder.mvStakIcon.visibility =  if (dataSet[position].isStaking) View.VISIBLE else View.GONE
-        viewHolder.mvDesc2.visibility = viewHolder.mvStakIcon.visibility
+
+        if (dataSet[position].isStaking){
+            viewHolder.mvStakIcon.visibility =  View.VISIBLE
+            viewHolder.mvValue.setTextColor(viewHolder.mvValue.resources.getColor(R.color.green))
+        }else{
+            viewHolder.mvStakIcon.visibility = View.GONE
+            viewHolder.mvValue.setTextColor(viewHolder.mvValue.resources.getColor(R.color.black))
+            if (dataSet[position].priceChange != 0F){
+                viewHolder.mvDesc2.visibility = View.VISIBLE
+                var fPlusminus = "+"
+                if (dataSet[position].priceChange > 0)
+                    viewHolder.mvDesc2.setTextColor(viewHolder.mvValue.resources.getColor(R.color.green))
+                else {
+                    viewHolder.mvDesc2.setTextColor(
+                        viewHolder.mvValue.resources.getColor(R.color.red))
+                    fPlusminus = ""
+                }
+                viewHolder.mvDesc2.text = fPlusminus + floatToPrint(dataSet[position].priceChange) + "%"
+
+            }else
+                viewHolder.mvDesc2.visibility = View.GONE
+        }
+
     }
 
     override fun getItemCount() = dataSet.size
+
+
+
 
 }

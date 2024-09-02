@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="text_big" parent="text_general">
+        <item name="android:textSize">@dimen/text_size_big</item>
+        <item name="android:textFontWeight">500</item>
+        <!--        <item name="android:textStyle">bold</item>-->
+    </style>
+</resources>

@@ -16,4 +16,5 @@
     <color name="blue_white">#1F8EFE</color>
     <color name="blue_white_alpha">#261F8EFE</color>
     <color name="grey_background">#DFE1E5</color>
+    <color name="some">#2B2D30</color>
 </resources>
