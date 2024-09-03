@@ -64,7 +64,7 @@ class WelcomeFrag : Fragment() {
 
         view.findViewById<View>(R.id.welcome_frag_btn_create).setOnClickListener {
             val navController = findNavController()
-            navController.navigate(R.id.action_welcomeFrag_to_newCreateFragment2)
+            navController.navigate(R.id.action_welcomeFrag_to_newCreateFragment)
         }
 
         view.findViewById<View>(R.id.welcome_frag_btn_import).setOnClickListener {

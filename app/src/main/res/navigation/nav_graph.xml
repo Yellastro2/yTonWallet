@@ -11,8 +11,8 @@
         android:label="fragment_welcome"
         tools:layout="@layout/fragment_welcome" >
         <action
-            android:id="@+id/action_welcomeFrag_to_newCreateFragment2"
-            app:destination="@id/newCreateFragment2"
+            android:id="@+id/action_welcomeFrag_to_newCreateFragment"
+            app:destination="@id/newCreateFragment"
             app:enterAnim="@android:anim/fade_in"
             app:exitAnim="@android:anim/fade_out"
             app:popExitAnim="@android:anim/fade_out" />
@@ -53,20 +53,20 @@
             app:enterAnim="@android:anim/fade_in"
             app:exitAnim="@android:anim/fade_out"
             app:popExitAnim="@android:anim/fade_out"
-            app:popUpTo="@id/newCreateFragment2" />
+            app:popUpTo="@id/newCreateFragment" />
         <action
             android:id="@+id/action_setPinFragment_to_mnemoShowFragment"
             app:destination="@id/mnemoShowFragment"
             app:enterAnim="@android:anim/fade_in"
             app:exitAnim="@android:anim/fade_out"
             app:popExitAnim="@android:anim/fade_out"
-            app:popUpTo="@id/newCreateFragment2" />
+            app:popUpTo="@id/newCreateFragment" />
         <action
             android:id="@+id/action_setPinFragment_to_walletFragment"
             app:destination="@id/walletFragment" />
     </fragment>
     <fragment
-        android:id="@+id/newCreateFragment2"
+        android:id="@+id/newCreateFragment"
         android:name="com.yellastro.mytonwallet.fragments.auth.NewCreateFragment"
         android:label="fragment_new_create"
         tools:layout="@layout/fragment_new_create" >
@@ -164,5 +164,15 @@
         android:id="@+id/transInputAdrFragment"
         android:name="com.yellastro.mytonwallet.fragments.send.TransInputAdrFragment"
         android:label="fragment_trans_input_adr"
-        tools:layout="@layout/fragment_trans_input_adr" />
+        tools:layout="@layout/fragment_trans_input_adr" >
+        <action
+            android:id="@+id/action_transInputAdrFragment_to_transInputValueFragment"
+            app:destination="@id/transInputValueFragment"
+            app:popExitAnim="@android:anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/transInputValueFragment"
+        android:name="com.yellastro.mytonwallet.fragments.send.TransInputValueFragment"
+        android:label="fragment_trans_input_value"
+        tools:layout="@layout/fragment_trans_input_value" />
 </navigation>

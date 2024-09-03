@@ -4,11 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.yellastro.mytonwallet.R
+import com.yellastro.mytonwallet.fragments.send.TransInputValueFragment.Companion.ADDRESSTO
 import com.yellastro.mytonwallet.viewmodels.InputAdrModel
 import com.yellastro.mytonwallet.views.yDecorator
 
@@ -48,6 +51,14 @@ class TransInputAdrFragment : Fragment() {
             return@setOnMenuItemClickListener true
         }
         fvToolbar.title = resources.getString(R.string.wrd_send) + " ${mJetton}"
+
+        view.findViewById<View>(R.id.fr_trans_inputadr_btn).setOnClickListener {
+            val fAddressTo = view.findViewById<EditText>(R.id.fr_trans_inputadr_input).text.toString()
+            arguments?.putString(ADDRESSTO,fAddressTo)
+            findNavController().navigate(R.id.action_transInputAdrFragment_to_transInputValueFragment,
+                arguments)
+        }
+
     }
 
     companion object {
