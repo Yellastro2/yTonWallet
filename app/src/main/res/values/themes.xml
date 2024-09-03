@@ -27,6 +27,12 @@
         <item name="android:fontFamily">@font/roboto</item>
     </style>
 
+    <style name="Theme.PinTheme" parent="Theme.MyTonWallet">
+        <item name="android:navigationBarColor">@color/blue_white</item>
+        <item name="android:windowLightNavigationBar">@android:color/white</item>
+
+    </style>
+
     <style name="text_general">
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">@dimen/text_size_regular</item>

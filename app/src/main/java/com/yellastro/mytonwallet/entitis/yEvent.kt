@@ -7,6 +7,7 @@ import java.time.format.DateTimeFormatter
 import java.util.TimeZone
 
 val hourFormater = DateTimeFormatter.ofPattern("HH:mm")
+val fullFormater = DateTimeFormatter.ofPattern("dd MMM, HH:mm")
 
 val baseEmoji = "\udbc3\udf9f"
 val asdsf = Character.toChars(0xdbc3)
@@ -23,7 +24,9 @@ class yEvent(
     val symbolSwap: String? = null,
     val valueSwap: Float? = null,
     val nftName: String? = null,
-    val nftImageLink: String? = null
+    val nftImageLink: String? = null,
+    val message: String? = null,
+    val isEncrypt: Boolean = false
 
 ) : yHistoryEntity {
     val letter: String
@@ -39,6 +42,14 @@ class yEvent(
 
         }
 
+    val dateFull: String
+        get() {
+            return fullFormater.format(
+                LocalDateTime.ofInstant(
+                    Instant.ofEpochMilli(dateTime * 1000L),
+                    TimeZone.getDefault().toZoneId()))
+        }
+
     val title: String
         get() {
             if (type in listOf(TRANS, NFT))
@@ -48,6 +59,15 @@ class yEvent(
             else if (type == SWAP)
                 return symbol
             return "not implemented"
+        }
+
+
+    val fee: Long
+        get() {return 250_000_000}
+
+    val transLink: String
+        get() {
+            return "https://tonviewer.com/transaction/6ab5e9b46e0715b32c9fe42a25f316f0f7731862c0d63db5c2705fb1f4d7e4d4"
         }
 
     companion object {

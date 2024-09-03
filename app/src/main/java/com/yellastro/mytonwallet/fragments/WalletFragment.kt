@@ -21,6 +21,7 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.navigation.NavigationBarView
 import com.yellastro.mytonwallet.PREF_KEY
 import com.yellastro.mytonwallet.R
+import com.yellastro.mytonwallet.adapters.floatToPrint
 import com.yellastro.mytonwallet.viewmodels.WalletModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -152,6 +153,9 @@ class WalletFragment : Fragment() {
         }
 
         val fBody = "$" + fValueStr + fDecimal.toString().removePrefix("0")
+
+//        val fBody = "$" + floatToPrint(fBalance).replace(","," ")
+
         mvBalance.text = fBody
         mvBalanceColapced.text = fBody
     }

@@ -6,6 +6,7 @@ import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,6 +25,34 @@ class yDateHistory(val date: String) : yHistoryEntity
 
 val TYPE_DATE = 1
 val TYPE_EVENT = 2
+
+val usdRates = mapOf<String,Float>("TON" to 8F,"NOT" to 0.01F, "MY" to 0.06F)
+
+val gradientStore = mapOf("#E0A2F3" to "#D669ED","#FF885E" to "#FF516A", "#98D163" to "#48BA44",
+    "#B493F8" to "#6E62E0", "#5ACAE3" to "#369BD4", "#FE89AB" to "#DA5675", "#FEBA5A" to "#F68237",
+    "#5BAEF9" to "#418BD0")
+fun setTransAvaToViews(fEntity: yEvent,fvIcon: ImageView,fvSymbol: TextView){
+    if (fEntity.imageAva.isNullOrEmpty()){
+        val fGrad = gradientStore.toList()[Random.nextInt(gradientStore.size)]
+        val gd = GradientDrawable(
+            GradientDrawable.Orientation.TOP_BOTTOM,
+            intArrayOf(Color.parseColor(fGrad.first),
+                Color.parseColor(fGrad.second))
+        )
+        gd.cornerRadius = 0f
+        fvIcon.setImageDrawable(gd)
+
+        fvSymbol.visibility = View.VISIBLE
+        fvSymbol.text = fEntity.letter
+
+    }else{
+        fvSymbol.visibility = View.GONE
+        fvIcon.load(fEntity.imageAva){
+            crossfade(true)
+            placeholder(R.drawable.img_jet_holder)
+        }
+    }
+}
 
 
 class HistoryAdapter() :
@@ -72,27 +101,27 @@ class HistoryAdapter() :
 
     }
 
-    val usdRates = mapOf<String,Float>("TON" to 8F,"NOT" to 0.01F, "MY" to 0.06F)
 
-    val gradientStore = mapOf("#E0A2F3" to "#D669ED","#FF885E" to "#FF516A", "#98D163" to "#48BA44",
-        "#B493F8" to "#6E62E0", "#5ACAE3" to "#369BD4", "#FE89AB" to "#DA5675", "#FEBA5A" to "#F68237",
-        "#5BAEF9" to "#418BD0")
+
+
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(aviewHolder: RecyclerView.ViewHolder, position: Int) {
         if (dataSet[position] is yEvent) {
 
-            aviewHolder.itemView.setOnClickListener {
-                mFragmentManager?.let { it1 -> EventInfoFragment().show(it1,"") }
-            }
+
 
             val viewHolder = aviewHolder as EntityHolder
             val fEntity = dataSet[position] as yEvent
 
-
+            aviewHolder.itemView.setOnClickListener {
+                mFragmentManager?.let { it1 -> EventInfoFragment()
+                    .yShow(it1,"")
+                    .setEvent(fEntity)}
+            }
 
             viewHolder.mvTitle.text = fEntity.title
-            val resoursces = viewHolder.mvValue.resources
+            val resources = viewHolder.mvValue.resources
 
             viewHolder.mvDesc2.visibility = View.GONE
             viewHolder.mvStakIcon.visibility =  View.GONE
@@ -107,17 +136,17 @@ class HistoryAdapter() :
                 var fSendOrRes = R.string.wrd_received
                 if (fEntity.isSend){
                     fSendOrRes = R.string.wrd_send
-                    viewHolder.mvValue.setTextColor(resoursces.getColor(R.color.black))
-                    viewHolder.mvValueUsd.setTextColor(resoursces.getColor(R.color.grey_text))
+                    viewHolder.mvValue.setTextColor(resources.getColor(R.color.black))
+                    viewHolder.mvValueUsd.setTextColor(resources.getColor(R.color.grey_text))
                 }else {
-                    viewHolder.mvValue.setTextColor(resoursces.getColor(R.color.green))
-                    viewHolder.mvValueUsd.setTextColor(resoursces.getColor(R.color.green))
+                    viewHolder.mvValue.setTextColor(resources.getColor(R.color.green))
+                    viewHolder.mvValueUsd.setTextColor(resources.getColor(R.color.green))
                     fValuePrefix = "+"
                 }
 
                 viewHolder.mvValue.text = "${fValuePrefix}${floatToPrint(fEntity.value)} ${fEntity.symbol}"
 
-                val fSendOr = resoursces.getString(fSendOrRes) + " · "+fEntity.time
+                val fSendOr = resources.getString(fSendOrRes) + " · "+fEntity.time
                 viewHolder.mvDesc1.text = fSendOr
 
 
@@ -138,15 +167,15 @@ class HistoryAdapter() :
                 viewHolder.mvTitleSwapText.text = fEntity.symbolSwap
 
 
-                viewHolder.mvValue.setTextColor(resoursces.getColor(R.color.green))
+                viewHolder.mvValue.setTextColor(resources.getColor(R.color.green))
                 viewHolder.mvValue.text = "+${floatToPrint(fEntity.valueSwap!!)} ${fEntity.symbolSwap!!}"
 
 
-                val fSwapStr = resoursces.getString(R.string.wrd_swap) + " · "+fEntity.time
+                val fSwapStr = resources.getString(R.string.wrd_swap) + " · "+fEntity.time
                 viewHolder.mvDesc1.text = fSwapStr
 
 
-                viewHolder.mvValueUsd.setTextColor(resoursces.getColor(R.color.grey_text))
+                viewHolder.mvValueUsd.setTextColor(resources.getColor(R.color.grey_text))
                 viewHolder.mvValueUsd.text = "-${floatToPrint(fEntity.value)} ${fEntity.symbol}"
 
                 viewHolder.mvIconSwap1.load(ASSETS[fEntity.symbol]?.get(2))
@@ -163,14 +192,14 @@ class HistoryAdapter() :
                 var fSendOrRes = R.string.wrd_received
                 if (fEntity.isSend){
                     fSendOrRes = R.string.wrd_send
-                    viewHolder.mvValue.setTextColor(resoursces.getColor(R.color.black))
-                    viewHolder.mvValueUsd.setTextColor(resoursces.getColor(R.color.grey_text))
+                    viewHolder.mvValue.setTextColor(resources.getColor(R.color.black))
+                    viewHolder.mvValueUsd.setTextColor(resources.getColor(R.color.grey_text))
                 }else {
-                    viewHolder.mvValue.setTextColor(resoursces.getColor(R.color.green))
-                    viewHolder.mvValueUsd.setTextColor(resoursces.getColor(R.color.green))
+                    viewHolder.mvValue.setTextColor(resources.getColor(R.color.green))
+                    viewHolder.mvValueUsd.setTextColor(resources.getColor(R.color.green))
                 }
 
-                val fSendOr = resoursces.getString(fSendOrRes) + " NFT" + " · "+fEntity.time
+                val fSendOr = resources.getString(fSendOrRes) + " NFT" + " · "+fEntity.time
                 viewHolder.mvDesc1.text = fSendOr
 
                 viewHolder.mvValue.text = fEntity.nftName
@@ -192,27 +221,10 @@ class HistoryAdapter() :
     private fun setTransAva(fEntity: yEvent, viewHolder: EntityHolder) {
         viewHolder.mvIconSingleLay.visibility = View.VISIBLE
         viewHolder.mvIconSwapLay.visibility = View.GONE
-        if (fEntity.imageAva.isNullOrEmpty()){
-            val fGrad = gradientStore.toList()[Random.nextInt(gradientStore.size)]
-            val gd = GradientDrawable(
-                GradientDrawable.Orientation.TOP_BOTTOM,
-                intArrayOf(Color.parseColor(fGrad.first),
-                    Color.parseColor(fGrad.second))
-            )
-            gd.cornerRadius = 0f
-            viewHolder.mvIcon.setImageDrawable(gd)
-
-            viewHolder.mvIconSymbol.visibility = View.VISIBLE
-            viewHolder.mvIconSymbol.text = fEntity.letter
-
-        }else{
-            viewHolder.mvIconSymbol.visibility = View.GONE
-            viewHolder.mvIcon.load(fEntity.imageAva){
-                crossfade(true)
-                placeholder(R.drawable.img_jet_holder)
-            }
-        }
+        setTransAvaToViews(fEntity, viewHolder.mvIcon, viewHolder.mvIconSymbol)
     }
+
+
 
     override fun getItemCount() = dataSet.size
 

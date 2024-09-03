@@ -62,8 +62,8 @@ class WalletModel(application: Application) : AndroidViewModel(application) {
                 val fNow = round((System.currentTimeMillis() / 1000).toDouble()).toInt()
                 for (i in 0..15) {
                     val j = Random.nextInt(someTokensName.size)
-                    val qType = Random.nextInt(3)
-                    if (qType == 0)
+                    val qType = Random.nextInt(5)
+                    if (qType < 3)
                         fList.add(
                             yEvent(
                                 yEvent.TRANS,
@@ -72,10 +72,13 @@ class WalletModel(application: Application) : AndroidViewModel(application) {
                                 dateTime = fNow - Random.nextInt(fPeriod),
                                 value = Random.nextInt(50, 5000).toFloat(),
                                 symbol = someTokenssymb[j],
-                                walletName = if (Random.nextInt(3)>1) "some.t.me" else null
+                                walletName = if (Random.nextInt(3)>1) "some.t.me" else null,
+                                message = if (true) "\uD83E\uDD73 Happy Birthday! Thank you for being such an amazing friend. I cherish every moment we spend together \uD83E\uDDE1"
+                                    else null,
+                                isEncrypt = true
                             )
                         )
-                    else if (qType == 1){
+                    else if (qType == 3){
                         var k = j
                         do {
                             k = Random.nextInt(someTokensName.size)

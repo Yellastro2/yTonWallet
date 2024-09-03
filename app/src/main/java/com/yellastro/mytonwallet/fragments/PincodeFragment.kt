@@ -1,11 +1,13 @@
 package com.yellastro.mytonwallet.fragments
 
 import android.content.Context
-import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
 import android.view.ViewGroup
+import android.view.WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TextView
@@ -21,7 +23,6 @@ import com.yellastro.mytonwallet.R
 import com.yellastro.mytonwallet.pro_animations.ColorAnimation
 import com.yellastro.mytonwallet.viewmodels.PincodeModel
 import com.yellastro.mytonwallet.views.PinView
-
 
 
 val ROW_COUNT = 4
@@ -85,8 +86,9 @@ class PincodeFragment : Fragment() {
 
         window.setStatusBarColor(ContextCompat.getColor(requireContext(),R.color.blue_white))
         window.setNavigationBarColor(ContextCompat.getColor(requireActivity(),R.color.blue_white))
-        val decor = window.decorView
-        decor.setSystemUiVisibility(0)
+
+        window.decorView
+            .setSystemUiVisibility(0)
     }
 
 
@@ -201,6 +203,7 @@ class PincodeFragment : Fragment() {
         window.setNavigationBarColor(ContextCompat.getColor(requireActivity(),R.color.white))
 
         val decor = window.decorView
-        decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR or
+                View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR)
     }
 }

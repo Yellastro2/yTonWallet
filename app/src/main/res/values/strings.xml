@@ -41,7 +41,12 @@
     <string name="wrd_send">Sent</string>
     <string name="wrd_received">Received</string>
     <string name="wrd_swap">Swapped</string>
+    <string name="wrd_from">From</string>
+    <string name="wrd_to">To</string>
     <string name="wrd_today">Today</string>
+
+    <string name="wrd_at">at</string>
+
 
     <string name="large_text">
         "Material is the metaphor.\n\n"
@@ -138,5 +143,10 @@
     <string name="btn_earn">Earn</string>
     <string name="btn_send">Send</string>
     <string name="btn_add">Add</string>
+    <string name="body_msg_encrypt">Message is encrypted.</string>
+    <string name="btn_decrypt">Decrypt</string>
+    <string name="title_price_per_my">Price per 1 MY</string>
+
+    <string name="title_amount">Amount</string>
 
 </resources>

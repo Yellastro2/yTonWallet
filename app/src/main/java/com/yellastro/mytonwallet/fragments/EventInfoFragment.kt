@@ -1,18 +1,28 @@
 package com.yellastro.mytonwallet.fragments
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
 import android.view.WindowManager
+import android.widget.Button
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.yellastro.mytonwallet.R
+import com.yellastro.mytonwallet.adapters.floatToPrint
+import com.yellastro.mytonwallet.adapters.setTransAvaToViews
+import com.yellastro.mytonwallet.adapters.usdRates
+import com.yellastro.mytonwallet.entitis.yEvent
+import kotlin.math.pow
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -25,7 +35,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [EventInfoFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class EventInfoFragment : DialogFragment() {
+class EventInfoFragment : BottomSheetDialogFragment() { //BottomSheetDialogFragment
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -49,6 +59,11 @@ class EventInfoFragment : DialogFragment() {
         return inflater.inflate(R.layout.fragment_event_info, container, false)
     }
 
+    fun yShow(it1: FragmentManager, s: String): EventInfoFragment {
+        show(it1,s)
+        return this
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val width = resources.displayMetrics.widthPixels
@@ -65,9 +80,112 @@ class EventInfoFragment : DialogFragment() {
             width,
             height
         )
-        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
+//        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+//
         dialog?.window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         dialog?.window?.setNavigationBarColor(ContextCompat.getColor(requireContext(),R.color.white))
+        dialog?.window?.decorView?.setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR)
+
+        view.findViewById<View>(R.id.fr_event_cross_btn).setOnClickListener {
+            dismiss()
+        }
+
+        onViewDone(view)
+    }
+
+    var onViewDone = { v: View -> }
+
+    fun setEvent(fEvent: yEvent): EventInfoFragment {
+        onViewDone = {
+            it.findViewById<TextView>(R.id.fr_event_date_value).text = fEvent.dateFull
+            it.findViewById<View>(R.id.fr_event_linkto_exp).setOnClickListener {
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(fEvent.transLink)))
+            }
+
+
+            if (fEvent.type == yEvent.TRANS){
+                it.findViewById<View>(R.id.fr_event_trans_lay).visibility = View.VISIBLE
+                it.findViewById<View>(R.id.fr_event_lay_to).visibility = View.GONE
+
+
+                var fSendOrRes = R.string.wrd_received
+                var fFromOrTo = R.string.wrd_from
+                var fValuePrefix = "+"
+
+                val fvAmount = it.findViewById<TextView>(R.id.fr_event_amount_text)
+                if (fEvent.isSend) {
+                    fSendOrRes = R.string.wrd_send
+                    fValuePrefix = "-"
+                    fvAmount.setTextColor(resources.getColor(R.color.black))
+                    fFromOrTo = R.string.wrd_to
+                }
+                val fStrSendOrRes = resources.getString(fSendOrRes)
+                it.findViewById<TextView>(R.id.fr_event_from_title).setText(fFromOrTo)
+                it.findViewById<TextView>(R.id.fr_event_title).text = fStrSendOrRes
+                it.findViewById<TextView>(R.id.fr_event_date_title)
+                    .setText(fStrSendOrRes + " " + resources.getString(R.string.wrd_at))
+
+                fvAmount.text = "${fValuePrefix}${floatToPrint(fEvent.value, " ")} ${fEvent.symbol}"
+
+                if (fEvent.symbol != "USD₮") {
+                    var fRate = usdRates.get(fEvent.symbol) ?: 0F
+                    var fUsdPrice = "?"
+                    if (fRate != 0F) fUsdPrice = "$" + floatToPrint(fRate * fEvent.value, " ")
+                    it.findViewById<TextView>(R.id.fr_event_amount_usd).text = fUsdPrice
+                }
+
+                val fvLayMessage = it.findViewById<View>(R.id.fr_event_message_lay)
+                if (!fEvent.message.isNullOrEmpty()){
+                    fvLayMessage.visibility = View.VISIBLE
+                    val fvMessage = it.findViewById<TextView>(R.id.fr_event_message_text)
+                    val fvDecrypt = it.findViewById<View>(R.id.fr_event_btn_decrypt)
+                    if (fEvent.isEncrypt){
+
+                        fvMessage.setText(R.string.body_msg_encrypt)
+                        fvMessage.setTextColor(resources.getColor(R.color.grey_text))
+
+                        fvDecrypt.setOnClickListener {
+                            fvDecrypt.visibility = View.GONE
+                            fvMessage.text = fEvent.message
+                            fvMessage.setTextColor(resources.getColor(R.color.black))
+                        }
+                        fvDecrypt.visibility = View.VISIBLE
+                    } else{
+                        fvDecrypt.visibility = View.GONE
+                        fvMessage.setTextColor(resources.getColor(R.color.black))
+
+                        fvMessage.text = fEvent.message
+                    }
+                }else {
+                    fvLayMessage.visibility = View.GONE
+                }
+
+                it.findViewById<TextView>(R.id.fr_event_from_value).text = fEvent.title
+
+                setTransAvaToViews(fEvent,
+                    it.findViewById(R.id.fr_event_from_image),
+                    it.findViewById(R.id.fr_event_image_symbol))
+
+                it.findViewById<TextView>(R.id.fr_event_text_amount_title).setText(R.string.title_amount)
+                it.findViewById<TextView>(R.id.fr_event_amount_value).text =
+                     "${floatToPrint(fEvent.value, " ")} ${fEvent.symbol}"
+
+                val fFee = fEvent.fee / (10.0.pow(9))
+                it.findViewById<TextView>(R.id.fr_event_text_fee).text = floatToPrint(fFee.toFloat())
+
+
+
+            } else if (fEvent.type == yEvent.NFT){
+                    var fSendOrRes = R.string.wrd_received
+                    if (fEvent.isSend)
+                        fSendOrRes = R.string.wrd_send
+                    val fBody = resources.getString(fSendOrRes) + " NFT"
+                }
+
+        }
+
+
+        return this
     }
 }

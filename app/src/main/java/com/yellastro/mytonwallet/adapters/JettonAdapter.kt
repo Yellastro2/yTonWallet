@@ -13,7 +13,7 @@ import com.yellastro.mytonwallet.entitis.yJetton
 import kotlin.math.abs
 import kotlin.math.round
 
-fun floatToPrint(fValue: Float): String {
+fun floatToPrint(fValue: Float, fDivider: String = ","): String {
     var fValueStr = ""
     if (fValue % 1F == 0.0F || abs(fValue) > 500){
         fValueStr = "%,d".format(fValue.toInt())
@@ -25,7 +25,9 @@ fun floatToPrint(fValue: Float): String {
         fValueStr = (fValue).toString()
 
 
-    return fValueStr
+
+
+    return fValueStr.replace(",",fDivider)
 }
 
 class JettonAdapter() :
