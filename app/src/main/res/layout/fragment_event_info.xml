@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@null"
+    tools:context=".fragments.EventInfoFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@drawable/bkg_dialog_bottom"
+
+        android:layout_height="wrap_content">
+
+
+        <TextView
+            android:id="@+id/fr_event_title"
+            style="@style/text_big"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="14dp"
+            android:text="Swap"
+            android:textSize="@dimen/text_size_22"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/fr_event_cross_btn"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/ic_cross"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/fr_event_trans_lay"
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fr_event_title">
+
+            <TextView
+                style="@style/text_big"
+                android:textSize="36sp"
+                android:id="@+id/fr_event_amount_text"
+                android:layout_marginTop="38dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-500 TON"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/fr_event_amount_usd"
+                style="@style/text_general"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="$1 256"
+                android:textColor="@color/grey_text"
+                android:textSize="@dimen/text_size_22"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fr_event_amount_text" />
+
+            <LinearLayout
+                android:id="@+id/fr_event_message_lay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bkg_lay_20corner"
+                android:orientation="horizontal"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fr_event_amount_usd">
+
+                <TextView
+                    android:id="@+id/textView8"
+                    style="@style/text_general"
+                    android:textSize="16sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="Message is encrypted."
+                    android:textColor="@color/grey_text" />
+
+                <Button
+                    android:id="@+id/button"
+                    style="@style/text_general"
+                    android:textSize="16sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="44dp"
+                    android:background="?android:selectableItemBackground"
+                    android:padding="0dp"
+                    android:text="Decrypt"
+                    android:textColor="@color/blue_white" />
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/divider_heigth_12"
+            android:layout_marginTop="16dp"
+            android:background="@color/grey_background"
+            app:layout_constraintTop_toBottomOf="@+id/fr_event_trans_lay"
+            tools:layout_editor_absoluteX="0dp" />
+
+        <TextView
+
+            android:id="@+id/textView9"
+            style="@style/text_general"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="16dp"
+            android:layout_weight="1"
+            android:text="Transaction Details"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/fr_event_lay_date"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/textView9"
+            tools:layout_editor_absoluteX="1dp">
+
+            <TextView
+                style="@style/text_general"
+                android:textColor="@color/grey_text"
+                android:id="@+id/fr_event_date_title"
+
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="Received at"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                style="@style/text_general"
+                android:id="@+id/fr_event_date_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:textSize="16sp"
+                android:text="31 Jan, 8:30"
+                android:layout_marginEnd="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/fr_event_lay_swap_send"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/fr_event_lay_date"
+            tools:layout_editor_absoluteX="1dp">
+
+            <TextView
+                style="@style/text_general"
+                android:textColor="@color/grey_text"
+                android:id="@+id/fr_event_from_title"
+
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="From"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                style="@style/text_general"
+                android:id="@+id/fr_event_from_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:textSize="16sp"
+                android:text="31 Jan, 8:30"
+                android:layout_marginEnd="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/fr_event_lay_to"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/fr_event_lay_swap_send"
+            tools:layout_editor_absoluteX="1dp">
+
+            <TextView
+                style="@style/text_general"
+                android:textColor="@color/grey_text"
+                android:id="@+id/textView1230"
+
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="Received at"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                style="@style/text_general"
+                android:id="@+id/textView11241"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:textSize="16sp"
+                android:text="31 Jan, 8:30"
+                android:layout_marginEnd="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/fr_dial_lay_amount"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/fr_event_lay_to"
+            tools:layout_editor_absoluteX="1dp">
+
+            <TextView
+                style="@style/text_general"
+                android:textColor="@color/grey_text"
+                android:id="@+id/fr_event_text_amount_title"
+
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="Price per 1 MY"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                style="@style/text_general"
+                android:id="@+id/fr_event_amount_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:textSize="16sp"
+                android:text="31 Jan, 8:30"
+                android:layout_marginEnd="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/fr_dial_lay_fee"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintTop_toBottomOf="@+id/fr_dial_lay_amount"
+            tools:layout_editor_absoluteX="0dp">
+
+            <TextView
+                android:id="@+id/textView1340"
+                style="@style/text_general"
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="Fee"
+                android:textColor="@color/grey_text"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/fr_event_text_fee"
+                style="@style/text_general"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_marginEnd="20dp"
+                android:text="31 Jan, 8:30"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/view2"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/divider_heigth_12"
+            android:layout_marginTop="16dp"
+            android:background="@color/grey_background"
+            app:layout_constraintTop_toBottomOf="@+id/fr_dial_lay_fee"
+            tools:layout_editor_absoluteX="0dp" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/fr_dial_lay_end"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintTop_toBottomOf="@+id/view2"
+            tools:layout_editor_absoluteX="0dp">
+
+            <TextView
+                android:id="@+id/fr_event_linkto_exp"
+                style="@style/text_general"
+                android:layout_width="wrap_content"
+                android:background="?android:selectableItemBackground"
+                android:textColor="@color/blue_white"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="View in Explorer"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+<!--  this one for white background of navigation bar : )   -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            app:layout_constraintTop_toBottomOf="@+id/fr_dial_lay_end"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

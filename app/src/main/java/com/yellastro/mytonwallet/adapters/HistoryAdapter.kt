@@ -7,14 +7,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.yellastro.mytonwallet.R
 import com.yellastro.mytonwallet.entitis.yEvent
+import com.yellastro.mytonwallet.fragments.EventInfoFragment
+import com.yellastro.mytonwallet.viewmodels.ASSETS
 import kotlin.random.Random
 
 
-interface yHistoryEntity{}
+interface yHistoryEntity{
+}
 
 class yDateHistory(val date: String) : yHistoryEntity
 
@@ -41,6 +45,11 @@ class HistoryAdapter() :
         notifyDataSetChanged()
     }
 
+    fun addItem(fItem: yHistoryEntity){
+        dataSet.add(fItem)
+        notifyItemInserted(dataSet.size-1)
+    }
+
     override fun getItemViewType(position: Int): Int {
         // Just as an example, return 0 or 2 depending on position
         // Note that unlike in ListView adapters, types don't have to be contiguous
@@ -63,26 +72,46 @@ class HistoryAdapter() :
 
     }
 
-    val usdRates = mapOf<String,Float>("TON" to 8F,"NOT" to 0.01F)
+    val usdRates = mapOf<String,Float>("TON" to 8F,"NOT" to 0.01F, "MY" to 0.06F)
 
-    val gradientStore = mapOf("#E0A2F3" to "#D669ED","#FF885E" to "#FF516A")
+    val gradientStore = mapOf("#E0A2F3" to "#D669ED","#FF885E" to "#FF516A", "#98D163" to "#48BA44",
+        "#B493F8" to "#6E62E0", "#5ACAE3" to "#369BD4", "#FE89AB" to "#DA5675", "#FEBA5A" to "#F68237",
+        "#5BAEF9" to "#418BD0")
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(aviewHolder: RecyclerView.ViewHolder, position: Int) {
         if (dataSet[position] is yEvent) {
+
+            aviewHolder.itemView.setOnClickListener {
+                mFragmentManager?.let { it1 -> EventInfoFragment().show(it1,"") }
+            }
+
             val viewHolder = aviewHolder as EntityHolder
             val fEntity = dataSet[position] as yEvent
+
+
+
             viewHolder.mvTitle.text = fEntity.title
             val resoursces = viewHolder.mvValue.resources
 
+            viewHolder.mvDesc2.visibility = View.GONE
+            viewHolder.mvStakIcon.visibility =  View.GONE
+
             if (fEntity.type == yEvent.TRANS){
+                viewHolder.mvTitleSwapLay.visibility = View.GONE
+                viewHolder.mvIconNft.visibility = View.GONE
+
+                setTransAva(fEntity, viewHolder)
+
                 var fValuePrefix = ""
                 var fSendOrRes = R.string.wrd_received
                 if (fEntity.isSend){
                     fSendOrRes = R.string.wrd_send
                     viewHolder.mvValue.setTextColor(resoursces.getColor(R.color.black))
+                    viewHolder.mvValueUsd.setTextColor(resoursces.getColor(R.color.grey_text))
                 }else {
                     viewHolder.mvValue.setTextColor(resoursces.getColor(R.color.green))
+                    viewHolder.mvValueUsd.setTextColor(resoursces.getColor(R.color.green))
                     fValuePrefix = "+"
                 }
 
@@ -99,27 +128,54 @@ class HistoryAdapter() :
                     viewHolder.mvValueUsd.text = fUsdPrice
                 }
 
+            }
+            else if (fEntity.type == yEvent.SWAP){
+                viewHolder.mvIconSingleLay.visibility = View.GONE
+                viewHolder.mvIconSwapLay.visibility = View.VISIBLE
+                viewHolder.mvTitleSwapLay.visibility = View.VISIBLE
+                viewHolder.mvIconNft.visibility = View.GONE
 
-                if (fEntity.image.isNullOrEmpty()){
-                    val fGrad = gradientStore.toList()[Random.nextInt(gradientStore.size)]
-                    val gd = GradientDrawable(
-                        GradientDrawable.Orientation.TOP_BOTTOM,
-                        intArrayOf(Color.parseColor(fGrad.first),
-                            Color.parseColor(fGrad.second))
-                    )
-                    gd.cornerRadius = 0f
-                    viewHolder.mvIcon.setImageDrawable(gd)
+                viewHolder.mvTitleSwapText.text = fEntity.symbolSwap
 
-                    viewHolder.mvIconSymbol.visibility = View.VISIBLE
-                    viewHolder.mvIconSymbol.text = fEntity.letter
 
-                }else{
-                    viewHolder.mvIconSymbol.visibility = View.GONE
-                    viewHolder.mvIcon.load(fEntity.image)
+                viewHolder.mvValue.setTextColor(resoursces.getColor(R.color.green))
+                viewHolder.mvValue.text = "+${floatToPrint(fEntity.valueSwap!!)} ${fEntity.symbolSwap!!}"
+
+
+                val fSwapStr = resoursces.getString(R.string.wrd_swap) + " · "+fEntity.time
+                viewHolder.mvDesc1.text = fSwapStr
+
+
+                viewHolder.mvValueUsd.setTextColor(resoursces.getColor(R.color.grey_text))
+                viewHolder.mvValueUsd.text = "-${floatToPrint(fEntity.value)} ${fEntity.symbol}"
+
+                viewHolder.mvIconSwap1.load(ASSETS[fEntity.symbol]?.get(2))
+
+                viewHolder.mvIconSwap2.load(ASSETS[fEntity.symbolSwap]?.get(2))
+            }
+            else {
+
+                viewHolder.mvTitleSwapLay.visibility = View.GONE
+                viewHolder.mvIconNft.visibility = View.VISIBLE
+
+                setTransAva(fEntity, viewHolder)
+
+                var fSendOrRes = R.string.wrd_received
+                if (fEntity.isSend){
+                    fSendOrRes = R.string.wrd_send
+                    viewHolder.mvValue.setTextColor(resoursces.getColor(R.color.black))
+                    viewHolder.mvValueUsd.setTextColor(resoursces.getColor(R.color.grey_text))
+                }else {
+                    viewHolder.mvValue.setTextColor(resoursces.getColor(R.color.green))
+                    viewHolder.mvValueUsd.setTextColor(resoursces.getColor(R.color.green))
                 }
 
-                viewHolder.mvDesc2.visibility = View.GONE
-                viewHolder.mvStakIcon.visibility =  View.GONE
+                val fSendOr = resoursces.getString(fSendOrRes) + " NFT" + " · "+fEntity.time
+                viewHolder.mvDesc1.text = fSendOr
+
+                viewHolder.mvValue.text = fEntity.nftName
+                viewHolder.mvValueUsd.text = fEntity.symbol
+                viewHolder.mvIconNft.load(fEntity.nftImageLink)
 
             }
         } else {
@@ -130,40 +186,41 @@ class HistoryAdapter() :
 
 
 
-//        viewHolder.mvValue.text = "${floatToPrint(dataSet[position].value)} ${dataSet[position].symbol}"
-//
-//        viewHolder.mvDesc1.text = "$"+floatToPrint(dataSet[position].value * )
-//        viewHolder.mvDesc2.text = "APY "+floatToPrint(dataSet[position].APY)+"%"
-//
-//        viewHolder.mvValueUsd.text = "$"+floatToPrint(dataSet[position].valueUsd)
-//        viewHolder.mvIcon.load(dataSet[position].image)
-//
-//        if (dataSet[position].isStaking){
-//            viewHolder.mvStakIcon.visibility =  View.VISIBLE
-//            viewHolder.mvValue.setTextColor(viewHolder.mvValue.resources.getColor(R.color.green))
-//        }else{
-//            viewHolder.mvStakIcon.visibility = View.GONE
-//            viewHolder.mvValue.setTextColor(viewHolder.mvValue.resources.getColor(R.color.black))
-//            if (dataSet[position].priceChange != 0F){
-//                viewHolder.mvDesc2.visibility = View.VISIBLE
-//                var fPlusminus = "+"
-//                if (dataSet[position].priceChange > 0)
-//                    viewHolder.mvDesc2.setTextColor(viewHolder.mvValue.resources.getColor(R.color.green))
-//                else {
-//                    viewHolder.mvDesc2.setTextColor(
-//                        viewHolder.mvValue.resources.getColor(R.color.red))
-//                    fPlusminus = ""
-//                }
-//                viewHolder.mvDesc2.text = fPlusminus + floatToPrint(dataSet[position].priceChange) + "%"
-//
-//            }else
-//                viewHolder.mvDesc2.visibility = View.GONE
-//        }
 
+    }
+
+    private fun setTransAva(fEntity: yEvent, viewHolder: EntityHolder) {
+        viewHolder.mvIconSingleLay.visibility = View.VISIBLE
+        viewHolder.mvIconSwapLay.visibility = View.GONE
+        if (fEntity.imageAva.isNullOrEmpty()){
+            val fGrad = gradientStore.toList()[Random.nextInt(gradientStore.size)]
+            val gd = GradientDrawable(
+                GradientDrawable.Orientation.TOP_BOTTOM,
+                intArrayOf(Color.parseColor(fGrad.first),
+                    Color.parseColor(fGrad.second))
+            )
+            gd.cornerRadius = 0f
+            viewHolder.mvIcon.setImageDrawable(gd)
+
+            viewHolder.mvIconSymbol.visibility = View.VISIBLE
+            viewHolder.mvIconSymbol.text = fEntity.letter
+
+        }else{
+            viewHolder.mvIconSymbol.visibility = View.GONE
+            viewHolder.mvIcon.load(fEntity.imageAva){
+                crossfade(true)
+                placeholder(R.drawable.img_jet_holder)
+            }
+        }
     }
 
     override fun getItemCount() = dataSet.size
 
+
+    var mFragmentManager: FragmentManager? = null
+    fun setFragManager(onClick: FragmentManager) {
+        mFragmentManager = onClick
+    }
 
 
 }

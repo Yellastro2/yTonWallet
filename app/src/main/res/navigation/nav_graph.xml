@@ -123,7 +123,13 @@
         android:id="@+id/walletFragment"
         android:name="com.yellastro.mytonwallet.fragments.WalletFragment"
         android:label="fragment_wallet"
-        tools:layout="@layout/fragment_wallet" />
+        tools:layout="@layout/fragment_wallet" >
+        <action
+            android:id="@+id/action_walletFragment_to_eventInfoFragment"
+            app:destination="@id/eventInfoFragment"
+            app:enterAnim="@anim/slide_up"
+            app:popExitAnim="@anim/slide_down" />
+    </fragment>
     <fragment
         android:id="@+id/importMnemoFragment"
         android:name="com.yellastro.mytonwallet.fragments.ImportMnemoFragment"
@@ -133,4 +139,9 @@
             android:id="@+id/action_importMnemoFragment_to_setPinFragment"
             app:destination="@id/setPinFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/eventInfoFragment"
+        android:name="com.yellastro.mytonwallet.fragments.EventInfoFragment"
+        android:label="fragment_event_info"
+        tools:layout="@layout/fragment_event_info" />
 </navigation>

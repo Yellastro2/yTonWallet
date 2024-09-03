@@ -51,30 +51,37 @@ class JettonAdapter() :
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(viewHolder: EntityHolder, position: Int) {
-        viewHolder.mvTitle.text = dataSet[position].title
+        val resources = viewHolder.mvValue.resources
 
-        viewHolder.mvValue.text = "${floatToPrint(dataSet[position].value)} ${dataSet[position].symbol}"
+        viewHolder.mvTitle.text = dataSet[position].title
+        
+        val fValueStr = floatToPrint(dataSet[position].value).replace(","," ")
+        viewHolder.mvValue.text = "${fValueStr} ${dataSet[position].symbol}"
 
         viewHolder.mvDesc1.text = "$"+floatToPrint(dataSet[position].usdPrice)
         viewHolder.mvDesc2.text = "APY "+floatToPrint(dataSet[position].APY)+"%"
 
         viewHolder.mvValueUsd.text = "$"+floatToPrint(dataSet[position].valueUsd)
-        viewHolder.mvIcon.load(dataSet[position].image)
+        viewHolder.mvIcon.load(dataSet[position].image) {
+            crossfade(true)
+            placeholder(R.drawable.img_jet_holder)
+        }
 
         if (dataSet[position].isStaking){
             viewHolder.mvStakIcon.visibility =  View.VISIBLE
-            viewHolder.mvValue.setTextColor(viewHolder.mvValue.resources.getColor(R.color.green))
+            viewHolder.mvValue.setTextColor(resources.getColor(R.color.green))
+            viewHolder.mvDesc2.setTextColor(resources.getColor(R.color.green))
         }else{
             viewHolder.mvStakIcon.visibility = View.GONE
-            viewHolder.mvValue.setTextColor(viewHolder.mvValue.resources.getColor(R.color.black))
+            viewHolder.mvValue.setTextColor(resources.getColor(R.color.black))
             if (dataSet[position].priceChange != 0F){
                 viewHolder.mvDesc2.visibility = View.VISIBLE
                 var fPlusminus = "+"
                 if (dataSet[position].priceChange > 0)
-                    viewHolder.mvDesc2.setTextColor(viewHolder.mvValue.resources.getColor(R.color.green))
+                    viewHolder.mvDesc2.setTextColor(resources.getColor(R.color.green))
                 else {
                     viewHolder.mvDesc2.setTextColor(
-                        viewHolder.mvValue.resources.getColor(R.color.red))
+                        resources.getColor(R.color.red))
                     fPlusminus = ""
                 }
                 viewHolder.mvDesc2.text = fPlusminus + floatToPrint(dataSet[position].priceChange) + "%"

@@ -25,9 +25,14 @@
                 android:id="@+id/toolbar_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+
+                app:title="@string/title_import_mnemo"
                 app:expandedTitleGravity="center_horizontal"
-                app:collapsedTitleTextAppearance="@style/text_toolbar_title"
                 app:collapsedTitleGravity="left"
+                app:titleTextAppearance="@style/text_toolbar_title"
+                app:collapsedTitleTextAppearance="@style/text_toolbar_title"
+                app:collapsedTitleTextColor="@color/black"
+                app:titleCollapseMode="scale"
                 app:expandedTitleMarginBottom="12dp"
                 app:expandedTitleTextColor="#00FFFFFF"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
@@ -58,15 +63,14 @@
                     android:text="@string/title_import_mnemo"/>
 
                 <androidx.appcompat.widget.Toolbar
+                    app:titleTextAppearance="@style/text_toolbar_title"
                     android:id="@+id/toolbar"
                     android:background="@color/white"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/margin_64"
                     app:layout_collapseMode="pin"
                     android:fadingEdgeLength="0dp"
-                    app:navigationIcon="@drawable/ic_back"
-                    app:titleTextColor="@color/black"
-                    app:title="@string/title_import_mnemo" />
+                    app:navigationIcon="@drawable/ic_back"/>
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
         </com.google.android.material.appbar.AppBarLayout>
@@ -75,7 +79,6 @@
             android:id="@+id/fr_input_mnemo_scroll"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="8dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <LinearLayout

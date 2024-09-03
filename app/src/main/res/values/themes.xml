@@ -38,8 +38,12 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="text_toolbar_title" parent="text_big">
+    <style name="text_toolbar_title" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
+
         <item name="android:textSize">@dimen/text_size_22</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily">@font/roboto</item>
     </style>
 
     <style name="text_description" parent="text_general">
@@ -106,6 +110,11 @@
     <style name="circleImageView" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="roundCornImage" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">20%</item>
     </style>
 
 
