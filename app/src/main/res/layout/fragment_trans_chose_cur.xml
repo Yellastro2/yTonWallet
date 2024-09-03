@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragments.send.TransChoseCurFragment">
+
+    <androidx.appcompat.widget.Toolbar
+        app:layout_constraintTop_toTopOf="parent"
+        app:titleTextAppearance="@style/text_toolbar_title"
+        android:id="@+id/fr_trans_chosecur_toolbar"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        app:title="@string/wrd_send"
+        android:layout_height="@dimen/margin_64"
+        app:menu="@menu/wallet_toolbar_menu"
+        android:elevation="1dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fr_trans_chosecur_toolbar"
+        android:orientation="vertical">
+
+
+        <TextView
+
+            android:paddingHorizontal="20dp"
+            style="@style/text_general"
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Choose currency" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/fr_trans_chosecur_list"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:itemCount="4"
+            tools:listitem="@layout/item_jetton"/>
+
+    </LinearLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

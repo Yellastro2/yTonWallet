@@ -22,4 +22,7 @@
 
     <dimen name="text_size_regular">16sp</dimen>
     <dimen name="text_size_big">28sp</dimen>
+
+
+    <dimen name="divider_heigth_05">0.5dp</dimen>
 </resources>

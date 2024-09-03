@@ -23,6 +23,7 @@ import com.yellastro.mytonwallet.PREF_KEY
 import com.yellastro.mytonwallet.R
 import com.yellastro.mytonwallet.adapters.floatToPrint
 import com.yellastro.mytonwallet.viewmodels.WalletModel
+import com.yellastro.mytonwallet.views.yDecorator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlin.math.round
@@ -41,6 +42,10 @@ class WalletFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        viewModel.viewModelScope.launch(Dispatchers.IO) {
+            loadAll()
+        }
     }
 
     override fun onCreateView(
@@ -105,6 +110,10 @@ class WalletFragment : Fragment() {
             }
         }
 
+        view.findViewById<View>(R.id.fr_wallet_btn_send).setOnClickListener {
+            navController.navigate(R.id.action_walletFragment_to_transChoseCurFragment)
+        }
+
         val fvSwipeRefresh = view.findViewById<SwipeRefreshLayout>(R.id.fr_wallet_refreshlay)
         fvSwipeRefresh.setOnRefreshListener {
             viewModel.viewModelScope.launch(Dispatchers.IO) {
@@ -117,14 +126,15 @@ class WalletFragment : Fragment() {
 
 
 
-        val recyclerViewJet = view.findViewById<RecyclerView>(R.id.fr_wallet_jetton_list)
-        recyclerViewJet.adapter = viewModel.mJettonAdapter
+        val fvListJettons = view.findViewById<RecyclerView>(R.id.fr_wallet_jetton_list)
+        fvListJettons.adapter = viewModel.mJettonAdapter
+        fvListJettons.addItemDecoration(yDecorator.getDecorator(requireContext()))
 
-        val recyclerViewHist = view.findViewById<RecyclerView>(R.id.fr_wallet_history_list)
-        recyclerViewHist.adapter = viewModel.mHistoryAdapter
-        viewModel.viewModelScope.launch(Dispatchers.IO) {
-            loadAll()
-        }
+        val fvListHistory = view.findViewById<RecyclerView>(R.id.fr_wallet_history_list)
+        fvListHistory.adapter = viewModel.mHistoryAdapter
+        fvListHistory.addItemDecoration(yDecorator.getDecorator(requireContext()))
+
+
 
 //        EventInfoFragment().show(childFragmentManager,"")
 

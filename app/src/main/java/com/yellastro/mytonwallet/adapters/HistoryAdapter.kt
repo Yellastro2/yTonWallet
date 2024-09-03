@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.yellastro.mytonwallet.R
+import com.yellastro.mytonwallet.entitis.yAddress
 import com.yellastro.mytonwallet.entitis.yEvent
 import com.yellastro.mytonwallet.fragments.EventInfoFragment
 import com.yellastro.mytonwallet.viewmodels.ASSETS
@@ -31,8 +32,14 @@ val usdRates = mapOf<String,Float>("TON" to 8F,"NOT" to 0.01F, "MY" to 0.06F)
 val gradientStore = mapOf("#E0A2F3" to "#D669ED","#FF885E" to "#FF516A", "#98D163" to "#48BA44",
     "#B493F8" to "#6E62E0", "#5ACAE3" to "#369BD4", "#FE89AB" to "#DA5675", "#FEBA5A" to "#F68237",
     "#5BAEF9" to "#418BD0")
-fun setTransAvaToViews(fEntity: yEvent,fvIcon: ImageView,fvSymbol: TextView){
-    if (fEntity.imageAva.isNullOrEmpty()){
+
+fun setTransAva(fAdr: yAddress, viewHolder: EntityHolder) {
+    viewHolder.mvIconSingleLay.visibility = View.VISIBLE
+    viewHolder.mvIconSwapLay.visibility = View.GONE
+    setTransAvaToViews(fAdr, viewHolder.mvIcon, viewHolder.mvIconSymbol)
+}
+fun setTransAvaToViews(fAddress: yAddress,fvIcon: ImageView,fvSymbol: TextView){
+    if (fAddress.image.isNullOrEmpty()){
         val fGrad = gradientStore.toList()[Random.nextInt(gradientStore.size)]
         val gd = GradientDrawable(
             GradientDrawable.Orientation.TOP_BOTTOM,
@@ -43,11 +50,11 @@ fun setTransAvaToViews(fEntity: yEvent,fvIcon: ImageView,fvSymbol: TextView){
         fvIcon.setImageDrawable(gd)
 
         fvSymbol.visibility = View.VISIBLE
-        fvSymbol.text = fEntity.letter
+        fvSymbol.text = fAddress.letter
 
     }else{
         fvSymbol.visibility = View.GONE
-        fvIcon.load(fEntity.imageAva){
+        fvIcon.load(fAddress.image){
             crossfade(true)
             placeholder(R.drawable.img_jet_holder)
         }
@@ -130,7 +137,7 @@ class HistoryAdapter() :
                 viewHolder.mvTitleSwapLay.visibility = View.GONE
                 viewHolder.mvIconNft.visibility = View.GONE
 
-                setTransAva(fEntity, viewHolder)
+                setTransAva(fEntity.addressEntity!!, viewHolder)
 
                 var fValuePrefix = ""
                 var fSendOrRes = R.string.wrd_received
@@ -182,12 +189,12 @@ class HistoryAdapter() :
 
                 viewHolder.mvIconSwap2.load(ASSETS[fEntity.symbolSwap]?.get(2))
             }
-            else {
+            else { // NFT
 
                 viewHolder.mvTitleSwapLay.visibility = View.GONE
                 viewHolder.mvIconNft.visibility = View.VISIBLE
 
-                setTransAva(fEntity, viewHolder)
+                setTransAva(fEntity.addressEntity!!, viewHolder)
 
                 var fSendOrRes = R.string.wrd_received
                 if (fEntity.isSend){
@@ -218,11 +225,7 @@ class HistoryAdapter() :
 
     }
 
-    private fun setTransAva(fEntity: yEvent, viewHolder: EntityHolder) {
-        viewHolder.mvIconSingleLay.visibility = View.VISIBLE
-        viewHolder.mvIconSwapLay.visibility = View.GONE
-        setTransAvaToViews(fEntity, viewHolder.mvIcon, viewHolder.mvIconSymbol)
-    }
+
 
 
 

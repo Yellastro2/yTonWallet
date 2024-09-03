@@ -145,8 +145,9 @@
     <string name="btn_add">Add</string>
     <string name="body_msg_encrypt">Message is encrypted.</string>
     <string name="btn_decrypt">Decrypt</string>
-    <string name="title_price_per_my">Price per 1 MY</string>
+    <string name="title_price_per">Price per 1</string>
 
     <string name="title_amount">Amount</string>
+    <string name="hint_enter_address_or_domain">Enter address or domain</string>
 
 </resources>

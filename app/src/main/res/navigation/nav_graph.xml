@@ -35,7 +35,7 @@
     </fragment>
     <fragment
         android:id="@+id/setPinFragment"
-        android:name="com.yellastro.mytonwallet.fragments.SetPinFragment"
+        android:name="com.yellastro.mytonwallet.fragments.auth.SetPinFragment"
         android:label="fragment_set_pin"
         tools:layout="@layout/fragment_set_pin" >
         <action
@@ -67,7 +67,7 @@
     </fragment>
     <fragment
         android:id="@+id/newCreateFragment2"
-        android:name="com.yellastro.mytonwallet.fragments.NewCreateFragment"
+        android:name="com.yellastro.mytonwallet.fragments.auth.NewCreateFragment"
         android:label="fragment_new_create"
         tools:layout="@layout/fragment_new_create" >
         <action
@@ -80,7 +80,7 @@
     </fragment>
     <fragment
         android:id="@+id/useBioFragment"
-        android:name="com.yellastro.mytonwallet.fragments.UseBioFragment"
+        android:name="com.yellastro.mytonwallet.fragments.auth.UseBioFragment"
         android:label="fragment_use_bio"
         tools:layout="@layout/fragment_use_bio" >
         <action
@@ -95,7 +95,7 @@
     </fragment>
     <fragment
         android:id="@+id/mnemoShowFragment"
-        android:name="com.yellastro.mytonwallet.fragments.MnemoShowFragment"
+        android:name="com.yellastro.mytonwallet.fragments.auth.MnemoShowFragment"
         android:label="fragment_mnemo_show"
         tools:layout="@layout/fragment_mnemo_show" >
         <action
@@ -107,7 +107,7 @@
     </fragment>
     <fragment
         android:id="@+id/inputMnemoFragment"
-        android:name="com.yellastro.mytonwallet.fragments.InputMnemoFragment"
+        android:name="com.yellastro.mytonwallet.fragments.auth.InputMnemoFragment"
         android:label="fragment_input_mnemo"
         tools:layout="@layout/fragment_input_mnemo" >
         <action
@@ -129,10 +129,15 @@
             app:destination="@id/eventInfoFragment"
             app:enterAnim="@anim/slide_up"
             app:popExitAnim="@anim/slide_down" />
+        <action
+            android:id="@+id/action_walletFragment_to_transChoseCurFragment"
+            app:destination="@id/transChoseCurFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/importMnemoFragment"
-        android:name="com.yellastro.mytonwallet.fragments.ImportMnemoFragment"
+        android:name="com.yellastro.mytonwallet.fragments.auth.ImportMnemoFragment"
         android:label="fragment_import_mnemo"
         tools:layout="@layout/fragment_import_mnemo" >
         <action
@@ -144,4 +149,20 @@
         android:name="com.yellastro.mytonwallet.fragments.EventInfoFragment"
         android:label="fragment_event_info"
         tools:layout="@layout/fragment_event_info" />
+    <fragment
+        android:id="@+id/transChoseCurFragment"
+        android:name="com.yellastro.mytonwallet.fragments.send.TransChoseCurFragment"
+        android:label="fragment_trans_chose_cur"
+        tools:layout="@layout/fragment_trans_chose_cur" >
+        <action
+            android:id="@+id/action_transChoseCurFragment_to_transInputAdrFragment"
+            app:destination="@id/transInputAdrFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/transInputAdrFragment"
+        android:name="com.yellastro.mytonwallet.fragments.send.TransInputAdrFragment"
+        android:label="fragment_trans_input_adr"
+        tools:layout="@layout/fragment_trans_input_adr" />
 </navigation>

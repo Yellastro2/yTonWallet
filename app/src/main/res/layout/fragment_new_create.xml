@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackgroundWhite"
-    tools:context=".fragments.NewCreateFragment">
+    tools:context=".fragments.auth.NewCreateFragment">
 
 
     <LinearLayout

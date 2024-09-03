@@ -26,13 +26,10 @@ class yEvent(
     val nftName: String? = null,
     val nftImageLink: String? = null,
     val message: String? = null,
-    val isEncrypt: Boolean = false
-
+    val isEncrypt: Boolean = false,
+    var addressEntity: yAddress? = null
 ) : yHistoryEntity {
-    val letter: String
-        get() {
-            return if (walletName.isNullOrEmpty()) baseEmoji else walletName.substring(0,1)
-        }
+
     val time: String
         get() {
              return hourFormater.format(
@@ -53,9 +50,7 @@ class yEvent(
     val title: String
         get() {
             if (type in listOf(TRANS, NFT))
-                return walletName?:
-                (addressFrom.substring(0,4) + "..." + addressFrom.substring(addressFrom.length-4,
-                                                                                   addressFrom.length))
+                return addressEntity!!.title
             else if (type == SWAP)
                 return symbol
             return "not implemented"

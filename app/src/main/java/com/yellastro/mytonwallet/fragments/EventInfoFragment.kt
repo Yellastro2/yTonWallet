@@ -11,17 +11,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import coil.load
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.yellastro.mytonwallet.R
 import com.yellastro.mytonwallet.adapters.floatToPrint
 import com.yellastro.mytonwallet.adapters.setTransAvaToViews
 import com.yellastro.mytonwallet.adapters.usdRates
 import com.yellastro.mytonwallet.entitis.yEvent
+import com.yellastro.mytonwallet.viewmodels.ASSETS
 import kotlin.math.pow
 
 
@@ -102,11 +106,15 @@ class EventInfoFragment : BottomSheetDialogFragment() { //BottomSheetDialogFragm
             it.findViewById<View>(R.id.fr_event_linkto_exp).setOnClickListener {
                 startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(fEvent.transLink)))
             }
+            val fFee = fEvent.fee / (10.0.pow(9))
+            it.findViewById<TextView>(R.id.fr_event_text_fee).text = floatToPrint(fFee.toFloat())
 
 
             if (fEvent.type == yEvent.TRANS){
                 it.findViewById<View>(R.id.fr_event_trans_lay).visibility = View.VISIBLE
                 it.findViewById<View>(R.id.fr_event_lay_to).visibility = View.GONE
+                it.findViewById<View>(R.id.fr_event_lay_swap_title).visibility = View.GONE
+                it.findViewById<View>(R.id.fr_event_lay_nft_title).visibility = View.GONE
 
 
                 var fSendOrRes = R.string.wrd_received
@@ -163,7 +171,7 @@ class EventInfoFragment : BottomSheetDialogFragment() { //BottomSheetDialogFragm
 
                 it.findViewById<TextView>(R.id.fr_event_from_value).text = fEvent.title
 
-                setTransAvaToViews(fEvent,
+                setTransAvaToViews(fEvent.addressEntity!!,
                     it.findViewById(R.id.fr_event_from_image),
                     it.findViewById(R.id.fr_event_image_symbol))
 
@@ -171,17 +179,88 @@ class EventInfoFragment : BottomSheetDialogFragment() { //BottomSheetDialogFragm
                 it.findViewById<TextView>(R.id.fr_event_amount_value).text =
                      "${floatToPrint(fEvent.value, " ")} ${fEvent.symbol}"
 
-                val fFee = fEvent.fee / (10.0.pow(9))
-                it.findViewById<TextView>(R.id.fr_event_text_fee).text = floatToPrint(fFee.toFloat())
 
 
 
-            } else if (fEvent.type == yEvent.NFT){
-                    var fSendOrRes = R.string.wrd_received
-                    if (fEvent.isSend)
-                        fSendOrRes = R.string.wrd_send
-                    val fBody = resources.getString(fSendOrRes) + " NFT"
+
+            }
+            else if (fEvent.type == yEvent.NFT){
+
+                it.findViewById<View>(R.id.fr_event_trans_lay).visibility = View.GONE
+                it.findViewById<View>(R.id.fr_event_lay_to).visibility = View.VISIBLE
+                it.findViewById<View>(R.id.fr_event_lay_swap_title).visibility = View.GONE
+                it.findViewById<View>(R.id.fr_event_from_image).visibility = View.GONE
+                it.findViewById<View>(R.id.fr_event_lay_nft_title).visibility = View.VISIBLE
+                it.findViewById<View>(R.id.fr_event_lay_to).visibility = View.GONE
+                it.findViewById<View>(R.id.fr_dial_lay_amount).visibility = View.GONE
+
+
+                var fSendOrRes = R.string.wrd_received
+                var fFromOrTo = R.string.wrd_from
+                if (fEvent.isSend) {
+                    fSendOrRes = R.string.wrd_send
+                    fFromOrTo = R.string.wrd_to
                 }
+                val fStrSendOrRes = resources.getString(fSendOrRes)
+                it.findViewById<TextView>(R.id.fr_event_date_title)
+                    .setText(fStrSendOrRes + " " + resources.getString(R.string.wrd_at))
+
+                val fBody = fStrSendOrRes + " NFT"
+
+                it.findViewById<TextView>(R.id.fr_event_from_title).setText(fFromOrTo)
+
+                it.findViewById<TextView>(R.id.fr_event_title).text = fBody
+
+                it.findViewById<TextView>(R.id.fr_event_titled_swap1_text).text = fEvent.nftName
+                it.findViewById<TextView>(R.id.fr_event_titled_swap2_text).text = fEvent.symbol
+
+
+                it.findViewById<TextView>(R.id.fr_event_from_value).text = fEvent.title
+
+
+                it.findViewById<ImageView>(R.id.it_jet_icon_nft).load(fEvent.nftImageLink)
+            }
+            else { //SWAP
+                it.findViewById<View>(R.id.fr_event_trans_lay).visibility = View.GONE
+                it.findViewById<View>(R.id.fr_event_lay_to).visibility = View.VISIBLE
+                it.findViewById<View>(R.id.fr_event_lay_swap_title).visibility = View.VISIBLE
+                it.findViewById<View>(R.id.fr_event_from_image).visibility = View.GONE
+                it.findViewById<View>(R.id.fr_event_lay_nft_title).visibility = View.GONE
+
+                it.findViewById<TextView>(R.id.fr_event_date_title)
+                    .setText(resources.getString(R.string.wrd_swap) + " " + resources.getString(R.string.wrd_at))
+
+                it.findViewById<TextView>(R.id.fr_event_title).setText(R.string.wrd_swap)
+
+                it.findViewById<ImageView>(R.id.fr_event_image_swap1).load(ASSETS[fEvent.symbol]?.get(2))
+                it.findViewById<ImageView>(R.id.fr_event_image_swap2).load(ASSETS[fEvent.symbolSwap]?.get(2))
+
+                val fValueSend = "-${floatToPrint(fEvent.value," ")} ${fEvent.symbol}"
+                val fValueReceive = "+${floatToPrint(fEvent.valueSwap!!," ")} ${fEvent.symbolSwap!!}"
+
+                it.findViewById<TextView>(R.id.fr_event_titled_swap1_text).text = fValueSend
+                it.findViewById<TextView>(R.id.fr_event_titled_swap2_text).text = fValueReceive
+                it.findViewById<TextView>(R.id.fr_event_titled_swap1_text).setOnClickListener {
+                    Toast.makeText(requireContext(),
+                        "its hardly hurt my eyes when those digits was in dif margin cuz its dif size of + and - symb, so i prefer autor forgot to fix this margins",
+                        Toast.LENGTH_LONG)
+                        .show()
+                }
+
+                it.findViewById<TextView>(R.id.fr_event_from_title).setText(R.string.wrd_send)
+                it.findViewById<TextView>(R.id.fr_event_from_value).text = fValueSend
+                it.findViewById<TextView>(R.id.fr_event_receive_val_title).setText(R.string.wrd_received)
+                it.findViewById<TextView>(R.id.fr_event_receive_val_value).text = fValueReceive
+
+                val fPricePerTitle = resources.getString(R.string.title_price_per) + " " + fEvent.symbol
+                it.findViewById<TextView>(R.id.fr_event_text_amount_title).text = fPricePerTitle
+
+
+                val fPricePer = "${floatToPrint(fEvent.valueSwap!! / fEvent.value," ")} ${fEvent.symbol}"
+                it.findViewById<TextView>(R.id.fr_event_amount_value).text = fPricePer
+
+
+            }
 
         }
 

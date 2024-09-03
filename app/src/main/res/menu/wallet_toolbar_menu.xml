@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:id="@+id/action_map"
-        android:icon="@drawable/ic_scan"
+        android:icon="@drawable/ic_cross"
         android:title="scan"
         android:orderInCategory="1"
         app:showAsAction="always" />

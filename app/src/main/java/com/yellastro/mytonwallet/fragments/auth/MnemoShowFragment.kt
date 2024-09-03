@@ -1,18 +1,17 @@
-package com.yellastro.mytonwallet.fragments
+package com.yellastro.mytonwallet.fragments.auth
 
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.yellastro.mytonwallet.MNEMO
 import com.yellastro.mytonwallet.MNEMO_LIST
-import com.yellastro.mytonwallet.PIN
 import com.yellastro.mytonwallet.PREF_KEY
 import com.yellastro.mytonwallet.R
 import kotlin.random.Random
@@ -60,7 +59,8 @@ class MnemoShowFragment : Fragment() {
         val fvTable = view.findViewById<TableLayout>(R.id.fr_mnemoshow_table)
         val fRowParams = TableLayout.LayoutParams(
             TableLayout.LayoutParams.MATCH_PARENT,
-            TableLayout.LayoutParams.WRAP_CONTENT)
+            TableLayout.LayoutParams.WRAP_CONTENT
+        )
         val fHalf = (MNEMO_SIZE / 2)
         for (i in 0..<fHalf){
             val qRow = TableRow(requireContext())

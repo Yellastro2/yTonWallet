@@ -1,4 +1,4 @@
-package com.yellastro.mytonwallet.fragments
+package com.yellastro.mytonwallet.fragments.auth
 
 import android.content.Context
 import android.content.Intent
@@ -6,21 +6,17 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.biometric.BiometricManager
-import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG
+import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.yellastro.mytonwallet.BIO_LOGIN
 import com.yellastro.mytonwallet.MNEMO
-import com.yellastro.mytonwallet.PIN
 import com.yellastro.mytonwallet.PREF_KEY
 import com.yellastro.mytonwallet.R
-
-
 
 class UseBioFragment : Fragment() {
     // TODO: Rename and change types of parameters
@@ -61,7 +57,7 @@ class UseBioFragment : Fragment() {
     }
 
     private fun ySetBio() {
-        val biometricManager = androidx.biometric.BiometricManager.from(requireContext())
+        val biometricManager = BiometricManager.from(requireContext())
         when (biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG)) {
             BiometricManager.BIOMETRIC_SUCCESS -> {
                 Log.d("MY_APP_TAG", "App can authenticate using biometrics.")
@@ -81,8 +77,10 @@ class UseBioFragment : Fragment() {
             BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
                 // Prompts the user to create credentials that your app accepts.
                 val enrollIntent = Intent(Settings.ACTION_BIOMETRIC_ENROLL).apply {
-                    putExtra(Settings.EXTRA_BIOMETRIC_AUTHENTICATORS_ALLOWED,
-                        BIOMETRIC_STRONG)
+                    putExtra(
+                        Settings.EXTRA_BIOMETRIC_AUTHENTICATORS_ALLOWED,
+                        BiometricManager.Authenticators.BIOMETRIC_STRONG
+                    )
                 }
                 startActivityForResult(enrollIntent, 555)
             }

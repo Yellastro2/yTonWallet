@@ -1,31 +1,21 @@
-package com.yellastro.mytonwallet.fragments
+package com.yellastro.mytonwallet.fragments.auth
 
-import android.R.attr.name
 import android.content.Context
 import android.os.Bundle
-import android.text.Editable
 import android.text.Html
-import android.text.TextWatcher
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
-import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.yellastro.mytonwallet.MNEMO
-import com.yellastro.mytonwallet.MNEMO_LIST
 import com.yellastro.mytonwallet.PREF_KEY
 import com.yellastro.mytonwallet.R
 import com.yellastro.mytonwallet.views.InputMnemoView
 import com.yellastro.mytonwallet.yDialog
 import kotlin.random.Random
-
 
 class InputMnemoFragment : Fragment() {
 
@@ -51,7 +41,7 @@ class InputMnemoFragment : Fragment() {
         for (i in 0..<REPEAT_COUNT){
             var qNext = 0
             do{
-                qNext = Random.nextInt(MNEMO_SIZE)+1
+                qNext = Random.nextInt(MNEMO_SIZE) +1
             }while (qNext in mMnemoParts)
             mMnemoParts.add(qNext)
         }
@@ -86,10 +76,11 @@ class InputMnemoFragment : Fragment() {
         for (qPart in mMnemoParts){
             fDesc = fDesc.replaceFirst("PART","<b>${qPart}</b>")
 
-            mvInputs.add( InputMnemoView(requireContext(),
-                fvInputLay,
-                qPart,
-                {onInputDone()})
+            mvInputs.add(
+                InputMnemoView(requireContext(),
+                    fvInputLay,
+                    qPart,
+                    { onInputDone() })
             )
 
 //            LayoutInflater.from(requireContext()).inflate(R.layout.mnemo_input_item_view, fvInputLay)

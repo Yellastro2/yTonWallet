@@ -1,12 +1,10 @@
-package com.yellastro.mytonwallet.fragments
+package com.yellastro.mytonwallet.fragments.auth
 
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.provider.Settings
 import android.text.Editable
 import android.text.InputFilter
 import android.text.TextWatcher
@@ -17,7 +15,6 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.biometric.BiometricManager
-import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG
 import androidx.core.animation.doOnEnd
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -32,7 +29,6 @@ import com.yellastro.mytonwallet.R
 import com.yellastro.mytonwallet.pro_animations.ColorAnimation
 import com.yellastro.mytonwallet.viewmodels.NewPincodeModel
 import com.yellastro.mytonwallet.views.PinView
-
 
 class SetPinFragment : Fragment(R.layout.fragment_set_pin) {
 
@@ -72,7 +68,7 @@ class SetPinFragment : Fragment(R.layout.fragment_set_pin) {
         mvDesc = view.findViewById(R.id.fr_setpin_desc)
 
         val fvChangeSize = view.findViewById<TextView>(R.id.fr_setpin_btn_changesize)
-        
+
         if (!isConfirm.isNullOrEmpty()){
             mvTitle.setText(R.string.title_conf_pin)
             val fDesc = resources.getString(R.string.deck_conf_pin).replace("4",viewModel.mPinSize.toString())
@@ -139,7 +135,8 @@ class SetPinFragment : Fragment(R.layout.fragment_set_pin) {
 
     fun setSize(fSize: Int){
         mvPinPlace.removeAllViews()
-        mvPinDots = PinView(requireContext(),
+        mvPinDots = PinView(
+            requireContext(),
             mvPinPlace,
             fSize,
             R.drawable.bkg_pin_empty_dark,
@@ -170,7 +167,8 @@ class SetPinFragment : Fragment(R.layout.fragment_set_pin) {
     }
 
     fun correct(){
-        animateColor(R.color.black,
+        animateColor(
+            R.color.black,
             R.color.green,
             { fCol ->
                 mvPinDots.setColor(fCol)
@@ -190,8 +188,8 @@ class SetPinFragment : Fragment(R.layout.fragment_set_pin) {
 
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
-            val biometricManager = androidx.biometric.BiometricManager.from(requireContext())
-            when (biometricManager.canAuthenticate(BIOMETRIC_STRONG)) {
+            val biometricManager = BiometricManager.from(requireContext())
+            when (biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG)) {
                 BiometricManager.BIOMETRIC_SUCCESS -> {
                     // Device allow to use biometric, send user to bio screen.
                     Log.d("MY_APP_TAG", "App can authenticate using biometrics.")
@@ -221,7 +219,7 @@ class SetPinFragment : Fragment(R.layout.fragment_set_pin) {
 
     }
 
-    fun endWithPinAndBio(fPref: SharedPreferences,isBio: Boolean){
+    fun endWithPinAndBio(fPref: SharedPreferences, isBio: Boolean){
         if (isBio){
             navController.navigate(R.id.action_setPinFragment_to_useBioFragment)
         }else {
@@ -238,12 +236,13 @@ class SetPinFragment : Fragment(R.layout.fragment_set_pin) {
         ColorAnimation.animateColor(requireContext(),
             R.color.black,
             R.color.red,
-            { fCol -> mvTitle.setTextColor(fCol)
+            { fCol ->
+                mvTitle.setTextColor(fCol)
                 mvDesc.setTextColor(fCol)
                 mvPinDots.setColor(fCol)
             },
             { mvInput.setText("") }
-            )
+        )
     }
 
     @SuppressLint("RestrictedApi")
@@ -253,7 +252,7 @@ class SetPinFragment : Fragment(R.layout.fragment_set_pin) {
                      fOnEnd: () -> Unit){
         val colorFrom = ContextCompat.getColor(requireContext(), fAnimColor)
         val colorTo = ContextCompat.getColor(requireContext(), fBaseColor)
-        val colorAnimation = ValueAnimator.ofObject(ArgbEvaluator(),colorTo, colorFrom)
+        val colorAnimation = ValueAnimator.ofObject(ArgbEvaluator(), colorTo, colorFrom)
         colorAnimation.setDuration(50)
         colorAnimation.addUpdateListener { animator ->
             fColoredOn(animator.getAnimatedValue() as Int)

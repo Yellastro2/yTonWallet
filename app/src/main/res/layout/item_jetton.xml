@@ -105,13 +105,6 @@
 
 
 
-    <View
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:background="@color/grey_background"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/it_jet_icon_layout" />
 
     <TextView
         style="@style/text_big"
@@ -126,6 +119,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
+        android:visibility="gone"
         android:id="@+id/it_jet_lay_swap_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

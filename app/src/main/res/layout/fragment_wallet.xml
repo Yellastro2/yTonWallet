@@ -93,7 +93,7 @@
 
                     <LinearLayout
                         style="@style/wallet_top_btn_item_layout"
-
+                        android:id="@+id/fr_wallet_btn_send"
                         >
                         <ImageView
                             android:layout_width="@dimen/size_icon_32"

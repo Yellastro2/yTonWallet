@@ -9,6 +9,7 @@ import com.yellastro.mytonwallet.adapters.HistoryAdapter
 import com.yellastro.mytonwallet.adapters.JettonAdapter
 import com.yellastro.mytonwallet.adapters.yDateHistory
 import com.yellastro.mytonwallet.adapters.yHistoryEntity
+import com.yellastro.mytonwallet.entitis.yAddress
 import com.yellastro.mytonwallet.entitis.yEvent
 import com.yellastro.mytonwallet.entitis.yJetton
 import kotlinx.coroutines.Dispatchers
@@ -24,11 +25,13 @@ import kotlin.random.Random
 
 
 
-val ASSETS = mapOf("sTON" to listOf("TON","Staked TON","https://ton.org/download/ton_symbol.png"),
+val mDayFormat = DateTimeFormatter.ofPattern("MMM dd", Locale.US)
+
+val ASSETS = mapOf("Staked TON" to listOf("sTON","Staked TON","https://ton.org/download/ton_symbol.png"),
     "USD₮" to listOf("USD₮", "Tether USD", "https://cache.tonapi.io/imgproxy/T3PB4s7oprNVaJkwqbGg54nexKE0zzKhcrPv8jcWYzU/rs:fill:200:200:1/g:no/aHR0cHM6Ly90ZXRoZXIudG8vaW1hZ2VzL2xvZ29DaXJjbGUucG5n.webp"),
     "TON" to listOf("TON", "Toncoin", "https://ton.org/download/ton_symbol.png"),
-    "NOT" to listOf("NOT", "probably NOT", "https://cache.tonapi.io/imgproxy/4KCMNm34jZLXt0rqeFm4rH-BK4FoK76EVX9r0cCIGDg/rs:fill:200:200:1/g:no/aHR0cHM6Ly9jZG4uam9pbmNvbW11bml0eS54eXovY2xpY2tlci9ub3RfbG9nby5wbmc.webp"),
-    "MY" to listOf("MY", "\$MY", "https://cache.tonapi.io/imgproxy/Qy038wCBKISofJ0hYMlj6COWma330cx3Ju1ZSPM2LRU/rs:fill:200:200:1/g:no/aHR0cHM6Ly9teXRvbndhbGxldC5pby9sb2dvLTI1Ni1ibHVlLnBuZw.webp"),
+    "NOT" to listOf("NOT", "Notcoin", "https://cache.tonapi.io/imgproxy/4KCMNm34jZLXt0rqeFm4rH-BK4FoK76EVX9r0cCIGDg/rs:fill:200:200:1/g:no/aHR0cHM6Ly9jZG4uam9pbmNvbW11bml0eS54eXovY2xpY2tlci9ub3RfbG9nby5wbmc.webp"),
+    "MY" to listOf("MY", "MyTonWallet Coin", "https://cache.tonapi.io/imgproxy/Qy038wCBKISofJ0hYMlj6COWma330cx3Ju1ZSPM2LRU/rs:fill:200:200:1/g:no/aHR0cHM6Ly9teXRvbndhbGxldC5pby9sb2dvLTI1Ni1ibHVlLnBuZw.webp"),
     )
 
 
@@ -41,6 +44,14 @@ val nftStore = mapOf("Rich Cats" to listOf(
     "Telegram Usernames" to listOf(
         listOf("@lame","https://nft.fragment.com/username/lame.webp"),
         listOf("@vamp","https://nft.fragment.com/username/vamp.webp")))
+
+
+// kwonn its cringe practice to set any dynamic data in static values, but its only demo =_=
+var sJettonsWallet = ArrayList<yJetton>()
+
+
+
+var sAddressContact = ArrayList<yAddress>()
 
 class WalletModel(application: Application) : AndroidViewModel(application) {
     val mHistoryAdapter = HistoryAdapter()
@@ -60,12 +71,12 @@ class WalletModel(application: Application) : AndroidViewModel(application) {
                 val fList = ArrayList<yEvent>()
                 val fPeriod = 500000
                 val fNow = round((System.currentTimeMillis() / 1000).toDouble()).toInt()
-                for (i in 0..15) {
+                for (i in 0..40) {
                     val j = Random.nextInt(someTokensName.size)
                     val qType = Random.nextInt(5)
+                    var qEvent: yEvent? = null
                     if (qType < 3)
-                        fList.add(
-                            yEvent(
+                        qEvent =  yEvent(
                                 yEvent.TRANS,
                                 Random.nextBoolean(),
                                 someAddress[Random.nextInt(someAddress.size)],
@@ -73,19 +84,18 @@ class WalletModel(application: Application) : AndroidViewModel(application) {
                                 value = Random.nextInt(50, 5000).toFloat(),
                                 symbol = someTokenssymb[j],
                                 walletName = if (Random.nextInt(3)>1) "some.t.me" else null,
-                                message = if (true) "\uD83E\uDD73 Happy Birthday! Thank you for being such an amazing friend. I cherish every moment we spend together \uD83E\uDDE1"
+                                message = if (Random.nextBoolean()) "\uD83E\uDD73 Happy Birthday! Thank you for being such an amazing friend. I cherish every moment we spend together \uD83E\uDDE1"
                                     else null,
-                                isEncrypt = true
+                                isEncrypt = Random.nextBoolean()
                             )
-                        )
+
                     else if (qType == 3){
                         var k = j
                         do {
                             k = Random.nextInt(someTokensName.size)
                         }while (k == j)
 
-                        fList.add(
-                            yEvent(
+                        qEvent = yEvent(
                                 yEvent.SWAP,
                                 false, // TODO dosent matter
                                 "", // TODO dosent matter
@@ -95,13 +105,12 @@ class WalletModel(application: Application) : AndroidViewModel(application) {
                                 symbolSwap = someTokenssymb[k],
                                 valueSwap = Random.nextInt(50, 5000).toFloat(),
                             )
-                        )
+
                     } else {
                         val fCol = someNFTColl[Random.nextInt(someNFTColl.size)]
                         val fItem = nftStore[fCol]!!.get(Random.nextInt(nftStore[fCol]!!.size))
 
-                        fList.add(
-                            yEvent(
+                        qEvent = yEvent(
                                 yEvent.NFT,
                                 Random.nextBoolean(),
                                 someAddress[Random.nextInt(someAddress.size)],
@@ -111,17 +120,35 @@ class WalletModel(application: Application) : AndroidViewModel(application) {
                                 nftName = fItem[0],
                                 nftImageLink = fItem[1]
                             )
-                        )
                     }
 
-
+                    if (qEvent.type in listOf(yEvent.NFT,yEvent.TRANS)){
+                        var qAddress: yAddress? = null
+                        if (!sAddressContact.any {
+                                    qCont: yAddress ->
+                                if((!qCont.name.isNullOrEmpty() && qCont.name == qEvent.walletName)
+                                    || qCont.address == qEvent.addressFrom)
+                                {
+                                    qAddress = qCont
+                                    true
+                                } else false
+                            }) {
+                            qAddress = yAddress(
+                                qEvent.addressFrom,
+                                qEvent.walletName,
+                                qEvent.imageAva,
+                                qEvent.dateTime
+                            )
+                            sAddressContact.add(qAddress!!)
+                        }
+                        qEvent.addressEntity = qAddress
+                    }
+                    fList.add(qEvent)
                 }
 
                 fList.sortBy { -it.dateTime }
-                val fDatedList = ArrayList<yHistoryEntity>()
-                var fToday = getApplication<Application>().resources.getString(R.string.wrd_today)
 
-                val fDayFormat = DateTimeFormatter.ofPattern("MMM dd", Locale.US)
+                var fToday = getApplication<Application>().resources.getString(R.string.wrd_today)
 
                 for (i in 0..<fList.size) {
 
@@ -135,7 +162,7 @@ class WalletModel(application: Application) : AndroidViewModel(application) {
                         if (LocalDateTime.now().dayOfYear != qDate.dayOfYear ||
                             LocalDateTime.now().year != qDate.year
                         ) {
-                            fToday = fDayFormat.format(qDate)
+                            fToday = mDayFormat.format(qDate)
                         }
                         viewModelScope.launch(Dispatchers.Main) {
                             mHistoryAdapter.addItem(yDateHistory(fToday))
@@ -154,7 +181,7 @@ class WalletModel(application: Application) : AndroidViewModel(application) {
                         qDate.year < qPrevDate.year
                     )
                         viewModelScope.launch(Dispatchers.Main) {
-                            mHistoryAdapter.addItem(yDateHistory(fDayFormat.format(qDate)))
+                            mHistoryAdapter.addItem(yDateHistory(mDayFormat.format(qDate)))
                         }
 //                        fDatedList.add(yDateHistory(fDayFormat.format(qDate)))
 //                    fDatedList.add(fList[i])
@@ -185,11 +212,7 @@ class WalletModel(application: Application) : AndroidViewModel(application) {
         launch(Dispatchers.IO) {
             val fList = ArrayList<yJetton>()
             val fFrom = ArrayList<String>()
-            val fImage = ArrayList<String>()
-            fImage.addAll(someImages)
-            fFrom.addAll(someTokensName)
-            val fSymb = ArrayList<String>()
-            fSymb.addAll(someTokenssymb)
+            fFrom.addAll(ASSETS.keys)
 
             var fTotalUsd = 0F
 
@@ -200,25 +223,28 @@ class WalletModel(application: Application) : AndroidViewModel(application) {
 
                 fTotalUsd += qValue * qUsdRate
 
+                val qAsset = ASSETS[fFrom[j]]!!
+                val qSymb = fFrom[j]
+
                 fList.add(
                     yJetton(
                         fFrom[j],
-                        fSymb[j],
+                        qSymb,
+                        qAsset[1],
                         qValue,
-                        if (fSymb[j] == "USD₮" || fFrom[j] == "Staked TON") 0F else Random.nextFloat() * 10 - 5F,
+                        if (qSymb == "USD₮" || qAsset[1] == "Staked TON") 0F else Random.nextFloat() * 10 - 5F,
                         qUsdRate,
-                        fImage[j],
+                        qAsset[2],
                         Random.nextBoolean(),
                         Random.nextInt(5, 20).toFloat()
                     )
                 )
-                fImage.removeAt(j)
                 fFrom.removeAt(j)
-                fSymb.removeAt(j)
             }
             viewModelScope.launch(Dispatchers.Main) {
                 setBalance(fTotalUsd)
                 mJettonAdapter.setData(fList)
+                sJettonsWallet = fList
             }
         }
 

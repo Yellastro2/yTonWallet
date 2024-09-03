@@ -2,6 +2,7 @@ package com.yellastro.mytonwallet.entitis
 
 class yJetton(val title: String,
               val symbol: String,
+              val name: String,
               val value: Float,
               val priceChange: Float = 0F,
               val usdPrice: Float,

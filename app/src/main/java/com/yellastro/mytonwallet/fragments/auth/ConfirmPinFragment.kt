@@ -1,4 +1,4 @@
-package com.yellastro.mytonwallet.fragments
+package com.yellastro.mytonwallet.fragments.auth
 
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
@@ -15,20 +15,11 @@ import androidx.core.animation.doOnEnd
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavController
-import androidx.navigation.NavDestination
 import androidx.navigation.fragment.findNavController
 import androidx.vectordrawable.graphics.drawable.ArgbEvaluator
 import com.yellastro.mytonwallet.R
 import com.yellastro.mytonwallet.viewmodels.NewPincodeModel
 import com.yellastro.mytonwallet.views.PinView
-
-
-/*
-im honestly try hard to reuse SetPinFragment.
-but navController.popbackstack sick me of after 3 hour of tortures
-
- */
 
 class ConfirmPinFragment : Fragment(R.layout.fragment_set_pin) {
 
@@ -129,7 +120,8 @@ class ConfirmPinFragment : Fragment(R.layout.fragment_set_pin) {
 
     fun setSize(fSize: Int){
         mvPinPlace.removeAllViews()
-        mvPinDots = PinView(requireContext(),
+        mvPinDots = PinView(
+            requireContext(),
             mvPinPlace,
             fSize,
             R.drawable.bkg_pin_empty_dark,
@@ -150,9 +142,9 @@ class ConfirmPinFragment : Fragment(R.layout.fragment_set_pin) {
     @SuppressLint("RestrictedApi")
     fun wrong(){
         mvInput.setText("")
-        val colorFrom = ContextCompat.getColor(requireContext(),R.color.red)
-        val colorTo = ContextCompat.getColor(requireContext(),R.color.black)
-        val colorAnimation = ValueAnimator.ofObject(ArgbEvaluator(),colorTo, colorFrom)
+        val colorFrom = ContextCompat.getColor(requireContext(), R.color.red)
+        val colorTo = ContextCompat.getColor(requireContext(), R.color.black)
+        val colorAnimation = ValueAnimator.ofObject(ArgbEvaluator(), colorTo, colorFrom)
         colorAnimation.setDuration(150) // milliseconds
         colorAnimation.addUpdateListener { animator ->
             mvTitle.setTextColor(animator.getAnimatedValue() as Int)
