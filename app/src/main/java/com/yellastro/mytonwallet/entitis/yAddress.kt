@@ -1,5 +1,7 @@
 package com.yellastro.mytonwallet.entitis
 
+import com.yellastro.mytonwallet.baseEmoji
+
 class yAddress(
     val address: String,
     val name: String? = null,

@@ -7,13 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import com.google.android.material.switchmaterial.SwitchMaterial
+import androidx.appcompat.widget.Toolbar
+import androidx.navigation.fragment.findNavController
 import com.yellastro.mytonwallet.R
-import com.yellastro.mytonwallet.adapters.floatToPrint
-import com.yellastro.mytonwallet.entitis.yAddress
-import com.yellastro.mytonwallet.entitis.yJetton
-import com.yellastro.mytonwallet.viewmodels.sAddressContact
-import com.yellastro.mytonwallet.viewmodels.sJettonsWallet
+import com.yellastro.mytonwallet.floatToPrint
+import com.yellastro.mytonwallet.sAddressContact
+import com.yellastro.mytonwallet.sJettonsWallet
 
 class TransSucsessFragment : Fragment() {
 
@@ -42,6 +41,11 @@ class TransSucsessFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val fvToolbar = view.findViewById<Toolbar>(R.id.fr_trans_success_toolbar)
+        fvToolbar.setOnMenuItemClickListener {
+            findNavController().navigate(R.id.action_transSucsessFragment_to_walletFragment)
+            return@setOnMenuItemClickListener true
+        }
 
         val fJettonEntity = sJettonsWallet.find { it.symbol == mJetton }!!
         val fContactEntity = sAddressContact.find { it.address == mAddress }!!
@@ -56,7 +60,9 @@ class TransSucsessFragment : Fragment() {
 
         val fDescBody = resources.getString(R.string.coins_been_send) + " ${fContactEntity.addressShort}"
         view.findViewById<TextView>(R.id.fr_trans_succs_desc).text = fDescBody
-        view.findViewById<View>(R.id.fr_trans_succs_btn)
+        view.findViewById<View>(R.id.fr_trans_succs_btn).setOnClickListener {
+            findNavController().navigate(R.id.action_transSucsessFragment_to_walletFragment)
+        }
     }
 
 }

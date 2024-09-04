@@ -8,16 +8,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.yellastro.mytonwallet.R
-import com.yellastro.mytonwallet.adapters.floatToPrint
-import com.yellastro.mytonwallet.adapters.setTransAvaToViews
+import com.yellastro.mytonwallet.floatToPrint
 import com.yellastro.mytonwallet.fragments.PincodeFragment
 import com.yellastro.mytonwallet.fragments.send.TransInputAdrFragment.Companion.JETTON
-import com.yellastro.mytonwallet.viewmodels.InputAdrModel
 import com.yellastro.mytonwallet.viewmodels.TransMessageModel
+import com.yellastro.mytonwallet.views.setTransAvaToViews
 
 class TransMessageFragment : Fragment() {
 
@@ -53,7 +53,17 @@ class TransMessageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mvSwitch = view.findViewById<SwitchMaterial>(R.id.fr_trans_msg_swich_encrypt)
+        val fvToolbar = view.findViewById<Toolbar>(R.id.fr_trans_message_toolbar)
+
+        fvToolbar.setOnMenuItemClickListener {
+            findNavController().popBackStack(R.id.walletFragment,true)
+            findNavController().navigate(R.id.walletFragment)
+            return@setOnMenuItemClickListener true
+        }
+        fvToolbar.setNavigationOnClickListener { requireActivity().onBackPressedDispatcher.onBackPressed() }
+        fvToolbar.title = resources.getString(R.string.wrd_send) + " ${viewModel.mJetton}"
+
+        mvSwitch = view.findViewById(R.id.fr_trans_msg_swich_encrypt)
 
 
         mvSwitch.setOnCheckedChangeListener { compoundButton, b ->

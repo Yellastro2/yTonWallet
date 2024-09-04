@@ -11,59 +11,24 @@ import android.widget.TextView
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.yellastro.mytonwallet.ASSETS
 import com.yellastro.mytonwallet.R
-import com.yellastro.mytonwallet.entitis.yAddress
 import com.yellastro.mytonwallet.entitis.yEvent
+import com.yellastro.mytonwallet.floatToPrint
 import com.yellastro.mytonwallet.fragments.EventInfoFragment
-import com.yellastro.mytonwallet.viewmodels.ASSETS
-import kotlin.random.Random
-
-
-interface yHistoryEntity{
-}
-
-class yDateHistory(val date: String) : yHistoryEntity
-
-val TYPE_DATE = 1
-val TYPE_EVENT = 2
-
-val usdRates = mapOf<String,Float>("TON" to 8F,"NOT" to 0.01F, "MY" to 0.06F)
-
-val gradientStore = mapOf("#E0A2F3" to "#D669ED","#FF885E" to "#FF516A", "#98D163" to "#48BA44",
-    "#B493F8" to "#6E62E0", "#5ACAE3" to "#369BD4", "#FE89AB" to "#DA5675", "#FEBA5A" to "#F68237",
-    "#5BAEF9" to "#418BD0")
-
-fun setTransAva(fAdr: yAddress, viewHolder: EntityHolder) {
-    viewHolder.mvIconSingleLay.visibility = View.VISIBLE
-    viewHolder.mvIconSwapLay.visibility = View.GONE
-    setTransAvaToViews(fAdr, viewHolder.mvIcon, viewHolder.mvIconSymbol)
-}
-fun setTransAvaToViews(fAddress: yAddress,fvIcon: ImageView,fvSymbol: TextView){
-    if (fAddress.image.isNullOrEmpty()){
-        val fGrad = gradientStore.toList()[Random.nextInt(gradientStore.size)]
-        val gd = GradientDrawable(
-            GradientDrawable.Orientation.TOP_BOTTOM,
-            intArrayOf(Color.parseColor(fGrad.first),
-                Color.parseColor(fGrad.second))
-        )
-        gd.cornerRadius = 0f
-        fvIcon.setImageDrawable(gd)
-
-        fvSymbol.visibility = View.VISIBLE
-        fvSymbol.text = fAddress.letter
-
-    }else{
-        fvSymbol.visibility = View.GONE
-        fvIcon.load(fAddress.image){
-            crossfade(true)
-            placeholder(R.drawable.img_jet_holder)
-        }
-    }
-}
-
+import com.yellastro.mytonwallet.usdRates
+import com.yellastro.mytonwallet.views.setTransAva
 
 class HistoryAdapter() :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    interface yHistoryEntity{
+    }
+
+    class yDateHistory(val date: String) : yHistoryEntity
+
+    val TYPE_DATE = 1
+    val TYPE_EVENT = 2
 
     class DateHolder (view: View) : RecyclerView.ViewHolder(view) {
         val mvTitle: TextView
@@ -115,8 +80,6 @@ class HistoryAdapter() :
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(aviewHolder: RecyclerView.ViewHolder, position: Int) {
         if (dataSet[position] is yEvent) {
-
-
 
             val viewHolder = aviewHolder as EntityHolder
             val fEntity = dataSet[position] as yEvent

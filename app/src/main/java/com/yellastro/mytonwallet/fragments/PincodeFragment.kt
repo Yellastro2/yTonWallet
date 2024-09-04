@@ -20,7 +20,7 @@ import androidx.navigation.fragment.findNavController
 import com.yellastro.mytonwallet.PIN
 import com.yellastro.mytonwallet.PREF_KEY
 import com.yellastro.mytonwallet.R
-import com.yellastro.mytonwallet.adapters.floatToPrint
+import com.yellastro.mytonwallet.floatToPrint
 import com.yellastro.mytonwallet.fragments.send.TransInputAdrFragment
 import com.yellastro.mytonwallet.fragments.send.TransInputValueFragment
 import com.yellastro.mytonwallet.fragments.send.TransMessageFragment
@@ -130,6 +130,13 @@ class PincodeFragment : Fragment() {
 
             val fvToolbar = view.findViewById<Toolbar>(R.id.fr_pincode_toolbar)
             fvToolbar.visibility = View.VISIBLE
+            fvToolbar.setTitle(R.string.title_confirm)
+            fvToolbar.setOnMenuItemClickListener {
+                findNavController().popBackStack(R.id.walletFragment,true)
+                findNavController().navigate(R.id.walletFragment)
+                return@setOnMenuItemClickListener true
+            }
+            fvToolbar.setNavigationOnClickListener { requireActivity().onBackPressedDispatcher.onBackPressed() }
 
             view.findViewById<View>(R.id.fr_pincode_image_lock).visibility
 
@@ -175,11 +182,14 @@ class PincodeFragment : Fragment() {
 
     fun correct(){
         if (mType == CONFIRM_TRANS){
-            navController.popBackStack(R.id.walletFragment, true)
-            navController.navigate(R.id.transSucsessFragment,arguments)
+//            navController.popBackStack(R.id.walletFragment, true)
+//            navController.navigate(R.id.transSucsessFragment,arguments)
+
+            navController.navigate(R.id.action_pincodeFragment2_to_transSucsessFragment,arguments)
         }else {
-            navController.popBackStack(R.id.pincodeFragment, true)
-            navController.navigate(R.id.walletFragment)
+//            navController.popBackStack(R.id.pincodeFragment, true)
+//            navController.navigate(R.id.walletFragment)
+            navController.navigate(R.id.action_pincodeFragment_to_walletFragment)
         }
     }
 

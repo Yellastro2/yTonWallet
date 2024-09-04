@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.yellastro.mytonwallet.R
 import com.yellastro.mytonwallet.entitis.yJetton
+import com.yellastro.mytonwallet.floatToPrint
 import com.yellastro.mytonwallet.fragments.auth.ConfirmPinFragment
 import com.yellastro.mytonwallet.fragments.EventInfoFragment
 import com.yellastro.mytonwallet.fragments.send.TransInputAdrFragment

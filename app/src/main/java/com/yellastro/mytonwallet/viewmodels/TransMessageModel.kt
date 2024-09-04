@@ -2,6 +2,7 @@ package com.yellastro.mytonwallet.viewmodels
 
 import androidx.lifecycle.ViewModel
 import com.yellastro.mytonwallet.entitis.yAddress
+import com.yellastro.mytonwallet.sAddressContact
 
 class TransMessageModel: ViewModel() {
     var mAddress: String = ""

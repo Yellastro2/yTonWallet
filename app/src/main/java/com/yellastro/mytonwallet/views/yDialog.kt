@@ -1,4 +1,4 @@
-package com.yellastro.mytonwallet
+package com.yellastro.mytonwallet.views
 
 import android.app.Dialog
 import android.content.Context
@@ -7,9 +7,9 @@ import android.view.View
 import android.view.Window
 import android.widget.Button
 import android.widget.TextView
+import com.yellastro.mytonwallet.R
 
 class yDialog(ctx: Context): Dialog(ctx) {
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

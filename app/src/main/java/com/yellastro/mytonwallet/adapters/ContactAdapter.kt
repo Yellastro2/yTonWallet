@@ -1,16 +1,15 @@
 package com.yellastro.mytonwallet.adapters
 
 import android.annotation.SuppressLint
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import com.yellastro.mytonwallet.R
 import com.yellastro.mytonwallet.entitis.yAddress
-import com.yellastro.mytonwallet.viewmodels.mDayFormat
+import com.yellastro.mytonwallet.mDayFormat
+import com.yellastro.mytonwallet.views.setTransAva
+import com.yellastro.mytonwallet.views.setTransAvaToViews
 import java.time.Instant
 import java.time.LocalDateTime
 import java.util.TimeZone

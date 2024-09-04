@@ -14,7 +14,7 @@ import com.yellastro.mytonwallet.MNEMO
 import com.yellastro.mytonwallet.PREF_KEY
 import com.yellastro.mytonwallet.R
 import com.yellastro.mytonwallet.views.InputMnemoView
-import com.yellastro.mytonwallet.yDialog
+import com.yellastro.mytonwallet.views.yDialog
 import kotlin.random.Random
 
 class InputMnemoFragment : Fragment() {

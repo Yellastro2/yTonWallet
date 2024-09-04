@@ -16,10 +16,10 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import coil.load
 import com.yellastro.mytonwallet.R
-import com.yellastro.mytonwallet.adapters.floatToPrint
+import com.yellastro.mytonwallet.floatToPrint
 import com.yellastro.mytonwallet.fragments.send.TransMessageFragment.Companion.AMOUNT_VALUE
+import com.yellastro.mytonwallet.sJettonsWallet
 import com.yellastro.mytonwallet.viewmodels.InputValueModel
-import com.yellastro.mytonwallet.viewmodels.sJettonsWallet
 import com.yellastro.mytonwallet.views.ButtonStuff.Companion.setButtonActivate
 import kotlin.math.round
 import kotlin.random.Random
@@ -71,10 +71,13 @@ class TransInputValueFragment : Fragment() {
         mUsdRate = viewModel.mJetton!!.usdPrice.toDouble()
 
         val fvToolbar = view.findViewById<Toolbar>(R.id.fr_trans_inpval_toolbar)
+
         fvToolbar.setOnMenuItemClickListener {
-            requireActivity().onBackPressedDispatcher.onBackPressed()
+            findNavController().popBackStack(R.id.walletFragment,true)
+            findNavController().navigate(R.id.walletFragment)
             return@setOnMenuItemClickListener true
         }
+        fvToolbar.setNavigationOnClickListener { requireActivity().onBackPressedDispatcher.onBackPressed() }
         fvToolbar.title = resources.getString(R.string.wrd_send) + " ${mJetton}"
 
         mvSymbolText = view.findViewById<TextView>(R.id.fr_trans_inpval_symbol)

@@ -1,8 +1,6 @@
 package com.yellastro.mytonwallet.fragments
 
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.view.Gravity
@@ -10,22 +8,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import coil.load
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.yellastro.mytonwallet.ASSETS
 import com.yellastro.mytonwallet.R
-import com.yellastro.mytonwallet.adapters.floatToPrint
-import com.yellastro.mytonwallet.adapters.setTransAvaToViews
-import com.yellastro.mytonwallet.adapters.usdRates
 import com.yellastro.mytonwallet.entitis.yEvent
-import com.yellastro.mytonwallet.viewmodels.ASSETS
+import com.yellastro.mytonwallet.floatToPrint
+import com.yellastro.mytonwallet.usdRates
+import com.yellastro.mytonwallet.views.setTransAvaToViews
 import kotlin.math.pow
 
 

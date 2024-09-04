@@ -1,16 +1,15 @@
 package com.yellastro.mytonwallet.entitis
 
-import com.yellastro.mytonwallet.adapters.yHistoryEntity
+import com.yellastro.mytonwallet.adapters.HistoryAdapter
+import com.yellastro.mytonwallet.fullFormater
+import com.yellastro.mytonwallet.hourFormater
 import java.time.Instant
 import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.TimeZone
 
-val hourFormater = DateTimeFormatter.ofPattern("HH:mm")
-val fullFormater = DateTimeFormatter.ofPattern("dd MMM, HH:mm")
 
-val baseEmoji = "\udbc3\udf9f"
-val asdsf = Character.toChars(0xdbc3)
+
+
 
 class yEvent(
     val type: String,
@@ -28,7 +27,7 @@ class yEvent(
     val message: String? = null,
     val isEncrypt: Boolean = false,
     var addressEntity: yAddress? = null
-) : yHistoryEntity {
+) : HistoryAdapter.yHistoryEntity {
 
     val time: String
         get() {

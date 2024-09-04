@@ -44,6 +44,15 @@ class TransInputAdrFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val fvToolbar = view.findViewById<Toolbar>(R.id.fr_trans_inpadr_toolbar)
+        fvToolbar.setOnMenuItemClickListener {
+            findNavController().popBackStack(R.id.walletFragment,true)
+            findNavController().navigate(R.id.walletFragment)
+            return@setOnMenuItemClickListener true
+        }
+        fvToolbar.setNavigationOnClickListener { requireActivity().onBackPressedDispatcher.onBackPressed() }
+        fvToolbar.title = resources.getString(R.string.wrd_send) + " ${mJetton}"
+
         val fvInput = view.findViewById<EditText>(R.id.fr_trans_inputadr_input)
 
         fvInput.addTextChangedListener(object : TextWatcher {
@@ -63,12 +72,7 @@ class TransInputAdrFragment : Fragment() {
         if (viewModel.mJettonAdapter.dataSet.isEmpty())
             view.findViewById<View>(R.id.fr_trans_inputadr_recent_title).visibility = View.GONE
 
-        val fvToolbar = view.findViewById<Toolbar>(R.id.fr_trans_inpadr_toolbar)
-        fvToolbar.setOnMenuItemClickListener {
-            requireActivity().onBackPressedDispatcher.onBackPressed()
-            return@setOnMenuItemClickListener true
-        }
-        fvToolbar.title = resources.getString(R.string.wrd_send) + " ${mJetton}"
+
 
         mvButtonContin = view.findViewById<Button>(R.id.fr_trans_inputadr_btn)
         mvButtonContin.setOnClickListener {
