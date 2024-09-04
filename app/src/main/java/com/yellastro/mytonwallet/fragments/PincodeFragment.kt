@@ -163,6 +163,8 @@ class PincodeFragment : Fragment() {
             window.decorView
                 .setSystemUiVisibility(0)
         }
+        viewModel.mPincode = ""
+        mvPinDots.setDots(viewModel.mPincode.length)
     }
 
     override fun onPause() {
@@ -180,7 +182,11 @@ class PincodeFragment : Fragment() {
         }
     }
 
+    var isAlreadyNavigate = false
+
     fun correct(){
+        if (isAlreadyNavigate) return
+        isAlreadyNavigate = true
         if (mType == CONFIRM_TRANS){
 //            navController.popBackStack(R.id.walletFragment, true)
 //            navController.navigate(R.id.transSucsessFragment,arguments)

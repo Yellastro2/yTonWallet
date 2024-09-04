@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
@@ -21,6 +22,7 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.navigation.NavigationBarView
 import com.yellastro.mytonwallet.PREF_KEY
 import com.yellastro.mytonwallet.R
+import com.yellastro.mytonwallet.sJettonsWallet
 import com.yellastro.mytonwallet.viewmodels.WalletModel
 import com.yellastro.mytonwallet.views.yDecorator
 import kotlinx.coroutines.Dispatchers
@@ -42,9 +44,9 @@ class WalletFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel.viewModelScope.launch(Dispatchers.IO) {
-            loadAll()
-        }
+//        viewModel.viewModelScope.launch(Dispatchers.IO) {
+//            loadAll()
+//        }
     }
 
     override fun onCreateView(
@@ -74,7 +76,6 @@ class WalletFragment : Fragment() {
         view.findViewById<NavigationBarView>(R.id.bottom_navigation).setOnItemSelectedListener { item ->
             when(item.itemId) {
                 R.id.item_1 -> {
-                    // Respond to navigation item 1 click
                     viewModel.viewModelScope.launch(Dispatchers.IO) {
                         viewModel.loadHistory()
                     }
@@ -82,20 +83,13 @@ class WalletFragment : Fragment() {
                     true
                 }
                 R.id.item_2 -> {
-                    // Respond to navigation item 2 click
-                    viewModel.loadJettons({fValue -> setBalance(fValue)})
+                    viewModel.loadJettons()
                     true
                 }
                 R.id.item_3 -> {
-                    // Respond to navigation item 2 click
                     true
                 }
                 R.id.item_4 -> {
-                    requireActivity()
-                        .getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE)
-                        .edit().clear().apply()
-                    navController.popBackStack(R.id.walletFragment,true)
-                    navController.navigate(R.id.welcomeFrag)
                     true
                 }
                 else -> false
@@ -148,16 +142,33 @@ class WalletFragment : Fragment() {
 //        val navController = findNavController()
 //        navController.navigate(R.id.action_walletFragment_to_eventInfoFragment)
 
+        setBalance()
+        
+        Toast.makeText(requireContext(), "Swipe down - refresh - to generate new data",
+            Toast.LENGTH_LONG).show()
+
+    }
+
+    override fun onResume() {
+        super.onResume()
     }
 
     fun loadAll(){
-        viewModel.loadJettons({fValue -> setBalance(fValue)})
+
         viewModel.loadHistory()
+        viewModel.viewModelScope.launch(Dispatchers.Main) {
+            viewModel.loadJettons()
+            setBalance()
+        }
     }
 
 
 
-    fun setBalance(fBalance: Float){
+    fun setBalance(){
+        var fBalance = 0.0
+
+        for (qJet in sJettonsWallet) { fBalance += qJet.valueUsd }
+
         val fInt = (fBalance).toInt()
         val fValueStr = "%,d".format(fInt).replace(',',' ')
 

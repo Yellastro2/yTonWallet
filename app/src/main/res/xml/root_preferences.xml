@@ -3,20 +3,18 @@
 
     <PreferenceCategory app:title="@string/sync_header">
 
-        <SwitchPreferenceCompat
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:dependency="sync"
-            app:key="attachment"
-            app:summaryOff="@string/attachment_summary_off"
-            app:summaryOn="@string/attachment_summary_on"
-            app:title="exit wallet" />
-        <SwitchPreferenceCompat
-            app:key="sync"
-            app:title="clear wallet" />
+        <Preference
+            app:key="exit"
+            app:title="Exit wallet"
+            app:summary="Exit to Wellcome Screen and clear pin\mnemo data"
+            />
+        <Preference
+            app:key="clear"
+            app:summaryOff="enable check of mnemo phrase inputs"
+            app:summary="Clear all jetton balances and history"
+            app:title="Clear wallet"/>
 
         <SwitchPreferenceCompat
-            app:dependency="sync"
             app:key="attachment"
             app:summaryOff="enable check of mnemo phrase inputs"
             app:summaryOn="enable check of mnemo phrase inputs"

@@ -1,12 +1,19 @@
 package com.yellastro.mytonwallet
 
+import com.yellastro.mytonwallet.adapters.HistoryAdapter
 import com.yellastro.mytonwallet.entitis.yAddress
+import com.yellastro.mytonwallet.entitis.yEvent
 import com.yellastro.mytonwallet.entitis.yJetton
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 
 val usdRates = mapOf<String,Float>("TON" to 8F,"NOT" to 0.01F, "MY" to 0.06F)
+
+val someAddress = listOf("EQARbK3z2a2cYE1gXVNKk3O5OgpaxfoyD1VfQ7aNtpd2qcYV",
+    "EQCuy17OHOlMVRz0VGGwwBa1_pQfFlWhk6SaiK1egCiF5Cwp",
+    "EQAWH3Rqwh5jYEPvQplUbWyyWakENSVkCmhdjCntvDdMs_yx",
+    "EQA6FPupjsjSsTIWrP_j8l0kbVCfl-bAYWhfkBDdyFdWPaC0")
 
 
 
@@ -33,6 +40,7 @@ val nftStore = mapOf("Rich Cats" to listOf(
 
 // kwonn its cringe practice to set any dynamic data in static values, but its only demo =_=
 var sJettonsWallet = ArrayList<yJetton>()
+var sHistoryData = ArrayList<yEvent>()
 
 
 

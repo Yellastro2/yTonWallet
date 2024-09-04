@@ -16,7 +16,9 @@ import com.yellastro.mytonwallet.entitis.yJetton
 import com.yellastro.mytonwallet.mDayFormat
 import com.yellastro.mytonwallet.nftStore
 import com.yellastro.mytonwallet.sAddressContact
+import com.yellastro.mytonwallet.sHistoryData
 import com.yellastro.mytonwallet.sJettonsWallet
+import com.yellastro.mytonwallet.someAddress
 import com.yellastro.mytonwallet.someNFTColl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -33,13 +35,74 @@ import kotlin.random.Random
 
 
 class WalletModel(application: Application) : AndroidViewModel(application) {
-    val mHistoryAdapter = HistoryAdapter()
+    var mHistoryAdapter = HistoryAdapter()
     var mJettonAdapter = JettonAdapter()
 
-    val someAddress = listOf("EQARbK3z2a2cYE1gXVNKk3O5OgpaxfoyD1VfQ7aNtpd2qcYV",
-        "EQCuy17OHOlMVRz0VGGwwBa1_pQfFlWhk6SaiK1egCiF5Cwp",
-        "EQAWH3Rqwh5jYEPvQplUbWyyWakENSVkCmhdjCntvDdMs_yx",
-        "EQA6FPupjsjSsTIWrP_j8l0kbVCfl-bAYWhfkBDdyFdWPaC0")
+
+
+    init {
+        mJettonAdapter.setData(sJettonsWallet)
+        setHistoryToList(sHistoryData)
+    }
+
+    fun clearWallet(){
+        sHistoryData = ArrayList()
+        sJettonsWallet = ArrayList()
+        mHistoryAdapter.setData(ArrayList())
+
+        mJettonAdapter.setData(ArrayList())
+    }
+
+    fun setHistoryToList(fEvents: ArrayList<yEvent>){
+        fEvents.sortBy { -it.dateTime }
+
+        sHistoryData = fEvents
+
+        var fToday = getApplication<Application>().resources.getString(R.string.wrd_today)
+
+
+
+        for (i in 0..<fEvents.size) {
+
+            val qDate = LocalDateTime.ofInstant(
+                Instant.ofEpochMilli(fEvents[i].dateTime * 1000L),
+                TimeZone.getDefault().toZoneId()
+            )
+//            val qDate = Date(fEvents[i].dateTime * 1000L)
+            if (i == 0) {
+                LocalDateTime.now()
+                if (LocalDateTime.now().dayOfYear != qDate.dayOfYear ||
+                    LocalDateTime.now().year != qDate.year
+                ) {
+                    fToday = mDayFormat.format(qDate)
+                }
+                viewModelScope.launch(Dispatchers.Main) {
+                    mHistoryAdapter.addItem(HistoryAdapter.yDateHistory(fToday))
+                    mHistoryAdapter.addItem(fEvents[i])
+                }
+                continue
+            }
+            val qPrevDate = LocalDateTime.ofInstant(
+                Instant.ofEpochMilli(fEvents[i - 1].dateTime * 1000L),
+                TimeZone.getDefault().toZoneId()
+            )
+
+            viewModelScope.launch(Dispatchers.Main) {
+                if (qDate.dayOfYear < qPrevDate.dayOfYear ||
+                    qDate.year < qPrevDate.year
+                )
+                    mHistoryAdapter.addItem(
+                        HistoryAdapter.yDateHistory(
+                            mDayFormat.format(
+                                qDate
+                            )
+                        )
+                    )
+
+                mHistoryAdapter.addItem(fEvents[i])
+            }
+        }
+    }
 
     fun loadHistory() {
         val fStart = System.currentTimeMillis()
@@ -127,52 +190,8 @@ class WalletModel(application: Application) : AndroidViewModel(application) {
             fList.add(qEvent)
         }
 
-        fList.sortBy { -it.dateTime }
+        setHistoryToList(fList)
 
-        var fToday = getApplication<Application>().resources.getString(R.string.wrd_today)
-
-
-
-        for (i in 0..<fList.size) {
-
-            val qDate = LocalDateTime.ofInstant(
-                Instant.ofEpochMilli(fList[i].dateTime * 1000L),
-                TimeZone.getDefault().toZoneId()
-            )
-//            val qDate = Date(fList[i].dateTime * 1000L)
-            if (i == 0) {
-                LocalDateTime.now()
-                if (LocalDateTime.now().dayOfYear != qDate.dayOfYear ||
-                    LocalDateTime.now().year != qDate.year
-                ) {
-                    fToday = mDayFormat.format(qDate)
-                }
-                viewModelScope.launch(Dispatchers.Main) {
-                    mHistoryAdapter.addItem(HistoryAdapter.yDateHistory(fToday))
-                    mHistoryAdapter.addItem(fList[i])
-                }
-                continue
-            }
-            val qPrevDate = LocalDateTime.ofInstant(
-                Instant.ofEpochMilli(fList[i - 1].dateTime * 1000L),
-                TimeZone.getDefault().toZoneId()
-            )
-
-            viewModelScope.launch(Dispatchers.Main) {
-                if (qDate.dayOfYear < qPrevDate.dayOfYear ||
-                    qDate.year < qPrevDate.year
-                )
-                        mHistoryAdapter.addItem(
-                            HistoryAdapter.yDateHistory(
-                                mDayFormat.format(
-                                    qDate
-                                )
-                            )
-                        )
-
-                    mHistoryAdapter.addItem(fList[i])
-            }
-        }
         Log.i("speed","WalletModel.loadHistory total ms: ${System.currentTimeMillis() - fStart}")
     }
 
@@ -187,21 +206,17 @@ class WalletModel(application: Application) : AndroidViewModel(application) {
         "https://cache.tonapi.io/imgproxy/4KCMNm34jZLXt0rqeFm4rH-BK4FoK76EVX9r0cCIGDg/rs:fill:200:200:1/g:no/aHR0cHM6Ly9jZG4uam9pbmNvbW11bml0eS54eXovY2xpY2tlci9ub3RfbG9nby5wbmc.webp",
         "https://cache.tonapi.io/imgproxy/Qy038wCBKISofJ0hYMlj6COWma330cx3Ju1ZSPM2LRU/rs:fill:200:200:1/g:no/aHR0cHM6Ly9teXRvbndhbGxldC5pby9sb2dvLTI1Ni1ibHVlLnBuZw.webp")
 
-    fun loadJettons(setBalance: (Float)->Unit) {
-        viewModelScope.
-        launch(Dispatchers.IO) {
+    fun loadJettons() {
             val fList = ArrayList<yJetton>()
             val fFrom = ArrayList<String>()
             fFrom.addAll(ASSETS.keys)
-
-            var fTotalUsd = 0.0
 
             for (i in 0..<Random.nextInt(2,someTokensName.size)) {
                 val j = Random.nextInt(fFrom.size)
                 val qValue = Random.nextInt(50, 5000).toDouble()
                 val qUsdRate = Random.nextDouble() * 100
 
-                fTotalUsd += qValue * qUsdRate
+
 
                 val qAsset = ASSETS[fFrom[j]]!!
                 val qSymb = qAsset[0]
@@ -221,12 +236,10 @@ class WalletModel(application: Application) : AndroidViewModel(application) {
                 )
                 fFrom.removeAt(j)
             }
-            viewModelScope.launch(Dispatchers.Main) {
-                setBalance(fTotalUsd.toFloat())
                 mJettonAdapter.setData(fList)
                 sJettonsWallet = fList
-            }
-        }
+
+
 
     }
 }
