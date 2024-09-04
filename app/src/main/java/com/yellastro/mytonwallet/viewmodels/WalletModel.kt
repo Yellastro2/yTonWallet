@@ -24,6 +24,7 @@ import kotlin.math.round
 import kotlin.random.Random
 
 
+val HISTORY_SIZE = 15
 
 val mDayFormat = DateTimeFormatter.ofPattern("MMM dd", Locale.US)
 
@@ -71,7 +72,7 @@ class WalletModel(application: Application) : AndroidViewModel(application) {
                 val fList = ArrayList<yEvent>()
                 val fPeriod = 500000
                 val fNow = round((System.currentTimeMillis() / 1000).toDouble()).toInt()
-                for (i in 0..40) {
+                for (i in 0..HISTORY_SIZE) {
                     val j = Random.nextInt(someTokensName.size)
                     val qType = Random.nextInt(5)
                     var qEvent: yEvent? = null
