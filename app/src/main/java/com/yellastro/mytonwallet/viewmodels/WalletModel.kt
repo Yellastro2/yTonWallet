@@ -81,7 +81,7 @@ class WalletModel(application: Application) : AndroidViewModel(application) {
                                 Random.nextBoolean(),
                                 someAddress[Random.nextInt(someAddress.size)],
                                 dateTime = fNow - Random.nextInt(fPeriod),
-                                value = Random.nextInt(50, 5000).toFloat(),
+                                value = Random.nextInt(50, 5000).toDouble(),
                                 symbol = someTokenssymb[j],
                                 walletName = if (Random.nextInt(3)>1) "some.t.me" else null,
                                 message = if (Random.nextBoolean()) "\uD83E\uDD73 Happy Birthday! Thank you for being such an amazing friend. I cherish every moment we spend together \uD83E\uDDE1"
@@ -100,10 +100,10 @@ class WalletModel(application: Application) : AndroidViewModel(application) {
                                 false, // TODO dosent matter
                                 "", // TODO dosent matter
                                 dateTime = fNow - Random.nextInt(fPeriod),
-                                value = Random.nextInt(50, 5000).toFloat(),
+                                value = Random.nextInt(50, 5000).toDouble(),
                                 symbol = someTokenssymb[j],
                                 symbolSwap = someTokenssymb[k],
-                                valueSwap = Random.nextInt(50, 5000).toFloat(),
+                                valueSwap = Random.nextInt(50, 5000).toDouble(),
                             )
 
                     } else {
@@ -115,7 +115,7 @@ class WalletModel(application: Application) : AndroidViewModel(application) {
                                 Random.nextBoolean(),
                                 someAddress[Random.nextInt(someAddress.size)],
                                 dateTime = fNow - Random.nextInt(fPeriod),
-                                value = Random.nextInt(50, 5000).toFloat(),
+                                value = Random.nextInt(50, 5000).toDouble(),
                                 symbol = fCol,
                                 nftName = fItem[0],
                                 nftImageLink = fItem[1]
@@ -214,17 +214,17 @@ class WalletModel(application: Application) : AndroidViewModel(application) {
             val fFrom = ArrayList<String>()
             fFrom.addAll(ASSETS.keys)
 
-            var fTotalUsd = 0F
+            var fTotalUsd = 0.0
 
             for (i in 0..<Random.nextInt(2,someTokensName.size)) {
                 val j = Random.nextInt(fFrom.size)
-                val qValue = Random.nextInt(50, 5000).toFloat()
-                val qUsdRate = Random.nextFloat() * 100
+                val qValue = Random.nextInt(50, 5000).toDouble()
+                val qUsdRate = Random.nextDouble() * 100
 
                 fTotalUsd += qValue * qUsdRate
 
                 val qAsset = ASSETS[fFrom[j]]!!
-                val qSymb = fFrom[j]
+                val qSymb = qAsset[0]
 
                 fList.add(
                     yJetton(
@@ -233,7 +233,7 @@ class WalletModel(application: Application) : AndroidViewModel(application) {
                         qAsset[1],
                         qValue,
                         if (qSymb == "USD₮" || qAsset[1] == "Staked TON") 0F else Random.nextFloat() * 10 - 5F,
-                        qUsdRate,
+                        qUsdRate.toFloat(),
                         qAsset[2],
                         Random.nextBoolean(),
                         Random.nextInt(5, 20).toFloat()
@@ -242,7 +242,7 @@ class WalletModel(application: Application) : AndroidViewModel(application) {
                 fFrom.removeAt(j)
             }
             viewModelScope.launch(Dispatchers.Main) {
-                setBalance(fTotalUsd)
+                setBalance(fTotalUsd.toFloat())
                 mJettonAdapter.setData(fList)
                 sJettonsWallet = fList
             }

@@ -18,11 +18,11 @@ class yEvent(
     val addressFrom: String,
     val walletName: String? = null,
     val dateTime: Int,
-    val value: Float,
+    val value: Double,
     val symbol: String, // or NFT collection
     val imageAva: String? = null,
     val symbolSwap: String? = null,
-    val valueSwap: Float? = null,
+    val valueSwap: Double? = null,
     val nftName: String? = null,
     val nftImageLink: String? = null,
     val message: String? = null,

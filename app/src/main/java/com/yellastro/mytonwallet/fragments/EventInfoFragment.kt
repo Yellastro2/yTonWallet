@@ -107,7 +107,7 @@ class EventInfoFragment : BottomSheetDialogFragment() { //BottomSheetDialogFragm
                 startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(fEvent.transLink)))
             }
             val fFee = fEvent.fee / (10.0.pow(9))
-            it.findViewById<TextView>(R.id.fr_event_text_fee).text = floatToPrint(fFee.toFloat())
+            it.findViewById<TextView>(R.id.fr_event_text_fee).text = floatToPrint(fFee)
 
 
             if (fEvent.type == yEvent.TRANS){

@@ -39,13 +39,7 @@ class ContactAdapter :
         val resources = viewHolder.mvValue.resources
 
         viewHolder.itemView.setOnClickListener {
-//            mFragment?.let {
-//                val fArgs = Bundle()
-//                fArgs.putString(TransInputAdrFragment.JETTON,dataSet[position].symbol)
-//                NavHostFragment.findNavController(it)
-//                    .navigate(
-//                        R.id.action_transChoseCurFragment_to_transInputAdrFragment,
-//                        fArgs)}
+            mOnItemClick(dataSet[position].address)
         }
 
         viewHolder.mvStakIcon.visibility = View.GONE
@@ -70,9 +64,9 @@ class ContactAdapter :
 
     override fun getItemCount() = dataSet.size
 
-    var mFragment: Fragment? = null
-    fun setFragManager(onClick: Fragment): ContactAdapter {
-        mFragment = onClick
+    var mOnItemClick: (String) -> Unit = { some -> }
+    fun setOnItemClick(onClick: (String) -> Unit): ContactAdapter {
+        mOnItemClick = onClick
         return this
     }
 }

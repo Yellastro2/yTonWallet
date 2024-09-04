@@ -174,5 +174,14 @@
         android:id="@+id/transInputValueFragment"
         android:name="com.yellastro.mytonwallet.fragments.send.TransInputValueFragment"
         android:label="fragment_trans_input_value"
-        tools:layout="@layout/fragment_trans_input_value" />
+        tools:layout="@layout/fragment_trans_input_value" >
+        <action
+            android:id="@+id/action_transInputValueFragment_to_transMessageFragment"
+            app:destination="@id/transMessageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/transMessageFragment"
+        android:name="com.yellastro.mytonwallet.fragments.send.TransMessageFragment"
+        android:label="fragment_trans_message"
+        tools:layout="@layout/fragment_trans_message" />
 </navigation>

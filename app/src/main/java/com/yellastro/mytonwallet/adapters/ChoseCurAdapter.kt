@@ -57,7 +57,8 @@ class ChoseCurAdapter:
 
 
         viewHolder.mvTitle.text = dataSet[position].name
-        viewHolder.mvDesc1.text = "$" + floatToPrint(dataSet[position].valueUsd)
+        viewHolder.mvDesc1.text =
+            floatToPrint(dataSet[position].value.toDouble()," ") + " " + dataSet[position].symbol
         viewHolder.mvIcon.load(dataSet[position].image) {
             crossfade(true)
             placeholder(R.drawable.img_jet_holder)

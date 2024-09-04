@@ -68,7 +68,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 android:visibility="visible"
-                tools:srcCompat="@drawable/img_jet_holder" />
+                android:src="@drawable/img_jet_holder" />
 
             <ImageView
                 android:visibility="visible"

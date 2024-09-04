@@ -3,7 +3,7 @@ package com.yellastro.mytonwallet.entitis
 class yJetton(val title: String,
               val symbol: String,
               val name: String,
-              val value: Float,
+              val value: Double,
               val priceChange: Float = 0F,
               val usdPrice: Float,
               val image: String,
@@ -11,7 +11,7 @@ class yJetton(val title: String,
               val APY: Float = 0F,
               ) {
 
-    val valueUsd: Float
+    val valueUsd: Double
     init {
         valueUsd = value * usdPrice
     }

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragments.send.TransMessageFragment">
+
+
+    <androidx.appcompat.widget.Toolbar
+        app:layout_constraintTop_toTopOf="parent"
+        app:titleTextAppearance="@style/text_toolbar_title"
+        android:id="@+id/fr_trans_message_toolbar"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        app:title="@string/wrd_send"
+        android:layout_height="@dimen/margin_64"
+        app:menu="@menu/wallet_toolbar_menu"
+        app:navigationIcon="@drawable/ic_back"
+        android:elevation="1dp"/>
+
+    <LinearLayout
+        app:layout_constraintTop_toBottomOf="@+id/fr_trans_message_toolbar"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="20dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_marginTop="16dp"
+            style="@style/text_big"
+            android:textSize="16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/wrd_message"/>
+
+        <EditText
+            style="@style/text_general"
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="12dp"
+            android:minHeight="@dimen/size_img_48"
+            android:background="@drawable/bkg_input_ligth"
+            android:hint="@string/hint_enter_msg"
+            android:layout_height="wrap_content"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+
+            android:layout_width="match_parent"
+            android:gravity="center_vertical"
+            android:layout_height="56dp">
+
+            <TextView
+                style="@style/text_big"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_encrypt_com"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:checked="false"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

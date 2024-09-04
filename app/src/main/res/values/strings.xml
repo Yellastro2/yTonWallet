@@ -149,5 +149,8 @@
 
     <string name="title_amount">Amount</string>
     <string name="hint_enter_address_or_domain">Enter address or domain</string>
+    <string name="wrd_message">Message</string>
+    <string name="hint_enter_msg">Add a comment, if needed</string>
+    <string name="text_encrypt_com">Encrypt comment</string>
 
 </resources>

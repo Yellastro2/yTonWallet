@@ -21,7 +21,6 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.navigation.NavigationBarView
 import com.yellastro.mytonwallet.PREF_KEY
 import com.yellastro.mytonwallet.R
-import com.yellastro.mytonwallet.adapters.floatToPrint
 import com.yellastro.mytonwallet.viewmodels.WalletModel
 import com.yellastro.mytonwallet.views.yDecorator
 import kotlinx.coroutines.Dispatchers
