@@ -34,6 +34,17 @@
             app:popExitAnim="@android:anim/fade_out"/>
     </fragment>
     <fragment
+        android:id="@+id/pincodeFragment2"
+        android:name="com.yellastro.mytonwallet.fragments.PincodeFragment"
+        android:label="fragment_pincode"
+        tools:layout="@layout/fragment_pincode">
+        <action
+            android:id="@+id/action_pincodeFragment2_to_transSucsessFragment"
+            app:destination="@id/transSucsessFragment"
+            app:enterAnim="@anim/slide_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+    </fragment>
+    <fragment
         android:id="@+id/setPinFragment"
         android:name="com.yellastro.mytonwallet.fragments.auth.SetPinFragment"
         android:label="fragment_set_pin"
@@ -157,7 +168,7 @@
         <action
             android:id="@+id/action_transChoseCurFragment_to_transInputAdrFragment"
             app:destination="@id/transInputAdrFragment"
-            app:enterAnim="@android:anim/slide_in_left"
+            app:enterAnim="@anim/slide_left"
             app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
     <fragment
@@ -168,6 +179,7 @@
         <action
             android:id="@+id/action_transInputAdrFragment_to_transInputValueFragment"
             app:destination="@id/transInputValueFragment"
+            app:enterAnim="@anim/slide_left"
             app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
     <fragment
@@ -177,11 +189,24 @@
         tools:layout="@layout/fragment_trans_input_value" >
         <action
             android:id="@+id/action_transInputValueFragment_to_transMessageFragment"
-            app:destination="@id/transMessageFragment" />
+            app:destination="@id/transMessageFragment"
+            app:enterAnim="@anim/slide_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/transMessageFragment"
         android:name="com.yellastro.mytonwallet.fragments.send.TransMessageFragment"
         android:label="fragment_trans_message"
-        tools:layout="@layout/fragment_trans_message" />
+        tools:layout="@layout/fragment_trans_message" >
+        <action
+            android:id="@+id/action_transMessageFragment_to_pincodeFragment2"
+            app:destination="@id/pincodeFragment2"
+            app:enterAnim="@anim/slide_left"
+            app:popExitAnim="@android:anim/slide_out_right"/>
+    </fragment>
+    <fragment
+        android:id="@+id/transSucsessFragment"
+        android:name="com.yellastro.mytonwallet.fragments.send.TransSucsessFragment"
+        android:label="fragment_trans_sucsess"
+        tools:layout="@layout/fragment_trans_sucsess" />
 </navigation>

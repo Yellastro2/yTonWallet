@@ -5,11 +5,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blue_white"
+    android:background="?background"
     tools:context=".fragments.PincodeFragment">
 
+    <androidx.appcompat.widget.Toolbar
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:titleTextAppearance="@style/text_toolbar_title"
+        android:id="@+id/fr_pincode_toolbar"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        app:title="@string/wrd_send"
+        android:layout_height="@dimen/margin_64"
+        app:menu="@menu/wallet_toolbar_menu"
+        app:navigationIcon="@drawable/ic_back"
+        android:elevation="1dp"/>
+
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/fr_pincode_image_lock"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_marginTop="@dimen/margin_80"
@@ -27,35 +40,35 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2">
+        app:layout_constraintTop_toBottomOf="@+id/fr_pincode_image_lock">
 
     </LinearLayout>
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/fr_pincode_text_title"
         style="@style/text_big"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_72"
         android:text="Unlock to use wallet"
         android:textSize="@dimen/text_size_regular"
-        android:textColor="@color/white"
+        android:textColor="?android:textColorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pin_frag_dots" />
 
     <TextView
 
-        android:id="@+id/textView4"
+        android:id="@+id/fr_pincode_text_desc"
         style="@style/text_general"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
         android:text="Enter passcode or use fingerprint"
-        android:textColor="@color/white"
+        android:textColor="?android:textColorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintTop_toBottomOf="@+id/fr_pincode_text_title" />
 
     <TableLayout
         android:id="@+id/pincode_frag_grid"
@@ -63,7 +76,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4"
+        app:layout_constraintTop_toBottomOf="@+id/fr_pincode_text_desc"
         tools:layout_editor_absoluteX="-32dp">
 
         <TableRow

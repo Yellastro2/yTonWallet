@@ -46,7 +46,6 @@ class TransInputValueFragment : Fragment() {
     var mUsdRate = Random.nextDouble() * 100
 
     val viewModel: InputValueModel by viewModels()
-    var isUsdValue = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,7 +67,7 @@ class TransInputValueFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        isUsdValue = viewModel.isUsdValue
+
         mUsdRate = viewModel.mJetton!!.usdPrice.toDouble()
 
         val fvToolbar = view.findViewById<Toolbar>(R.id.fr_trans_inpval_toolbar)
@@ -120,7 +119,7 @@ class TransInputValueFragment : Fragment() {
                 val fValue = s.toString().toDouble()
 
                 viewModel.mValue = fValue
-                if (isUsdValue)
+                if (viewModel.isUsdValue)
                     viewModel.mValue = fValue / mUsdRate
                 else
                     viewModel.mValue = fValue
@@ -149,54 +148,53 @@ class TransInputValueFragment : Fragment() {
     }
 
     private fun onContinue() {
-        val fValue = if (isUsdValue) viewModel.mValue / mUsdRate else viewModel.mValue
-        arguments?.putDouble(AMOUNT_VALUE,fValue)
+        arguments?.putDouble(AMOUNT_VALUE,viewModel.mValue)
         findNavController().navigate(R.id.action_transInputValueFragment_to_transMessageFragment,
             arguments)
     }
 
-    fun Double.round(decimals: Int): Double {
+    fun Double.round(decimals: Int,isToLow: Boolean = false): Double {
         val fDecPow = Math.pow(10.0,decimals.toDouble())
-        val fRounded = kotlin.math.round(this * fDecPow) / fDecPow
-        return fRounded
+        var fRounded = round(this * fDecPow)
+        if (isToLow) fRounded -= 1
+        return fRounded / fDecPow
     }
 
     private fun setMax() {
         var fValue = viewModel.mJetton!!.value
-        if (isUsdValue) {
+        if (viewModel.isUsdValue) {
             fValue = (fValue * mUsdRate).round(2)
         }
         mvInput.setText(fValue.toString())
     }
 
     private fun swichValues() {
-        isUsdValue = !isUsdValue
+        viewModel.isUsdValue = !viewModel.isUsdValue
         var fValueStr = mvInput.text.toString()
         if (fValueStr.isNullOrEmpty()) fValueStr = "1"
         var fValue = fValueStr.toDouble()
-        fValue = if (isUsdValue)  fValue  * mUsdRate else fValue / mUsdRate
+        fValue = if (viewModel.isUsdValue)  fValue  * mUsdRate else fValue / mUsdRate
 
-        var fDec = 9
-        if (isUsdValue) fDec = 2
-        val fDecPow = Math.pow(10.0,fDec.toDouble())
-        val fRounded = round(fValue * fDecPow)-1 / fDecPow
+        var fDec = if (viewModel.isUsdValue)  2 else 9
+        val fRounded = fValue.round(fDec,true)
         mvInput.setText((fRounded).toString())
-        mvSymbolText.text = if (isUsdValue) "$" else  mJetton
+        mvSymbolText.text = if (viewModel.isUsdValue) "$" else  mJetton
     }
+
 
     fun setUsdCourse(fValue: Double){
         var fBodyHolder = "\$d"
-        if (isUsdValue) fBodyHolder = "d ${mJetton}"
+        if (viewModel.isUsdValue) fBodyHolder = "d ${mJetton}"
         if (fValue == 0.0) {
             mvUsdText.text = fBodyHolder.replace("d", "0")
             setButtonActivate(mvButtonContin,false)
         }
         else{
-            val fValRated = if (isUsdValue) fValue / mUsdRate else fValue * mUsdRate
+            val fValRated = if (viewModel.isUsdValue) fValue / mUsdRate else fValue * mUsdRate
 
             val fWalletValue = viewModel.mJetton!!.value
 
-            setButtonActivate(mvButtonContin, if (isUsdValue) fValRated <= fWalletValue
+            setButtonActivate(mvButtonContin, if (viewModel.isUsdValue) fValRated <= fWalletValue
                 else fValue <= fWalletValue)
 
             mvUsdText.text = fBodyHolder.replace("d",

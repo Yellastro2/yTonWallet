@@ -9,10 +9,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.yellastro.mytonwallet.R
 import com.yellastro.mytonwallet.adapters.floatToPrint
 import com.yellastro.mytonwallet.adapters.setTransAvaToViews
+import com.yellastro.mytonwallet.fragments.PincodeFragment
 import com.yellastro.mytonwallet.fragments.send.TransInputAdrFragment.Companion.JETTON
 import com.yellastro.mytonwallet.viewmodels.InputAdrModel
 import com.yellastro.mytonwallet.viewmodels.TransMessageModel
@@ -21,9 +23,13 @@ class TransMessageFragment : Fragment() {
 
     companion object {
         val AMOUNT_VALUE = "amount"
+        val MESSAGE = "message"
+        val IS_ENCRYPT = "isencrypt"
     }
 
     val viewModel: TransMessageModel by viewModels()
+
+    lateinit var mvSwitch: SwitchMaterial
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,17 +53,16 @@ class TransMessageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val fvSwitch = view.findViewById<SwitchMaterial>(R.id.fr_trans_msg_swich_encrypt)
-//        fvSwitch.thumbDrawable = resources.getDrawable(R.drawable.select_switch)
+        mvSwitch = view.findViewById<SwitchMaterial>(R.id.fr_trans_msg_swich_encrypt)
 
 
-        fvSwitch.setOnCheckedChangeListener { compoundButton, b ->
+        mvSwitch.setOnCheckedChangeListener { compoundButton, b ->
             if (b)
-                fvSwitch.thumbDrawable.setTint(resources.getColor(R.color.blue_white))
+                mvSwitch.thumbDrawable.setTint(resources.getColor(R.color.blue_white))
             else
-                fvSwitch.thumbDrawable.setTint(resources.getColor(R.color.grey_uncheck))
+                mvSwitch.thumbDrawable.setTint(resources.getColor(R.color.grey_uncheck))
         }
-        fvSwitch.isChecked = false
+        mvSwitch.isChecked = false
 
         val fContact = viewModel.mContact!!
 
@@ -78,6 +83,20 @@ class TransMessageFragment : Fragment() {
             floatToPrint(viewModel.mAmount," ") + " " + viewModel.mJetton
         view.findViewById<TextView>(R.id.fr_event_message_fee_value).text = "0.01 TON"
 
+        view.findViewById<TextView>(R.id.fr_trans_message_button_send).setOnClickListener {
+            confirm()
+        }
 
+
+    }
+
+    private fun confirm() {
+        val fMsg = requireView().findViewById<TextView>(R.id.fr_trans_message_input).text.toString()
+
+        arguments?.putString(MESSAGE,fMsg)
+        arguments?.putBoolean(IS_ENCRYPT,mvSwitch.isChecked)
+        arguments?.putString(PincodeFragment.TYPE,PincodeFragment.CONFIRM_TRANS)
+        findNavController().navigate(R.id.action_transMessageFragment_to_pincodeFragment2,
+            arguments)
     }
 }

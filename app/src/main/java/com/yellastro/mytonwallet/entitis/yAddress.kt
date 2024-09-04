@@ -8,9 +8,13 @@ class yAddress(
 ){
     val title: String
         get() {
-            return name?:
-                (address.substring(0,4) + "..." + address.substring(address.length-4,
-                    address.length))
+            return name?: addressShort
+        }
+
+    val addressShort: String
+        get() {
+            return address.substring(0,4) + "..." + address.substring(address.length-4,
+                address.length)
         }
 
     val letter: String

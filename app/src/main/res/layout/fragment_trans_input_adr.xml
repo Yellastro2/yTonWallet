@@ -28,6 +28,7 @@
         android:maxLines="1"
         android:inputType="text"
         android:background="@android:color/transparent"
+        android:textColor="?android:textColorPrimary"
         android:text=""
         app:layout_constraintTop_toBottomOf="@+id/fr_trans_inpadr_toolbar"
         />

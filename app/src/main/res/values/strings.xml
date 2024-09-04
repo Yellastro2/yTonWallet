@@ -66,5 +66,10 @@
     <string name="recipient_address">Recipient address</string>
     <string name="wrd_fee">Fee</string>
     <string name="confirm_and_send">Confirm and Send</string>
+    <string name="set_up_passcode">Set Up Passcode</string>
+    <string name="create_a_passcode_to_protect_it">Create a passcode to protect it.</string>
+    <string name="wallet_created">Wallet created</string>
+    <string name="coins_been_send">Coins have been sent to</string>
+
 
 </resources>

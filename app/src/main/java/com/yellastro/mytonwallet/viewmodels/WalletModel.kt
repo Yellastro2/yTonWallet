@@ -236,7 +236,7 @@ class WalletModel(application: Application) : AndroidViewModel(application) {
                         if (qSymb == "USD₮" || qAsset[1] == "Staked TON") 0F else Random.nextFloat() * 10 - 5F,
                         qUsdRate.toFloat(),
                         qAsset[2],
-                        Random.nextBoolean(),
+                        Random.nextInt(4) == 0,
                         Random.nextInt(5, 20).toFloat()
                     )
                 )

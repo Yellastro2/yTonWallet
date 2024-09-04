@@ -14,5 +14,6 @@
             android:id="@+id/btn_pin_img"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            app:srcCompat="@drawable/img_delete" />
+            app:srcCompat="@drawable/img_delete"
+            app:tint="?android:textColorPrimary" />
     </LinearLayout>

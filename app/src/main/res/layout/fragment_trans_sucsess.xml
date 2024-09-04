@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragments.send.TransSucsessFragment">
+
+    <androidx.appcompat.widget.Toolbar
+        app:layout_constraintTop_toTopOf="parent"
+        app:titleTextAppearance="@style/text_toolbar_title"
+        android:id="@+id/fr_trans_success_toolbar"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        app:title="@string/wrd_send"
+        android:layout_height="@dimen/margin_64"
+        app:menu="@menu/wallet_toolbar_menu"
+        android:elevation="1dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_238"
+        android:gravity="center|center_horizontal|center_vertical"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <VideoView
+            android:id="@+id/newcreate_video"
+            android:layout_width="124dp"
+            android:layout_height="124dp"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="124dp"
+            android:layout_height="124dp"
+            android:layout_marginVertical="@dimen/button_main_vert_margin"
+            android:src="@drawable/img_tada" />
+
+        <TextView
+            android:id="@+id/fr_trans_succs_title"
+            style="@style/text_big"
+            android:textSize="36sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            tools:ignore="HardcodedText"
+            android:text="-50 TON" />
+
+        <TextView
+            android:id="@+id/fr_trans_succs_usd_text"
+            style="@style/text_general"
+            android:textSize="22sp"
+            android:textColor="@color/grey_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            tools:ignore="HardcodedText"
+            android:text="$123.4" />
+
+        <TextView
+            android:id="@+id/fr_trans_succs_desc"
+            style="@style/text_general"
+            android:textColor="@color/grey_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Coins have been sent to UQCD...qEBI"
+            tools:ignore="HardcodedText" />
+
+
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/fr_trans_succs_btn"
+        style="@style/button_general"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="@string/btn_done" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

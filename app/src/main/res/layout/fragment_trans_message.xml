@@ -36,6 +36,7 @@
             android:text="@string/wrd_message"/>
 
         <EditText
+            android:id="@+id/fr_trans_message_input"
             style="@style/text_general"
             android:layout_marginTop="8dp"
             android:layout_width="match_parent"
