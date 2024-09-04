@@ -148,6 +148,11 @@
             app:destination="@id/transChoseCurFragment"
             app:enterAnim="@android:anim/fade_in"
             app:popExitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/action_walletFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/importMnemoFragment"
@@ -221,4 +226,8 @@
 
             app:popUpToInclusive="true" />
     </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.yellastro.mytonwallet.fragments.SettingsFragment"
+        android:label="SettingsFragment" />
 </navigation>

@@ -1,6 +1,7 @@
 package com.yellastro.mytonwallet.viewmodels
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -41,143 +42,138 @@ class WalletModel(application: Application) : AndroidViewModel(application) {
         "EQA6FPupjsjSsTIWrP_j8l0kbVCfl-bAYWhfkBDdyFdWPaC0")
 
     fun loadHistory() {
+        val fStart = System.currentTimeMillis()
+        var fSpeedTotalAdditem = 0L
+
+        mHistoryAdapter.dataSet = ArrayList()
         viewModelScope.launch(Dispatchers.Main) {
-            mHistoryAdapter.dataSet = ArrayList()
-            mHistoryAdapter.notifyDataSetChanged()
+            mHistoryAdapter.notifyDataSetChanged() }
+
+        val fList = ArrayList<yEvent>()
+        val fPeriod = 500000
+        val fNow = round((System.currentTimeMillis() / 1000).toDouble()).toInt()
+        for (i in 0..HISTORY_SIZE) {
+            val j = 1
+            val qType = Random.nextInt(5)
+            var qEvent: yEvent? = null
+            if (qType < 3)
+                qEvent =  yEvent(
+                        yEvent.TRANS,
+                        Random.nextBoolean(),
+                        someAddress[Random.nextInt(someAddress.size)],
+                        dateTime = fNow - Random.nextInt(fPeriod),
+                        value = Random.nextInt(50, 5000).toDouble(),
+                        symbol = someTokenssymb[j],
+                        walletName = if (Random.nextInt(3)>1) "some.t.me" else null,
+                        message = if (Random.nextBoolean()) "\uD83E\uDD73 Happy Birthday! Thank you for being such an amazing friend. I cherish every moment we spend together \uD83E\uDDE1"
+                            else null,
+                        isEncrypt = Random.nextBoolean()
+                    )
+
+            else if (qType == 3){
+                var k = j
+                do {
+                    k = Random.nextInt(someTokensName.size)
+                }while (k == j)
+
+                qEvent = yEvent(
+                        yEvent.SWAP,
+                        false, // TODO dosent matter
+                        "", // TODO dosent matter
+                        dateTime = fNow - Random.nextInt(fPeriod),
+                        value = Random.nextInt(50, 5000).toDouble(),
+                        symbol = someTokenssymb[j],
+                        symbolSwap = someTokenssymb[k],
+                        valueSwap = Random.nextInt(50, 5000).toDouble(),
+                    )
+
+            } else {
+                val fCol = someNFTColl[Random.nextInt(someNFTColl.size)]
+                val fItem = nftStore[fCol]!!.get(Random.nextInt(nftStore[fCol]!!.size))
+
+                qEvent = yEvent(
+                        yEvent.NFT,
+                        Random.nextBoolean(),
+                        someAddress[Random.nextInt(someAddress.size)],
+                        dateTime = fNow - Random.nextInt(fPeriod),
+                        value = Random.nextInt(50, 5000).toDouble(),
+                        symbol = fCol,
+                        nftName = fItem[0],
+                        nftImageLink = fItem[1]
+                    )
+            }
+
+            if (qEvent.type in listOf(yEvent.NFT,yEvent.TRANS)){
+                var qAddress: yAddress? = null
+                if (!sAddressContact.any {
+                            qCont: yAddress ->
+                        if((!qCont.name.isNullOrEmpty() && qCont.name == qEvent.walletName)
+                            || qCont.address == qEvent.addressFrom)
+                        {
+                            qAddress = qCont
+                            true
+                        } else false
+                    }) {
+                    qAddress = yAddress(
+                        qEvent.addressFrom,
+                        qEvent.walletName,
+                        qEvent.imageAva,
+                        qEvent.dateTime
+                    )
+                    sAddressContact.add(qAddress!!)
+                }
+                qEvent.addressEntity = qAddress
+            }
+            fList.add(qEvent)
         }
 
-                val fList = ArrayList<yEvent>()
-                val fPeriod = 500000
-                val fNow = round((System.currentTimeMillis() / 1000).toDouble()).toInt()
-                for (i in 0..HISTORY_SIZE) {
-                    val j = Random.nextInt(someTokensName.size)
-                    val qType = Random.nextInt(5)
-                    var qEvent: yEvent? = null
-                    if (qType < 3)
-                        qEvent =  yEvent(
-                                yEvent.TRANS,
-                                Random.nextBoolean(),
-                                someAddress[Random.nextInt(someAddress.size)],
-                                dateTime = fNow - Random.nextInt(fPeriod),
-                                value = Random.nextInt(50, 5000).toDouble(),
-                                symbol = someTokenssymb[j],
-                                walletName = if (Random.nextInt(3)>1) "some.t.me" else null,
-                                message = if (Random.nextBoolean()) "\uD83E\uDD73 Happy Birthday! Thank you for being such an amazing friend. I cherish every moment we spend together \uD83E\uDDE1"
-                                    else null,
-                                isEncrypt = Random.nextBoolean()
-                            )
+        fList.sortBy { -it.dateTime }
 
-                    else if (qType == 3){
-                        var k = j
-                        do {
-                            k = Random.nextInt(someTokensName.size)
-                        }while (k == j)
+        var fToday = getApplication<Application>().resources.getString(R.string.wrd_today)
 
-                        qEvent = yEvent(
-                                yEvent.SWAP,
-                                false, // TODO dosent matter
-                                "", // TODO dosent matter
-                                dateTime = fNow - Random.nextInt(fPeriod),
-                                value = Random.nextInt(50, 5000).toDouble(),
-                                symbol = someTokenssymb[j],
-                                symbolSwap = someTokenssymb[k],
-                                valueSwap = Random.nextInt(50, 5000).toDouble(),
-                            )
 
-                    } else {
-                        val fCol = someNFTColl[Random.nextInt(someNFTColl.size)]
-                        val fItem = nftStore[fCol]!!.get(Random.nextInt(nftStore[fCol]!!.size))
 
-                        qEvent = yEvent(
-                                yEvent.NFT,
-                                Random.nextBoolean(),
-                                someAddress[Random.nextInt(someAddress.size)],
-                                dateTime = fNow - Random.nextInt(fPeriod),
-                                value = Random.nextInt(50, 5000).toDouble(),
-                                symbol = fCol,
-                                nftName = fItem[0],
-                                nftImageLink = fItem[1]
-                            )
-                    }
+        for (i in 0..<fList.size) {
 
-                    if (qEvent.type in listOf(yEvent.NFT,yEvent.TRANS)){
-                        var qAddress: yAddress? = null
-                        if (!sAddressContact.any {
-                                    qCont: yAddress ->
-                                if((!qCont.name.isNullOrEmpty() && qCont.name == qEvent.walletName)
-                                    || qCont.address == qEvent.addressFrom)
-                                {
-                                    qAddress = qCont
-                                    true
-                                } else false
-                            }) {
-                            qAddress = yAddress(
-                                qEvent.addressFrom,
-                                qEvent.walletName,
-                                qEvent.imageAva,
-                                qEvent.dateTime
-                            )
-                            sAddressContact.add(qAddress!!)
-                        }
-                        qEvent.addressEntity = qAddress
-                    }
-                    fList.add(qEvent)
-                }
-
-                fList.sortBy { -it.dateTime }
-
-                var fToday = getApplication<Application>().resources.getString(R.string.wrd_today)
-
-                for (i in 0..<fList.size) {
-
-                    val qDate = LocalDateTime.ofInstant(
-                        Instant.ofEpochMilli(fList[i].dateTime * 1000L),
-                        TimeZone.getDefault().toZoneId()
-                    )
+            val qDate = LocalDateTime.ofInstant(
+                Instant.ofEpochMilli(fList[i].dateTime * 1000L),
+                TimeZone.getDefault().toZoneId()
+            )
 //            val qDate = Date(fList[i].dateTime * 1000L)
-                    if (i == 0) {
-                        LocalDateTime.now()
-                        if (LocalDateTime.now().dayOfYear != qDate.dayOfYear ||
-                            LocalDateTime.now().year != qDate.year
-                        ) {
-                            fToday = mDayFormat.format(qDate)
-                        }
-                        viewModelScope.launch(Dispatchers.Main) {
-                            mHistoryAdapter.addItem(HistoryAdapter.yDateHistory(fToday))
-                            mHistoryAdapter.addItem(fList[i])
-                        }
-//                        fDatedList.add(yDateHistor(fToday))
-//                        fDatedList.add(fList[i])y
-                        continue
-                    }
-                    val qPrevDate = LocalDateTime.ofInstant(
-                        Instant.ofEpochMilli(fList[i - 1].dateTime * 1000L),
-                        TimeZone.getDefault().toZoneId()
-                    )
+            if (i == 0) {
+                LocalDateTime.now()
+                if (LocalDateTime.now().dayOfYear != qDate.dayOfYear ||
+                    LocalDateTime.now().year != qDate.year
+                ) {
+                    fToday = mDayFormat.format(qDate)
+                }
+                viewModelScope.launch(Dispatchers.Main) {
+                    mHistoryAdapter.addItem(HistoryAdapter.yDateHistory(fToday))
+                    mHistoryAdapter.addItem(fList[i])
+                }
+                continue
+            }
+            val qPrevDate = LocalDateTime.ofInstant(
+                Instant.ofEpochMilli(fList[i - 1].dateTime * 1000L),
+                TimeZone.getDefault().toZoneId()
+            )
 
-                    if (qDate.dayOfYear < qPrevDate.dayOfYear ||
-                        qDate.year < qPrevDate.year
-                    )
-                        viewModelScope.launch(Dispatchers.Main) {
-                            mHistoryAdapter.addItem(
-                                HistoryAdapter.yDateHistory(
-                                    mDayFormat.format(
-                                        qDate
-                                    )
+            viewModelScope.launch(Dispatchers.Main) {
+                if (qDate.dayOfYear < qPrevDate.dayOfYear ||
+                    qDate.year < qPrevDate.year
+                )
+                        mHistoryAdapter.addItem(
+                            HistoryAdapter.yDateHistory(
+                                mDayFormat.format(
+                                    qDate
                                 )
                             )
-                        }
-//                        fDatedList.add(yDateHistory(fDayFormat.format(qDate)))
-//                    fDatedList.add(fList[i])
-                    viewModelScope.launch(Dispatchers.Main) {
-                        mHistoryAdapter.addItem(fList[i])
-                    }
-                }
-//                viewModelScope.launch(Dispatchers.Main){
-//                    mHistoryAdapter.setData(fDatedList)
-//                }
+                        )
 
-
+                    mHistoryAdapter.addItem(fList[i])
+            }
+        }
+        Log.i("speed","WalletModel.loadHistory total ms: ${System.currentTimeMillis() - fStart}")
     }
 
     val someTokensName = listOf("Staked TON","Tether USD", "Toncoin", "NOT", "\$MY")

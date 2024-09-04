@@ -60,6 +60,9 @@ class WalletFragment : Fragment() {
 
         val toolbar = view.findViewById<Toolbar>(R.id.toolbar)
         (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
+        toolbar.setNavigationOnClickListener {
+            findNavController().navigate(R.id.action_walletFragment_to_settingsFragment)
+        }
 
         navController = findNavController()
 
@@ -72,7 +75,10 @@ class WalletFragment : Fragment() {
             when(item.itemId) {
                 R.id.item_1 -> {
                     // Respond to navigation item 1 click
-                    viewModel.loadHistory()
+                    viewModel.viewModelScope.launch(Dispatchers.IO) {
+                        viewModel.loadHistory()
+                    }
+
                     true
                 }
                 R.id.item_2 -> {
@@ -116,10 +122,10 @@ class WalletFragment : Fragment() {
         val fvSwipeRefresh = view.findViewById<SwipeRefreshLayout>(R.id.fr_wallet_refreshlay)
         fvSwipeRefresh.setOnRefreshListener {
             viewModel.viewModelScope.launch(Dispatchers.IO) {
+                val fStart = System.currentTimeMillis()
                 loadAll()
-                viewModel.viewModelScope.launch(Dispatchers.Main) {
-                    fvSwipeRefresh.isRefreshing = false
-                }
+                fvSwipeRefresh.isRefreshing = false
+                Log.i("speed","WalletFragment.loadAll().IO total ms: ${System.currentTimeMillis() - fStart}")
             }
         }
 

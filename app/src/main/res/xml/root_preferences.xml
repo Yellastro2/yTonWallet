@@ -1,0 +1,27 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="@string/sync_header">
+
+        <SwitchPreferenceCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:dependency="sync"
+            app:key="attachment"
+            app:summaryOff="@string/attachment_summary_off"
+            app:summaryOn="@string/attachment_summary_on"
+            app:title="exit wallet" />
+        <SwitchPreferenceCompat
+            app:key="sync"
+            app:title="clear wallet" />
+
+        <SwitchPreferenceCompat
+            app:dependency="sync"
+            app:key="attachment"
+            app:summaryOff="enable check of mnemo phrase inputs"
+            app:summaryOn="enable check of mnemo phrase inputs"
+            app:title="check mnemo words" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

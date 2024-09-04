@@ -1,11 +1,15 @@
 package com.yellastro.mytonwallet
 
+import android.util.Log
 import java.math.BigDecimal
 import java.math.MathContext
 import kotlin.math.abs
 import kotlin.math.round
 
 fun floatToPrint(fValue: Double, fDivider: String = ","): String {
+
+    val fStart = System.currentTimeMillis()
+
     var fValueStr = ""
     if (fValue % 1 == 0.0 || abs(fValue) > 500){
         fValueStr = "%,d".format(fValue.toInt())
@@ -24,7 +28,9 @@ fun floatToPrint(fValue: Double, fDivider: String = ","): String {
         fBig = (fBig * BigDecimal(12)).round(MathContext(1))
         fValueStr = fBig.toString()
     }
-    return fValueStr.replace(",",fDivider)
+    val fRet = fValueStr.replace(",",fDivider)
+    Log.i("speed","floatToPrint total ms: ${System.currentTimeMillis() - fStart}")
+    return fRet
 }
 class FormattingStuff {
 }

@@ -49,6 +49,7 @@ dependencies {
     implementation(libs.androidx.biometric.ktx)
     implementation ("androidx.biometric:biometric-ktx:1.4.0-alpha02")
     implementation(libs.androidx.swiperefreshlayout)
+    implementation(libs.androidx.preference)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

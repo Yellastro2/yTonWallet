@@ -13,7 +13,7 @@ val fullFormater = DateTimeFormatter.ofPattern("dd MMM, HH:mm")
 
 val baseEmoji = "\udbc3\udf9f"
 
-val HISTORY_SIZE = 2
+val HISTORY_SIZE = 8
 
 class CONST_VAL {
 }

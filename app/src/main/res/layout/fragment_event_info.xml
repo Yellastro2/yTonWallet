@@ -49,7 +49,7 @@
             app:layout_constraintTop_toBottomOf="@+id/fr_event_title">
 
             <LinearLayout
-                android:visibility="gone"
+                android:visibility="visible"
                 android:id="@+id/fr_event_lay_nft_title"
                 android:layout_width="match_parent"
                 android:gravity="center_vertical"
@@ -92,6 +92,7 @@
             </LinearLayout>
 
             <LinearLayout
+
                 android:id="@+id/fr_event_lay_swap_title"
                 android:layout_width="match_parent"
                 android:gravity="center_vertical"

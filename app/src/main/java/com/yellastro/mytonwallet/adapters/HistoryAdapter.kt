@@ -3,6 +3,7 @@ package com.yellastro.mytonwallet.adapters
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +19,9 @@ import com.yellastro.mytonwallet.floatToPrint
 import com.yellastro.mytonwallet.fragments.EventInfoFragment
 import com.yellastro.mytonwallet.usdRates
 import com.yellastro.mytonwallet.views.setTransAva
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class HistoryAdapter() :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -80,23 +84,26 @@ class HistoryAdapter() :
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(aviewHolder: RecyclerView.ViewHolder, position: Int) {
         if (dataSet[position] is yEvent) {
+            val fStart = System.currentTimeMillis()
 
             val viewHolder = aviewHolder as EntityHolder
             val fEntity = dataSet[position] as yEvent
 
             aviewHolder.itemView.setOnClickListener {
-                mFragmentManager?.let { it1 -> EventInfoFragment()
-                    .yShow(it1,"")
-                    .setEvent(fEntity)}
+                mFragmentManager?.let { it1 ->
+                    EventInfoFragment()
+                        .yShow(it1, "")
+                        .setEvent(fEntity)
+                }
             }
 
             viewHolder.mvTitle.text = fEntity.title
             val resources = viewHolder.mvValue.resources
 
             viewHolder.mvDesc2.visibility = View.GONE
-            viewHolder.mvStakIcon.visibility =  View.GONE
+            viewHolder.mvStakIcon.visibility = View.GONE
 
-            if (fEntity.type == yEvent.TRANS){
+            if (fEntity.type == yEvent.TRANS) {
                 viewHolder.mvTitleSwapLay.visibility = View.GONE
                 viewHolder.mvIconNft.visibility = View.GONE
 
@@ -104,31 +111,32 @@ class HistoryAdapter() :
 
                 var fValuePrefix = ""
                 var fSendOrRes = R.string.wrd_received
-                if (fEntity.isSend){
+                if (fEntity.isSend) {
                     fSendOrRes = R.string.wrd_send
                     viewHolder.mvValue.setTextColor(resources.getColor(R.color.black))
                     viewHolder.mvValueUsd.setTextColor(resources.getColor(R.color.grey_text))
-                }else {
+                } else {
                     viewHolder.mvValue.setTextColor(resources.getColor(R.color.green))
                     viewHolder.mvValueUsd.setTextColor(resources.getColor(R.color.green))
                     fValuePrefix = "+"
                 }
 
-                viewHolder.mvValue.text = "${fValuePrefix}${floatToPrint(fEntity.value)} ${fEntity.symbol}"
 
-                val fSendOr = resources.getString(fSendOrRes) + " · "+fEntity.time
-                viewHolder.mvDesc1.text = fSendOr
-
-
+                var fUsdPrice = "?"
                 if (fEntity.symbol != "USD₮") {
                     var fRate = usdRates.get(fEntity.symbol) ?: 0F
-                    var fUsdPrice = "?"
                     if (fRate != 0F) fUsdPrice = "$" + floatToPrint(fRate * fEntity.value)
-                    viewHolder.mvValueUsd.text = fUsdPrice
                 }
+                val fValueStr =
+                    "${fValuePrefix}${floatToPrint(fEntity.value)} ${fEntity.symbol}"
+                val fSendOr = resources.getString(fSendOrRes) + " · " + fEntity.time
+                viewHolder.mvDesc1.text = fSendOr
+                viewHolder.mvValue.text = fValueStr
+                if (fEntity.symbol != "USD₮")
+                    viewHolder.mvValueUsd.text = fUsdPrice
 
-            }
-            else if (fEntity.type == yEvent.SWAP){
+
+            } else if (fEntity.type == yEvent.SWAP) {
                 viewHolder.mvIconSingleLay.visibility = View.GONE
                 viewHolder.mvIconSwapLay.visibility = View.VISIBLE
                 viewHolder.mvTitleSwapLay.visibility = View.VISIBLE
@@ -138,10 +146,11 @@ class HistoryAdapter() :
 
 
                 viewHolder.mvValue.setTextColor(resources.getColor(R.color.green))
-                viewHolder.mvValue.text = "+${floatToPrint(fEntity.valueSwap!!)} ${fEntity.symbolSwap!!}"
+                viewHolder.mvValue.text =
+                    "+${floatToPrint(fEntity.valueSwap!!)} ${fEntity.symbolSwap!!}"
 
 
-                val fSwapStr = resources.getString(R.string.wrd_swap) + " · "+fEntity.time
+                val fSwapStr = resources.getString(R.string.wrd_swap) + " · " + fEntity.time
                 viewHolder.mvDesc1.text = fSwapStr
 
 
@@ -151,8 +160,7 @@ class HistoryAdapter() :
                 viewHolder.mvIconSwap1.load(ASSETS[fEntity.symbol]?.get(2))
 
                 viewHolder.mvIconSwap2.load(ASSETS[fEntity.symbolSwap]?.get(2))
-            }
-            else { // NFT
+            } else { // NFT
 
                 viewHolder.mvTitleSwapLay.visibility = View.GONE
                 viewHolder.mvIconNft.visibility = View.VISIBLE
@@ -160,16 +168,16 @@ class HistoryAdapter() :
                 setTransAva(fEntity.addressEntity!!, viewHolder)
 
                 var fSendOrRes = R.string.wrd_received
-                if (fEntity.isSend){
+                if (fEntity.isSend) {
                     fSendOrRes = R.string.wrd_send
                     viewHolder.mvValue.setTextColor(resources.getColor(R.color.black))
                     viewHolder.mvValueUsd.setTextColor(resources.getColor(R.color.grey_text))
-                }else {
+                } else {
                     viewHolder.mvValue.setTextColor(resources.getColor(R.color.green))
                     viewHolder.mvValueUsd.setTextColor(resources.getColor(R.color.green))
                 }
 
-                val fSendOr = resources.getString(fSendOrRes) + " NFT" + " · "+fEntity.time
+                val fSendOr = resources.getString(fSendOrRes) + " NFT" + " · " + fEntity.time
                 viewHolder.mvDesc1.text = fSendOr
 
                 viewHolder.mvValue.text = fEntity.nftName
@@ -177,6 +185,9 @@ class HistoryAdapter() :
                 viewHolder.mvIconNft.load(fEntity.nftImageLink)
 
             }
+
+            Log.i("speed", "HistoryAdapter total ms: ${System.currentTimeMillis() - fStart}")
+
         } else {
             val viewHolder = aviewHolder as DateHolder
             viewHolder.mvTitle.text = (dataSet[position] as yDateHistory).date

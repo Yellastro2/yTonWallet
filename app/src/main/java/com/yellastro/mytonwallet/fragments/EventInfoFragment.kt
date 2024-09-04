@@ -25,27 +25,10 @@ import com.yellastro.mytonwallet.views.setTransAvaToViews
 import kotlin.math.pow
 
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [EventInfoFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class EventInfoFragment : BottomSheetDialogFragment() { //BottomSheetDialogFragment
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+class EventInfoFragment : BottomSheetDialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
 
 
 
@@ -55,7 +38,6 @@ class EventInfoFragment : BottomSheetDialogFragment() { //BottomSheetDialogFragm
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_event_info, container, false)
     }
 
@@ -207,8 +189,8 @@ class EventInfoFragment : BottomSheetDialogFragment() { //BottomSheetDialogFragm
 
                 it.findViewById<TextView>(R.id.fr_event_title).text = fBody
 
-                it.findViewById<TextView>(R.id.fr_event_titled_swap1_text).text = fEvent.nftName
-                it.findViewById<TextView>(R.id.fr_event_titled_swap2_text).text = fEvent.symbol
+                it.findViewById<TextView>(R.id.fr_event_titled_nft_text1).text = fEvent.nftName
+                it.findViewById<TextView>(R.id.fr_event_titled_nft_text2).text = fEvent.symbol
 
 
                 it.findViewById<TextView>(R.id.fr_event_from_value).text = fEvent.title

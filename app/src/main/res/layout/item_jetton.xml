@@ -196,15 +196,19 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        style="@style/text_general"
-        android:textSize="14sp"
-        android:textColor="@color/grey_text"
+        android:gravity="right"
+        android:maxLines="1"
+        android:ellipsize="end"
         android:id="@+id/it_jetton_value_usd"
-        android:layout_width="wrap_content"
+        style="@style/text_general"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:text="$8,000"
+        android:textColor="@color/grey_text"
+        android:textSize="14sp"
         app:layout_constraintEnd_toStartOf="@+id/it_jet_nft_image"
+        app:layout_constraintStart_toEndOf="@+id/it_jetton_desc1"
         app:layout_constraintTop_toBottomOf="@+id/it_jetton_value" />
 
 
