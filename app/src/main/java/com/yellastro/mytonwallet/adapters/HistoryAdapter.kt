@@ -132,8 +132,12 @@ class HistoryAdapter() :
                 val fSendOr = resources.getString(fSendOrRes) + " · " + fEntity.time
                 viewHolder.mvDesc1.text = fSendOr
                 viewHolder.mvValue.text = fValueStr
-                if (fEntity.symbol != "USD₮")
+                if (fEntity.symbol != "USD₮") {
                     viewHolder.mvValueUsd.text = fUsdPrice
+                    viewHolder.mvValueUsd.visibility = View.VISIBLE
+                }
+                else
+                    viewHolder.mvValueUsd.visibility = View.INVISIBLE
 
 
             } else if (fEntity.type == yEvent.SWAP) {

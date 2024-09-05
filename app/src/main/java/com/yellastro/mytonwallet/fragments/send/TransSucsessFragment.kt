@@ -1,18 +1,23 @@
 package com.yellastro.mytonwallet.fragments.send
 
 import android.annotation.SuppressLint
+import android.graphics.ImageDecoder
+import android.graphics.drawable.AnimatedImageDrawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.yellastro.mytonwallet.R
 import com.yellastro.mytonwallet.floatToPrint
 import com.yellastro.mytonwallet.sAddressContact
 import com.yellastro.mytonwallet.sJettonsWallet
+import kotlinx.coroutines.launch
 
 class TransSucsessFragment : Fragment() {
 
@@ -62,6 +67,22 @@ class TransSucsessFragment : Fragment() {
         view.findViewById<TextView>(R.id.fr_trans_succs_desc).text = fDescBody
         view.findViewById<View>(R.id.fr_trans_succs_btn).setOnClickListener {
             findNavController().navigate(R.id.action_transSucsessFragment_to_walletFragment)
+        }
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+            val source = ImageDecoder.createSource(resources, R.drawable.webp_party)
+            lifecycleScope.launch {
+                val drawable = ImageDecoder.decodeDrawable(source)
+                val fvImage = view.findViewById<ImageView>(R.id.fr_trans_succs_image)
+                fvImage.setImageDrawable(drawable)
+
+                if (drawable is AnimatedImageDrawable) {
+                    drawable.repeatCount = 0
+                    drawable.start()
+                    fvImage.setOnClickListener { drawable.start() }
+                }
+
+            }
         }
     }
 

@@ -19,6 +19,7 @@
 
     <dimen name="margin_238">212dp</dimen>
     <dimen name="margin_212">198dp</dimen>
+    <dimen name="margin_top_495">416dp</dimen>
 
 
     <dimen name="pin_btn_size">75dp</dimen>

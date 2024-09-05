@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/fr_input_mnemo_image"
             android:layout_width="124dp"
             android:layout_height="124dp"
             android:layout_marginVertical="@dimen/button_main_vert_margin"

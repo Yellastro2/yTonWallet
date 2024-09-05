@@ -1,11 +1,14 @@
 package com.yellastro.mytonwallet.fragments
 
 import android.content.Context
+import android.graphics.ImageDecoder
+import android.graphics.drawable.AnimatedImageDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +16,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -22,6 +26,8 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.navigation.NavigationBarView
 import com.yellastro.mytonwallet.PREF_KEY
 import com.yellastro.mytonwallet.R
+import com.yellastro.mytonwallet.loadHistory
+import com.yellastro.mytonwallet.loadJettons
 import com.yellastro.mytonwallet.sHistoryData
 import com.yellastro.mytonwallet.sJettonsWallet
 import com.yellastro.mytonwallet.viewmodels.WalletModel
@@ -75,13 +81,17 @@ class WalletFragment : Fragment() {
             when(item.itemId) {
                 R.id.item_1 -> {
                     viewModel.viewModelScope.launch(Dispatchers.IO) {
-                        viewModel.loadHistory()
+//                        viewModel.loadHistory()
+                        loadHistory()
+                        viewModel.setHistoryToList(sHistoryData)
                     }
 
                     true
                 }
                 R.id.item_2 -> {
-                    viewModel.loadJettons()
+//                    viewModel.loadJettons()
+                    loadJettons()
+                    viewModel.mJettonAdapter.setData(sJettonsWallet)
                     true
                 }
                 R.id.item_3 -> {
@@ -95,7 +105,6 @@ class WalletFragment : Fragment() {
             }
         }
 
-        js("alert()")
 
         view.findViewById<AppBarLayout>(R.id.app_bar)
             .addOnOffsetChangedListener { appBarLayout, verticalOffset ->
@@ -143,6 +152,21 @@ class WalletFragment : Fragment() {
         viewModel.mHistoryAdapter.setFragManager(childFragmentManager)
 
         setBalance()
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+            val source = ImageDecoder.createSource(resources, R.drawable.webp_chick)
+            lifecycleScope.launch {
+                val drawable = ImageDecoder.decodeDrawable(source)
+                val fvImage = view.findViewById<ImageView>(R.id.fr_wallet_image_empty)
+                fvImage.setImageDrawable(drawable)
+                if (drawable is AnimatedImageDrawable) {
+                    drawable.repeatCount = 0
+                    drawable.start()
+                    fvImage.setOnClickListener { drawable.start() }
+                }
+
+            }
+        }
         
         Toast.makeText(requireContext(), "Swipe down - refresh - to generate new data",
             Toast.LENGTH_LONG).show()
@@ -154,10 +178,12 @@ class WalletFragment : Fragment() {
     }
 
     fun loadAll(){
-
-        viewModel.loadHistory()
+        loadHistory()
+        viewModel.setHistoryToList(sHistoryData)
+//        viewModel.loadHistory()
         viewModel.viewModelScope.launch(Dispatchers.Main) {
-            viewModel.loadJettons()
+            loadJettons()
+            viewModel.mJettonAdapter.setData(sJettonsWallet)
             setBalance()
             requireView().findViewById<View>(R.id.fr_wallet_data_lay).visibility = View.VISIBLE
             requireView().findViewById<View>(R.id.fr_wallet_empty_lay).visibility = View.GONE

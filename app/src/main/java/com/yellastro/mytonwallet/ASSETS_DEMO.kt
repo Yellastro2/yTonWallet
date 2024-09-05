@@ -8,7 +8,7 @@ import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 
-val usdRates = mapOf<String,Float>("TON" to 8F,"NOT" to 0.01F, "MY" to 0.06F)
+val usdRates = mapOf<String,Float>("TON" to 8F,"Staked TON" to 8F,"NOT" to 0.01F, "MY" to 0.06F)
 
 val someAddress = listOf("EQARbK3z2a2cYE1gXVNKk3O5OgpaxfoyD1VfQ7aNtpd2qcYV",
     "EQCuy17OHOlMVRz0VGGwwBa1_pQfFlWhk6SaiK1egCiF5Cwp",

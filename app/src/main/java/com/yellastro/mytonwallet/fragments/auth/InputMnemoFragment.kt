@@ -1,13 +1,17 @@
 package com.yellastro.mytonwallet.fragments.auth
 
 import android.content.Context
+import android.graphics.ImageDecoder
+import android.graphics.drawable.AnimatedImageDrawable
 import android.os.Bundle
 import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
@@ -16,6 +20,7 @@ import com.yellastro.mytonwallet.PREF_KEY
 import com.yellastro.mytonwallet.R
 import com.yellastro.mytonwallet.views.InputMnemoView
 import com.yellastro.mytonwallet.views.yDialog
+import kotlinx.coroutines.launch
 import kotlin.random.Random
 
 class InputMnemoFragment : Fragment() {
@@ -86,9 +91,26 @@ class InputMnemoFragment : Fragment() {
 
         }
 
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+            val source = ImageDecoder.createSource(resources, R.drawable.webp_teach)
+            lifecycleScope.launch {
+                val drawable = ImageDecoder.decodeDrawable(source)
+                val fvImage = view.findViewById<ImageView>(R.id.fr_input_mnemo_image)
+                fvImage.setImageDrawable(drawable)
+                if (drawable is AnimatedImageDrawable) {
+                    drawable.repeatCount = 0
+                    drawable.start()
+                    fvImage.setOnClickListener { drawable.start() }
+                }
+
+            }
+        }
+
         view.findViewById<TextView>(R.id.fr_input_mnemo_desc).setText(Html.fromHtml(fDesc))
         mvInputs[0]
             .getViewKeyboard(mvInputs[0].mvInput)
+
+
     }
 
     fun onInputDone(){

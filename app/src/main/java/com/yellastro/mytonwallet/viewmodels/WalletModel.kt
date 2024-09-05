@@ -54,9 +54,9 @@ class WalletModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun setHistoryToList(fEvents: ArrayList<yEvent>){
-        fEvents.sortBy { -it.dateTime }
-
-        sHistoryData = fEvents
+//        fEvents.sortBy { -it.dateTime }
+//
+//        sHistoryData = fEvents
 
         var fToday = getApplication<Application>().resources.getString(R.string.wrd_today)
 
@@ -200,46 +200,4 @@ class WalletModel(application: Application) : AndroidViewModel(application) {
     val someTokenssymb = listOf("TON","USD₮", "TON", "NOT", "MY")
 
 
-    val someImages = listOf("https://ton.org/download/ton_symbol.png",
-        "https://cache.tonapi.io/imgproxy/T3PB4s7oprNVaJkwqbGg54nexKE0zzKhcrPv8jcWYzU/rs:fill:200:200:1/g:no/aHR0cHM6Ly90ZXRoZXIudG8vaW1hZ2VzL2xvZ29DaXJjbGUucG5n.webp",
-        "https://ton.org/download/ton_symbol.png",
-        "https://cache.tonapi.io/imgproxy/4KCMNm34jZLXt0rqeFm4rH-BK4FoK76EVX9r0cCIGDg/rs:fill:200:200:1/g:no/aHR0cHM6Ly9jZG4uam9pbmNvbW11bml0eS54eXovY2xpY2tlci9ub3RfbG9nby5wbmc.webp",
-        "https://cache.tonapi.io/imgproxy/Qy038wCBKISofJ0hYMlj6COWma330cx3Ju1ZSPM2LRU/rs:fill:200:200:1/g:no/aHR0cHM6Ly9teXRvbndhbGxldC5pby9sb2dvLTI1Ni1ibHVlLnBuZw.webp")
-
-    fun loadJettons() {
-            val fList = ArrayList<yJetton>()
-            val fFrom = ArrayList<String>()
-            fFrom.addAll(ASSETS.keys)
-
-            for (i in 0..<Random.nextInt(2,someTokensName.size)) {
-                val j = Random.nextInt(fFrom.size)
-                val qValue = Random.nextInt(50, 5000).toDouble()
-                val qUsdRate = Random.nextDouble() * 100
-
-
-
-                val qAsset = ASSETS[fFrom[j]]!!
-                val qSymb = qAsset[0]
-
-                fList.add(
-                    yJetton(
-                        fFrom[j],
-                        qSymb,
-                        qAsset[1],
-                        qValue,
-                        if (qSymb == "USD₮" || qAsset[1] == "Staked TON") 0F else Random.nextFloat() * 10 - 5F,
-                        qUsdRate.toFloat(),
-                        qAsset[2],
-                        Random.nextInt(4) == 0,
-                        Random.nextInt(5, 20).toFloat()
-                    )
-                )
-                fFrom.removeAt(j)
-            }
-                mJettonAdapter.setData(fList)
-                sJettonsWallet = fList
-
-
-
-    }
 }

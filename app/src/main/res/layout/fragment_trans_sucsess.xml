@@ -34,7 +34,7 @@
             android:visibility="gone" />
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/fr_trans_succs_image"
             android:layout_width="124dp"
             android:layout_height="124dp"
             android:layout_marginVertical="@dimen/button_main_vert_margin"

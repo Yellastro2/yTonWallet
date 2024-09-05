@@ -11,7 +11,7 @@ val MNEMO = "mnemo"
 val hourFormater = DateTimeFormatter.ofPattern("HH:mm")
 val fullFormater = DateTimeFormatter.ofPattern("dd MMM, HH:mm")
 
-val baseEmoji = "\udbc3\udf9f"
+val baseEmoji = "<3"
 
 val HISTORY_SIZE = 8
 

@@ -4,6 +4,8 @@ import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
+import android.graphics.ImageDecoder
+import android.graphics.drawable.AnimatedImageDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputFilter
@@ -12,6 +14,7 @@ import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.biometric.BiometricManager
@@ -19,6 +22,7 @@ import androidx.core.animation.doOnEnd
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.vectordrawable.graphics.drawable.ArgbEvaluator
@@ -29,6 +33,7 @@ import com.yellastro.mytonwallet.R
 import com.yellastro.mytonwallet.pro_animations.ColorAnimation
 import com.yellastro.mytonwallet.viewmodels.NewPincodeModel
 import com.yellastro.mytonwallet.views.PinView
+import kotlinx.coroutines.launch
 
 class SetPinFragment : Fragment(R.layout.fragment_set_pin) {
 
@@ -120,6 +125,18 @@ class SetPinFragment : Fragment(R.layout.fragment_set_pin) {
             }
             fvChangeSize.setText(fNewText)
             setSize(viewModel.mPinSize)
+        }
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+            val source = ImageDecoder.createSource(resources, R.drawable.webp_monkey)
+            lifecycleScope.launch {
+                val drawable = ImageDecoder.decodeDrawable(source)
+                view.findViewById<ImageView>(R.id.fr_setpin_image).setImageDrawable(drawable)
+                if (drawable is AnimatedImageDrawable) {
+                    drawable.repeatCount = 0
+                    drawable.start()
+                }
+            }
         }
 
         yShowKeyboard()

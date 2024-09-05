@@ -1,19 +1,24 @@
 package com.yellastro.mytonwallet.fragments.auth
 
 import android.content.Context
+import android.graphics.ImageDecoder
+import android.graphics.drawable.AnimatedImageDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.yellastro.mytonwallet.MNEMO
 import com.yellastro.mytonwallet.MNEMO_LIST
 import com.yellastro.mytonwallet.PREF_KEY
 import com.yellastro.mytonwallet.R
+import kotlinx.coroutines.launch
 import kotlin.random.Random
 
 class MnemoShowFragment : Fragment() {
@@ -79,6 +84,21 @@ class MnemoShowFragment : Fragment() {
         view.findViewById<View>(R.id.fr_mnemo_btn_done).setOnClickListener{
             val navController = findNavController()
             navController.navigate(R.id.action_mnemoShowFragment_to_inputMnemoFragment)
+        }
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+            val source = ImageDecoder.createSource(resources, R.drawable.webp_memo)
+            lifecycleScope.launch {
+                val drawable = ImageDecoder.decodeDrawable(source)
+                val fvImage = view.findViewById<ImageView>(R.id.fr_showmnemo_image)
+                fvImage.setImageDrawable(drawable)
+                if (drawable is AnimatedImageDrawable) {
+                    drawable.repeatCount = 0
+                    drawable.start()
+                    fvImage.setOnClickListener { drawable.start() }
+                }
+
+            }
         }
     }
 }

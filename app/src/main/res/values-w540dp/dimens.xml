@@ -22,6 +22,8 @@
 
     <dimen name="pin_btn_size">80dp</dimen>
 
+    <dimen name="margin_top_495">495dp</dimen>
+
     <dimen name="text_size_regular">16sp</dimen>
     <dimen name="text_size_big">28sp</dimen>
 </resources>

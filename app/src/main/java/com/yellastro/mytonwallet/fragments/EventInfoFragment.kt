@@ -119,6 +119,8 @@ class EventInfoFragment : BottomSheetDialogFragment() {
                     var fUsdPrice = "?"
                     if (fRate != 0F) fUsdPrice = "$" + floatToPrint(fRate * fEvent.value, " ")
                     it.findViewById<TextView>(R.id.fr_event_amount_usd).text = fUsdPrice
+                }else{
+                    it.findViewById<TextView>(R.id.fr_event_amount_usd).visibility = View.INVISIBLE
                 }
 
                 val fvLayMessage = it.findViewById<View>(R.id.fr_event_message_lay)
