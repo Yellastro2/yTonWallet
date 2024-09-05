@@ -21,7 +21,6 @@
             android:id="@+id/app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fitsSystemWindows="true"
             app:elevation="1dp">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
@@ -29,7 +28,6 @@
                 android:id="@+id/toolbar_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:fitsSystemWindows="true"
                 app:expandedTitleGravity="center_horizontal"
                 app:collapsedTitleTextAppearance="@style/text_toolbar_title"
                 app:collapsedTitleGravity="left"

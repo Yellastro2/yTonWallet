@@ -1,6 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Theme.MyTonWallet" parent="Theme.Material3.Light.NoActionBar">
+        <item name="background">@color/white</item>
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/blue_white</item>
         <item name="colorPrimaryVariant">@color/blue_white</item>
@@ -21,7 +22,7 @@
 
         <item name="colorOnSecondary">@color/blue_white</item>
 
-        <item name="background">@color/white</item>
+
         <item name="android:textColorPrimary">@color/black</item>
         <item name="android:textColorSecondary">@color/grey_text</item>
         <item name="android:textColorSecondaryInverse">@color/grey_white_bkg</item>
@@ -42,19 +43,17 @@
     </style>
 
 
-    <style name="Theme_primaryColors">
+    <style name="Theme_primaryColors" parent="Theme.Material3.Dark.NoActionBar">
         <item name="background">@color/blue_white</item>
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:textColorSecondary">@color/white_trans_66</item>
         <item name="android:textColorSecondaryInverse">@color/white_trans_15</item>
-    </style>
-
-
-    <style name="Theme.PinTheme" parent="Theme.MyTonWallet">
+        <item name="android:statusBarColor">@color/blue_white</item>
         <item name="android:navigationBarColor">@color/blue_white</item>
-        <item name="android:windowLightNavigationBar">@android:color/white</item>
-
+        <item name="android:windowLightStatusBar">false</item>
     </style>
+
+
 
     <style name="text_general">
         <item name="android:textColor">@color/black</item>

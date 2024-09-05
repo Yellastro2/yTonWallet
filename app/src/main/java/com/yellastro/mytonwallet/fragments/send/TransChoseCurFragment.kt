@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -30,15 +31,21 @@ class TransChoseCurFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val fvToolbar = view.findViewById<Toolbar>(R.id.fr_trans_chosecur_toolbar)
+
+        (requireActivity() as AppCompatActivity).setSupportActionBar(fvToolbar)
+        fvToolbar.setOnMenuItemClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+            return@setOnMenuItemClickListener true
+        }
+
         val fvList = view.findViewById<RecyclerView>(R.id.fr_trans_chosecur_list)
+
         fvList.adapter = viewModel.mJettonAdapter.setFragManager(this)
 
         fvList.addItemDecoration(yDecorator.getDecorator(requireContext()))
 
-        view.findViewById<Toolbar>(R.id.fr_trans_chosecur_toolbar).setOnMenuItemClickListener {
-            requireActivity().onBackPressedDispatcher.onBackPressed()
-            return@setOnMenuItemClickListener true
-        }
+
     }
 
 }

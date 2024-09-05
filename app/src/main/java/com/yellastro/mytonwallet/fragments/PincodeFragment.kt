@@ -114,6 +114,40 @@ class PincodeFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_pincode, container, false)
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (mType == LOGIN){
+            val window = requireActivity().window
+            window.setStatusBarColor(ContextCompat.getColor(requireContext(),R.color.blue_white))
+            window.setNavigationBarColor(ContextCompat.getColor(requireActivity(),R.color.blue_white))
+            window.decorView
+                .setSystemUiVisibility(0)
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                (requireView().parent.parent as View).setBackgroundResource(R.color.blue_white)
+            }
+        }
+        viewModel.mPincode = ""
+        mvPinDots.setDots(viewModel.mPincode.length)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if (mType == LOGIN) {
+            val window = requireActivity().window
+            window.setStatusBarColor(ContextCompat.getColor(requireContext(), R.color.white))
+            window.setNavigationBarColor(ContextCompat.getColor(requireActivity(), R.color.white))
+            val decor = window.decorView
+            decor.setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR or
+                        View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
+            )
+            requireContext().getTheme().applyStyle(R.style.Theme_MyTonWallet, true)
+
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                (requireView().parent.parent as View).setBackgroundResource(R.color.white)
+            }
+        }
+    }
 
 
 
@@ -159,33 +193,6 @@ class PincodeFragment : Fragment() {
 
     }
 
-    override fun onResume() {
-        super.onResume()
-        if (mType == LOGIN){
-            val window = requireActivity().window
-            window.setStatusBarColor(ContextCompat.getColor(requireContext(),R.color.blue_white))
-            window.setNavigationBarColor(ContextCompat.getColor(requireActivity(),R.color.blue_white))
-            window.decorView
-                .setSystemUiVisibility(0)
-        }
-        viewModel.mPincode = ""
-        mvPinDots.setDots(viewModel.mPincode.length)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        if (mType == LOGIN) {
-            val window = requireActivity().window
-            window.setStatusBarColor(ContextCompat.getColor(requireContext(), R.color.white))
-            window.setNavigationBarColor(ContextCompat.getColor(requireActivity(), R.color.white))
-            val decor = window.decorView
-            decor.setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR or
-                        View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
-            )
-            requireContext().getTheme().applyStyle(R.style.Theme_MyTonWallet, true);
-        }
-    }
 
     var isAlreadyNavigate = false
 

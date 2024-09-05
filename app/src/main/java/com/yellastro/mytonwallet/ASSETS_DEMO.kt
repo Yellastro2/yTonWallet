@@ -17,7 +17,7 @@ val someAddress = listOf("EQARbK3z2a2cYE1gXVNKk3O5OgpaxfoyD1VfQ7aNtpd2qcYV",
 
 
 
-val mDayFormat = DateTimeFormatter.ofPattern("MMM dd", Locale.US)
+
 
 val ASSETS = mapOf("Staked TON" to listOf("sTON","Staked TON","https://ton.org/download/ton_symbol.png"),
     "USD₮" to listOf("USD₮", "Tether USD", "https://cache.tonapi.io/imgproxy/T3PB4s7oprNVaJkwqbGg54nexKE0zzKhcrPv8jcWYzU/rs:fill:200:200:1/g:no/aHR0cHM6Ly90ZXRoZXIudG8vaW1hZ2VzL2xvZ29DaXJjbGUucG5n.webp"),
