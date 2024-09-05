@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import androidx.preference.PreferenceManager
 import com.yellastro.mytonwallet.MNEMO
 import com.yellastro.mytonwallet.MNEMO_LIST
 import com.yellastro.mytonwallet.PREF_KEY
@@ -58,6 +59,10 @@ class ImportMnemoFragment : Fragment() {
         val toolbar = view.findViewById<Toolbar>(R.id.toolbar)
         (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
 
+        toolbar.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
+
         var fDesc = resources.getString(R.string.desc_import_mnemo_desc)
 
         view.findViewById<TextView>(R.id.fr_import_mnemo_desc).setText(Html.fromHtml(fDesc))
@@ -99,9 +104,8 @@ class ImportMnemoFragment : Fragment() {
     }
 
     fun onInputDone(){
-        if (true){ // TODO
-//            navController.popBackStack(R.id.welcomeFrag,true)
-//            navController.navigate(R.id.walletFragment)
+
+        if (checkInput()){
             requireActivity()
                 .getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE)
                 .edit()
@@ -122,6 +126,9 @@ class ImportMnemoFragment : Fragment() {
     }
 
     private fun checkInput(): Boolean {
+        val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        if (!preferences.getBoolean("check_mnemo",true))
+            return true
         return mvInputs.all { qObj ->
             MNEMO_LIST.any { qMnemo ->
                 qMnemo == qObj.mvInput.text.toString()

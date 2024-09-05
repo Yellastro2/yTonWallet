@@ -1,12 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle">
+<!--<shape-->
+<!--    xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    android:shape="rectangle">-->
 
-        <solid
-            android:color="@color/blue_white" />
+<!--        <solid-->
+<!--            android:color="@color/blue_white" />-->
 
-        <corners
-            android:radius="10dp" />
+<!--        <corners-->
+<!--            android:radius="10dp" />-->
 
-    </shape>
+<!--</shape>-->
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:color="@color/white"
+    > <!-- ripple effect color -->
+    <item android:id="@android:id/background">
+        <shape
+            android:shape="rectangle">
+
+            <solid android:color="@color/blue_white" />
+
+            <corners android:radius="10dp" />
+
+        </shape>
+    </item>
+</ripple>

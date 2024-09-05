@@ -11,12 +11,17 @@ import android.widget.TableLayout
 import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.appcompat.widget.Toolbar
+import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG
+import androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL
+import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
+import com.yellastro.mytonwallet.BIO_LOGIN
 import com.yellastro.mytonwallet.PIN
 import com.yellastro.mytonwallet.PREF_KEY
 import com.yellastro.mytonwallet.R
@@ -282,13 +287,22 @@ class PincodeFragment : Fragment() {
 
                 var qImage = R.drawable.img_delete
                 var qOnClick = { v: View -> onPinEnter(-1) }
-                if (i == 9){ qImage = R.drawable.img_finger }
+                if (i == 9) {
+                    qImage = R.drawable.img_finger
+                    qOnClick = { v: View -> onBioAuthType(-1) }
+                }
 
 
                 LayoutInflater.from(requireContext()).inflate(R.layout.btn_pin_img, qRow)
                 val qPinBtn: View = qRow.getChildAt(qRow.childCount-1)
                 qPinBtn.findViewById<ImageView>(R.id.btn_pin_img)
                     .setImageResource(qImage)
+
+                if (!requireContext().getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE)
+                    .getBoolean(BIO_LOGIN,false) && i == 9) {
+                    qPinBtn.visibility = View.INVISIBLE
+                    qPinBtn.isClickable = false
+                }
 
                 qPinBtn.setOnClickListener(qOnClick)
 
@@ -298,6 +312,44 @@ class PincodeFragment : Fragment() {
 //            qRow.addView(qPinBtn)
             j ++
         }
+    }
+
+    private fun onBioAuthType(i: Int) {
+        val executor = ContextCompat.getMainExecutor(requireContext())
+        val biometricPrompt = BiometricPrompt(this, executor,
+            object : BiometricPrompt.AuthenticationCallback() {
+                override fun onAuthenticationError(errorCode: Int,
+                                                   errString: CharSequence) {
+                    super.onAuthenticationError(errorCode, errString)
+                    Snackbar.make(requireView(),
+                        "Authentication error: $errString", Snackbar.LENGTH_SHORT)
+                        .show()
+                }
+
+                override fun onAuthenticationSucceeded(
+                    result: BiometricPrompt.AuthenticationResult) {
+                    super.onAuthenticationSucceeded(result)
+                    correct()
+                    Snackbar.make(requireView(),
+                        "Authentication succeeded!", Snackbar.LENGTH_SHORT)
+                        .show()
+                }
+
+                override fun onAuthenticationFailed() {
+                    super.onAuthenticationFailed()
+                    Snackbar.make(requireView(), "Authentication failed",
+                        Snackbar.LENGTH_SHORT)
+                        .show()
+                }
+            })
+
+        val promptInfo = BiometricPrompt.PromptInfo.Builder()
+            .setTitle("Biometric login for my app")
+            .setSubtitle("Log in using your biometric credential")
+            .setNegativeButtonText("Use account password")
+            .build()
+
+        biometricPrompt.authenticate(promptInfo)
     }
 
 

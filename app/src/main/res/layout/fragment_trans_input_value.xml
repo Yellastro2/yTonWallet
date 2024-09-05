@@ -31,11 +31,13 @@
 
         <TextView
             android:id="@+id/fr_trans_inpval_btn_max"
-            style="@style/text_big"
+            style="@style/button_inline_v2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:clickable="false"
+            android:focusable="false"
             android:layout_marginEnd="20dp"
-            android:text="MAX"
+            android:text="@string/max"
             android:textColor="@color/blue_white"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -95,28 +97,37 @@
         </LinearLayout>
 
     <LinearLayout
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackground"
+        android:layout_height="wrap_content"
+
         android:id="@+id/fr_trans_inpval_swich_lay"
-        android:layout_width="wrap_content"
-        android:layout_height="36dp"
-        android:paddingRight="6dp"
-        android:paddingLeft="12dp"
-        android:gravity="center|center_vertical"
-        android:background="@drawable/bkg_grey_stroke"
-        android:orientation="horizontal">
+        android:layout_width="wrap_content">
 
-        <TextView
-            android:id="@+id/fr_trans_inpval_swich_text_usd"
-            style="@style/text_general"
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="$12.34"
-            android:textColor="@color/grey_text"
-            android:textSize="22sp" />
+            android:layout_height="36dp"
+            android:paddingEnd="6dp"
+            android:paddingStart="12dp"
+            android:gravity="center|center_vertical"
+            android:background="@drawable/bkg_grey_stroke"
+            android:orientation="horizontal">
 
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/ic_swich"/>
+            <TextView
+                android:id="@+id/fr_trans_inpval_swich_text_usd"
+                style="@style/text_general"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="$12.34"
+                android:textColor="@color/grey_text"
+                android:textSize="22sp" />
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_swich"/>
+        </LinearLayout>
     </LinearLayout>
     </LinearLayout>
 

@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import androidx.preference.PreferenceManager
 import com.yellastro.mytonwallet.MNEMO
 import com.yellastro.mytonwallet.PREF_KEY
 import com.yellastro.mytonwallet.R
@@ -83,55 +84,6 @@ class InputMnemoFragment : Fragment() {
                     { onInputDone() })
             )
 
-//            LayoutInflater.from(requireContext()).inflate(R.layout.mnemo_input_item_view, fvInputLay)
-//            val qCurentCount = fvInputLay.childCount
-//            val qInputLay: View = fvInputLay.getChildAt(qCurentCount-1)
-//
-//            qInputLay.findViewById<TextView>(R.id.it_mneno_input_num).setText("${qPart}")
-//
-//            val qvInputText = qInputLay.findViewById<AutoCompleteTextView>(R.id.it_mneno_input_text)
-//            mvInputs.add(qvInputText)
-//
-//            qvInputText.addTextChangedListener(object : TextWatcher {
-//                override fun afterTextChanged(s: Editable) {
-//                    if (MNEMO_LIST.any { qMnemoWord ->
-//                            qMnemoWord.startsWith(s.toString())
-//                        } || s.isEmpty())
-//                    {
-//                        qInputLay.setBackgroundResource(R.drawable.bkg_input_ligth)
-//                    }else{
-//                        qInputLay.setBackgroundResource(R.drawable.bkg_input_ligth_wrong)
-//                    }
-//
-//                }
-//
-//                override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-//
-//                }
-//                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-//            })
-//
-//            ArrayAdapter<String>(requireContext(),
-//                android.R.layout.simple_list_item_1,
-//                MNEMO_LIST).also { adapter ->
-//                qvInputText.setAdapter(adapter)
-//            }
-//            qvInputText.setOnKeyListener(View.OnKeyListener { view, i, keyEvent ->
-//
-//                if ((keyEvent.action == KeyEvent.ACTION_UP) &&
-//                    (keyEvent.keyCode == KeyEvent.KEYCODE_ENTER))
-//                {
-//                    if (qCurentCount < fvInputLay.childCount){
-//                        val qNextInput = mvInputs[qCurentCount]
-//                        getViewKeyboard(qNextInput)
-//                    }else{
-//                        onInputDone()
-//                    }
-//
-//                    return@OnKeyListener true
-//                }
-//                return@OnKeyListener false
-//            })
         }
 
         view.findViewById<TextView>(R.id.fr_input_mnemo_desc).setText(Html.fromHtml(fDesc))
@@ -158,12 +110,17 @@ class InputMnemoFragment : Fragment() {
     }
 
     private fun checkInput(): Boolean {
+
+        val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        if (!preferences.getBoolean("check_mnemo",true))
+            return true
+
         for (i in 0..<mvInputs.size){
             val qInput = mvInputs[i].mvInput
             val qTypedWord = qInput.text.toString().trim()
             val qMnemoWord = mMnemo[mMnemoParts[i]-1].trim()
             if (qTypedWord != qMnemoWord)
-                return true
+                return false
         }
         return true
     }

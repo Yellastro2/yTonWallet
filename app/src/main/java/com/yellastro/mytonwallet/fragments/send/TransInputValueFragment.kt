@@ -88,7 +88,7 @@ class TransInputValueFragment : Fragment() {
         mvButtonContin = view.findViewById(R.id.fr_trans_inputval_btn_continue)
 
 
-        view.findViewById<View>(R.id.fr_trans_inpval_btn_max).setOnClickListener {
+        view.findViewById<View>(R.id.include).setOnClickListener {
             setMax()
         }
 

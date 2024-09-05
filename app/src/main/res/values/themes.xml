@@ -99,6 +99,13 @@
         <item name="android:background">?android:selectableItemBackground</item>
     </style>
 
+    <style name="button_inline_v2" parent="text_general">
+        <item name="android:textColor">@color/blue_white</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+    </style>
+
     <style name="pin_row">
         <item name="android:gravity">center</item>
         <item name="android:layout_width">match_parent</item>
@@ -134,6 +141,10 @@
         <item name="android:orientation">vertical</item>
         <item name="android:gravity">center</item>
         <item name="android:layout_marginHorizontal">@dimen/margin_8</item>
+
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
     </style>
 
     <style name="circleImageView" parent="">

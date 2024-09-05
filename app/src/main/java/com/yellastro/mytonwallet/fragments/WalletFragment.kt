@@ -22,6 +22,7 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.navigation.NavigationBarView
 import com.yellastro.mytonwallet.PREF_KEY
 import com.yellastro.mytonwallet.R
+import com.yellastro.mytonwallet.sHistoryData
 import com.yellastro.mytonwallet.sJettonsWallet
 import com.yellastro.mytonwallet.viewmodels.WalletModel
 import com.yellastro.mytonwallet.views.yDecorator
@@ -32,7 +33,6 @@ import kotlin.math.round
 
 class WalletFragment : Fragment() {
 
-    lateinit var navController: NavController
 
     val IMG_HOLDER = "https://kartinki.pics/uploads/posts/2022-12/1670368675_24-kartinkin-net-p-nindzya-sobaka-vkontakte-24.png"
 
@@ -66,8 +66,6 @@ class WalletFragment : Fragment() {
             findNavController().navigate(R.id.action_walletFragment_to_settingsFragment)
         }
 
-        navController = findNavController()
-
         val fvCollapseView = view.findViewById<View>(R.id.fr_wallet_toolbar_colaps_lay)
 
         mvBalance = view.findViewById(R.id.fr_wallet_balance_text)
@@ -90,11 +88,14 @@ class WalletFragment : Fragment() {
                     true
                 }
                 R.id.item_4 -> {
+                    findNavController().navigate(R.id.action_walletFragment_to_settingsFragment)
                     true
                 }
                 else -> false
             }
         }
+
+        js("alert()")
 
         view.findViewById<AppBarLayout>(R.id.app_bar)
             .addOnOffsetChangedListener { appBarLayout, verticalOffset ->
@@ -110,7 +111,15 @@ class WalletFragment : Fragment() {
         }
 
         view.findViewById<View>(R.id.fr_wallet_btn_send).setOnClickListener {
-            navController.navigate(R.id.action_walletFragment_to_transChoseCurFragment)
+            findNavController().navigate(R.id.action_walletFragment_to_transChoseCurFragment)
+        }
+
+        if (sJettonsWallet.isEmpty() && sHistoryData.isEmpty()){
+            view.findViewById<View>(R.id.fr_wallet_empty_lay).visibility = View.VISIBLE
+            view.findViewById<View>(R.id.fr_wallet_data_lay).visibility = View.GONE
+        }else{
+            view.findViewById<View>(R.id.fr_wallet_data_lay).visibility = View.VISIBLE
+            view.findViewById<View>(R.id.fr_wallet_empty_lay).visibility = View.GONE
         }
 
         val fvSwipeRefresh = view.findViewById<SwipeRefreshLayout>(R.id.fr_wallet_refreshlay)
@@ -123,8 +132,6 @@ class WalletFragment : Fragment() {
             }
         }
 
-
-
         val fvListJettons = view.findViewById<RecyclerView>(R.id.fr_wallet_jetton_list)
         fvListJettons.adapter = viewModel.mJettonAdapter
         fvListJettons.addItemDecoration(yDecorator.getDecorator(requireContext()))
@@ -133,14 +140,7 @@ class WalletFragment : Fragment() {
         fvListHistory.adapter = viewModel.mHistoryAdapter
         fvListHistory.addItemDecoration(yDecorator.getDecorator(requireContext()))
 
-
-
-//        EventInfoFragment().show(childFragmentManager,"")
-
         viewModel.mHistoryAdapter.setFragManager(childFragmentManager)
-
-//        val navController = findNavController()
-//        navController.navigate(R.id.action_walletFragment_to_eventInfoFragment)
 
         setBalance()
         
@@ -159,6 +159,8 @@ class WalletFragment : Fragment() {
         viewModel.viewModelScope.launch(Dispatchers.Main) {
             viewModel.loadJettons()
             setBalance()
+            requireView().findViewById<View>(R.id.fr_wallet_data_lay).visibility = View.VISIBLE
+            requireView().findViewById<View>(R.id.fr_wallet_empty_lay).visibility = View.GONE
         }
     }
 
