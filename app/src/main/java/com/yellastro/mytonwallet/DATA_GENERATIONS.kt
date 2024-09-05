@@ -20,12 +20,14 @@ fun loadJettons() {
     for (i in 0..<Random.nextInt(2,ASSETS.size)) {
         val j = Random.nextInt(fFrom.size)
         val qValue = Random.nextInt(50, 5000).toDouble()
-        val qUsdRate = Random.nextDouble() * 100
+//        val qUsdRate = Random.nextDouble() * 100
 
 
 
         val qAsset = ASSETS[fFrom[j]]!!
         val qSymb = qAsset[0]
+
+        val qUsdRate = if (fFrom[j] == "USD₮") 1 else usdRates[fFrom[j]]
 
         fList.add(
             yJetton(
@@ -34,7 +36,7 @@ fun loadJettons() {
                 qAsset[1],
                 qValue,
                 if (qSymb == "USD₮" || qAsset[1] == "Staked TON") 0F else Random.nextFloat() * 10 - 5F,
-                qUsdRate.toFloat(),
+                qUsdRate!!.toFloat(),
                 qAsset[2],
                 Random.nextInt(4) == 0,
                 Random.nextInt(5, 20).toFloat()

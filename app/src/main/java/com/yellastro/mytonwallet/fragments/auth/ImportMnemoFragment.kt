@@ -35,26 +35,20 @@ private const val ARG_PARAM2 = "param2"
 class ImportMnemoFragment : Fragment() {
     val MNEMO_SIZE = 24
 
-    lateinit var navController: NavController
 
 
-    val mvInputs = ArrayList<InputMnemoView>()
+    var mvInputs = ArrayList<InputMnemoView>()
+    var mInputWords = ArrayList<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        navController = findNavController()
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_import_mnemo, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        val view = inflater.inflate(R.layout.fragment_import_mnemo, container, false)
 
         val toolbar = view.findViewById<Toolbar>(R.id.toolbar)
         (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
@@ -62,31 +56,29 @@ class ImportMnemoFragment : Fragment() {
         toolbar.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
+        mvInputs = ArrayList<InputMnemoView>()
 
         var fDesc = resources.getString(R.string.desc_import_mnemo_desc)
 
         view.findViewById<TextView>(R.id.fr_import_mnemo_desc).setText(Html.fromHtml(fDesc))
 
-//        view.findViewById<View>(R.id.fr_setpin_back).setOnClickListener {
-//            val navController = findNavController()
-//            navController.popBackStack()
-//        }
 
         val fvButton = view.findViewById<View>(R.id.fr_import_mneno_btn_done)
         fvButton.setOnClickListener {
             onInputDone()
         }
 
-//        val fvScroll = view.findViewById<NestedScrollView>(R.id.fr_input_mnemo_scroll)
-
 
         val fvInputLay = view.findViewById<ViewGroup>(R.id.fr_import_mnemo_input_lay)
 
         for (qPart in 1..MNEMO_SIZE){
-            mvInputs.add( InputMnemoView(requireContext(),
+            val qvInput = InputMnemoView(requireContext(),
                 fvInputLay,
                 qPart,
-                {onInputDone()}))
+                {onInputDone()})
+            mvInputs.add(qvInput)
+            if (mInputWords.size >= qPart )
+                qvInput.mvInput.setText(mInputWords[qPart-1])
         }
 
 
@@ -100,20 +92,41 @@ class ImportMnemoFragment : Fragment() {
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             })
 
+        return view
+    }
+
+    override fun onResume() {
+        super.onResume()
+        for (qPart in 1..MNEMO_SIZE){
+            if (mInputWords.size >= qPart ) {
+                val qvInput = mvInputs[qPart-1]
+                qvInput.mvInput.setText(mInputWords[qPart - 1])
+            }
+        }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+
+
 
     }
 
     fun onInputDone(){
 
+        mInputWords = mvInputs.map { qObj ->
+            qObj.mvInput.text.toString()
+        } as ArrayList<String>
+
+
         if (checkInput()){
             requireActivity()
                 .getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE)
                 .edit()
-                .putString(MNEMO,
-                    mvInputs.map { qObj ->
-                        qObj.mvInput.text.toString()
-                    }.joinToString()).apply()
-            navController.navigate(R.id.action_importMnemoFragment_to_setPinFragment)
+                .putString(MNEMO,mInputWords.joinToString()).apply()
+
+            findNavController().navigate(R.id.action_importMnemoFragment_to_setPinFragment)
 
         }else{
             yDialog(requireContext())
