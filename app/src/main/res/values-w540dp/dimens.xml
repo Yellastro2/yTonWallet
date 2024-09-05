@@ -26,4 +26,5 @@
 
     <dimen name="text_size_regular">16sp</dimen>
     <dimen name="text_size_big">28sp</dimen>
+    <dimen name="text_size_12">12sp</dimen>
 </resources>

@@ -165,6 +165,8 @@
                         android:textSize="12sp"
                         android:textStyle="bold"
                         android:visibility="gone"
+                        android:gravity="center"
+                        android:layout_marginBottom="@dimen/margin_bot_text_1"
                         app:layout_constraintBottom_toBottomOf="@+id/fr_event_message_image"
                         app:layout_constraintEnd_toEndOf="@+id/fr_event_message_image"
                         app:layout_constraintStart_toStartOf="@+id/fr_event_message_image"

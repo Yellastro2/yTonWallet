@@ -92,6 +92,7 @@
                 android:textSize="22sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_bot_text_2"
                 android:textStyle="bold"
                 android:text="A"
                 app:layout_constraintBottom_toBottomOf="@+id/it_jetton_image_main"
