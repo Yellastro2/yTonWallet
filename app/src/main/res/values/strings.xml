@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">yTonWallet</string>
+    <string name="app_name">MyTonWallet</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
@@ -38,7 +38,7 @@
     <string name="body_dial_wrongmnemo">Looks like you entered an invalid mnemonic phrase.</string>
     <string name="btn_close">Close</string>
 
-    <string name="wrd_send">Sent</string>
+    <string name="wrd_send">Send</string>
     <string name="wrd_received">Received</string>
     <string name="wrd_swap">Swapped</string>
     <string name="wrd_from">From</string>

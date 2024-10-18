@@ -2,6 +2,7 @@
 <resources>
 
     <style name="button_general" parent="@android:style/Widget.Button">
+        <item name="android:textStyle">bold</item>
         <item name="android:textSize">@dimen/text_size_regular</item>
         <item name="android:background">@drawable/select_button</item>
         <item name="android:backgroundTint">@null</item>

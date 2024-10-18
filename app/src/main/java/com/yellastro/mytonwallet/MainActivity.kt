@@ -1,8 +1,15 @@
 package com.yellastro.mytonwallet
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.webkit.ConsoleMessage
+import android.webkit.JavascriptInterface
+import android.webkit.WebChromeClient
+import android.webkit.WebView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -20,11 +27,14 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var navController: NavController
 
+    @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
             enableEdgeToEdge()
         }
+
+
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -42,8 +52,35 @@ class MainActivity : AppCompatActivity() {
             navController.popBackStack(R.id.welcomeFrag,true)
             navController.navigate(R.id.pincodeFragment)
         }
+
+        val myWebView = WebView(this)
+        myWebView.webChromeClient = object : WebChromeClient() {
+
+            override fun onConsoleMessage(message: ConsoleMessage): Boolean {
+                Log.d("yTonWallet javascript", "${message.message()} -- From line " +
+                        "${message.lineNumber()} of ${message.sourceId()}")
+                return true
+            }
+        }
+        myWebView.settings.javaScriptEnabled = true
+        myWebView.addJavascriptInterface(WebAppInterface(this), "Android")
+//        myWebView.loadData("<input type=\"button\" value=\"Say hello\" onClick=\"showAndroidToast('Hello Android!')\" />\n" +
+//                "\n" +
+//                "<script type=\"text/javascript\">\n" +
+//                "    Android.showToast('toast');\n" +
+//                "    \n" +
+//                "</script>",null,null)
+        myWebView.loadUrl("file:///android_asset/test.html")
     }
 
+    /** Instantiate the interface and set the context.  */
+    class WebAppInterface(private val mContext: Context) {
 
+        /** Show a toast from the web page.  */
+        @JavascriptInterface
+        fun showToast(toast: String) {
+            Toast.makeText(mContext, toast, Toast.LENGTH_SHORT).show()
+        }
+    }
 
 }

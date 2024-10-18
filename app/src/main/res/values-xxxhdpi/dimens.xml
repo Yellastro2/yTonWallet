@@ -3,6 +3,10 @@
     <dimen name="button_main_vert_margin">10dp</dimen>
     <dimen name="button_main_horz_margin">46dp</dimen>
 
+    <dimen name="app_bar_height">198dp</dimen>
+    <dimen name="collaps_toolbar_title_margin_top">0dp</dimen>
+    <dimen name="collaps_toolbar_subtitle_margin_top">112dp</dimen>
+
     <dimen name="pin_dot_size">16dp</dimen>
     <dimen name="pin_dot_stroke">1dp</dimen>
 

@@ -85,7 +85,7 @@
         android:background="@android:color/transparent"
         android:cursorVisible="false"
         android:ems="10"
-        android:inputType="number"
+        android:inputType="numberPassword"
         android:textColor="@color/white"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"

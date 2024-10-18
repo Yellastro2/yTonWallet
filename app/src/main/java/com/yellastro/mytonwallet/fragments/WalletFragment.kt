@@ -72,10 +72,6 @@ class WalletFragment : Fragment() {
             findNavController().navigate(R.id.action_walletFragment_to_settingsFragment)
         }
 
-        val fvCollapseView = view.findViewById<View>(R.id.fr_wallet_toolbar_colaps_lay)
-
-        mvBalance = view.findViewById(R.id.fr_wallet_balance_text)
-        mvBalanceColapced = view.findViewById(R.id.fr_wallet_balance_colapse)
 
         view.findViewById<NavigationBarView>(R.id.bottom_navigation).setOnItemSelectedListener { item ->
             when(item.itemId) {
@@ -105,19 +101,20 @@ class WalletFragment : Fragment() {
             }
         }
 
+        val frTitleExpand = view.findViewById<TextView>(R.id.fr_wallet_title_expand)
+        val frWalletTitleColapse = view.findViewById<TextView>(R.id.fr_wallet_title_colapse)
+        val appBarLayout = view.findViewById<AppBarLayout>(R.id.app_bar)
 
-        view.findViewById<AppBarLayout>(R.id.app_bar)
-            .addOnOffsetChangedListener { appBarLayout, verticalOffset ->
+        mvBalance = view.findViewById(R.id.fr_wallet_balance_text)
+        mvBalanceColapced = view.findViewById(R.id.fr_wallet_balance_colapse)
 
-                val some1 = toolbar.getHeight() + verticalOffset
-                val some2 =  2 * ViewCompat.getMinimumHeight(toolbar)
-                Log.i("colapse","toolheight= ${toolbar.getHeight()}, offset = ${verticalOffset}, some2 = ${some2}")
-            if ( verticalOffset * -1 > toolbar.getHeight()) {
-                fvCollapseView.animate().alpha(1F).setDuration(100)
-            } else {
-                fvCollapseView.animate().alpha(0F).setDuration(100)
-            }
-        }
+        appBarLayout.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { _, verticalOffset ->
+            val totalScrollRange = appBarLayout.totalScrollRange
+            val progress = Math.abs(verticalOffset).toFloat() / totalScrollRange
+
+            onOffsetCollapse(frTitleExpand,frWalletTitleColapse,progress, 22F)
+            onOffsetCollapse(mvBalance,mvBalanceColapced,progress,36F)
+        })
 
         view.findViewById<View>(R.id.fr_wallet_btn_send).setOnClickListener {
             findNavController().navigate(R.id.action_walletFragment_to_transChoseCurFragment)
@@ -171,6 +168,28 @@ class WalletFragment : Fragment() {
         Toast.makeText(requireContext(), "Swipe down - refresh - to generate new data",
             Toast.LENGTH_LONG).show()
 
+    }
+
+    fun onOffsetCollapse(fvExpand: TextView, fvColps: TextView, progress: Float, fromSp: Float){
+        val initialX = fvExpand.left
+        val targetX = fvColps.left
+        val initialY = fvExpand.top
+        val targetY = fvColps.top
+
+        val newX = initialX + (targetX - initialX) * progress
+        val newY = initialY + (targetY - initialY) * progress
+        val startTextSize = fromSp * getResources().getDisplayMetrics().scaledDensity // sp
+
+        // Конечные параметры
+        val endTextSize = fvColps.textSize.toFloat()  // sp
+
+        val fProgresTextSize = startTextSize * (1F - progress) + endTextSize * progress
+
+//        fvExpand.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, fProgresTextSize)
+        fvExpand.setTextSize(fProgresTextSize / getResources().getDisplayMetrics().scaledDensity)
+
+        fvExpand.translationX = newX - fvExpand.left
+        fvExpand.translationY = newY - fvExpand.top
     }
 
     override fun onResume() {

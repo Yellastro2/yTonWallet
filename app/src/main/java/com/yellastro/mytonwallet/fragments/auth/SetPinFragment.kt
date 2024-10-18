@@ -125,6 +125,15 @@ class SetPinFragment : Fragment(R.layout.fragment_set_pin) {
             }
             fvChangeSize.setText(fNewText)
             setSize(viewModel.mPinSize)
+            if (!isConfirm.isNullOrEmpty()){
+                mvTitle.setText(R.string.title_conf_pin)
+                val fDesc = resources.getString(R.string.deck_conf_pin).replace("4",viewModel.mPinSize.toString())
+                mvDesc.setText(fDesc)
+                fvChangeSize.visibility = View.INVISIBLE
+            }else{
+                val fDesc = resources.getString(R.string.deck_set_pin).replace("4",viewModel.mPinSize.toString())
+                mvDesc.setText(fDesc)
+            }
         }
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {

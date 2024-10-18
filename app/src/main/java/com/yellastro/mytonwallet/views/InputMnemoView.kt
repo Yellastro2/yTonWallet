@@ -1,19 +1,23 @@
 package com.yellastro.mytonwallet.views
 
+import android.R.attr.name
 import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnFocusChangeListener
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.EditText
+import android.widget.ListAdapter
 import android.widget.TextView
 import com.yellastro.mytonwallet.MNEMO_LIST
 import com.yellastro.mytonwallet.R
+
 
 class InputMnemoView(   val ctx: Context,
                         vParentView: ViewGroup,
@@ -53,12 +57,36 @@ class InputMnemoView(   val ctx: Context,
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
         })
 
-        ArrayAdapter<String>(ctx,
+        qvInputText.onFocusChangeListener = OnFocusChangeListener { v, hasFocus ->
+            if (!hasFocus) {
+                val s = qvInputText.text.toString()
+                if (MNEMO_LIST.any { qMnemoWord ->
+                        qMnemoWord == s
+                    } || s.isEmpty())
+                {
+                    qInputLay.setBackgroundResource(R.drawable.bkg_input_ligth)
+                }else{
+                    qInputLay.setBackgroundResource(R.drawable.bkg_input_ligth_wrong)
+                }
+            }
+        }
+
+        /**
+         * I really wanted to make a horizontal list in the word hint, but after spending
+         * almost a day researching, I realized that modifying the functionality of the basic
+         * AutoCompleateEditText widget takes as long as making your widget from scratch,
+         * maybe even longer. I've put this task on the TODO list for now
+         */
+
+        ArrayAdapter(ctx,
             android.R.layout.simple_list_item_1,
             MNEMO_LIST
         ).also { adapter ->
+
             qvInputText.setAdapter(adapter)
         }
+
+
         qvInputText.setOnKeyListener(View.OnKeyListener { view, i, keyEvent ->
 
             if ((keyEvent.action == KeyEvent.ACTION_UP) &&
