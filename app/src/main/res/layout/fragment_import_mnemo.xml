@@ -17,8 +17,8 @@
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/app_bar_height"
-            app:elevation="0dp">
+            android:layout_height="wrap_content"
+            app:elevation="1dp">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:background="@color/white"
@@ -29,16 +29,15 @@
                 app:expandedTitleGravity="center_horizontal"
                 app:collapsedTitleGravity="left"
                 app:collapsedTitleTextAppearance="@style/text_toolbar_title"
-                app:collapsedTitleTextColor="@color/black"
-                app:titleCollapseMode="scale"
+                app:collapsedTitleTextColor="#00FFFFFF"
                 app:expandedTitleMarginTop="@dimen/collaps_toolbar_title_margin_top"
-                app:expandedTitleTextColor="@color/black"
+                app:expandedTitleTextColor="#00FFFFFF"
                 app:expandedTitleTextAppearance="@style/text_toolbar_title_expand"
                 app:popupTheme="@style/text_toolbar_title"
                 app:layout_scrollFlags="snap|scroll|exitUntilCollapsed"
                 app:toolbarId="@+id/toolbar">
 
-                <TextView
+                <com.yellastro.mytonwallet.views.MaxCharsTextView
                     android:id="@+id/fr_import_mnemo_desc"
                     style="@style/text_general"
                     android:gravity="center"
@@ -46,8 +45,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/collaps_toolbar_subtitle_margin_top"
                     android:layout_marginHorizontal="@dimen/margin_48"
-                    app:layout_scrollFlags="enterAlways|enterAlwaysCollapsed"
-                    app:layout_collapseMode="pin"
+                    android:layout_marginBottom="32dp"
+                    app:layout_collapseMode="parallax"
                     android:layout_gravity="top"
                     android:lineSpacingExtra="4dp"
                     android:text="You can restore access to your wallet by entering the 24 secret words that you wrote down when creating the wallet."/>
@@ -63,6 +62,38 @@
                     app:layout_scrollFlags="scroll|enterAlways"
                     android:fadingEdgeLength="0dp"
                     app:navigationIcon="@drawable/ic_back"/>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="top"
+                    app:layout_collapseMode="pin">
+
+                    <TextView
+                        android:id="@+id/fr_imort_mnemo_title_colps"
+                        style="@style/text_toolbar_title"
+                        android:visibility="invisible"
+                        android:gravity="center"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/margin_64"
+                        android:layout_marginStart="46dp"
+                        android:text="@string/title_import_mnemo"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                    <TextView
+                        android:id="@+id/fr_imort_mnemo_title_exp"
+                        style="@style/text_toolbar_title"
+                        android:textSize="28sp"
+                        android:gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/margin_64"
+                        android:layout_marginBottom="82dp"
+                        android:text="@string/title_import_mnemo"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
         </com.google.android.material.appbar.AppBarLayout>

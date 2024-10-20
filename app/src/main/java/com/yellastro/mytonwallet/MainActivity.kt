@@ -48,29 +48,31 @@ class MainActivity : AppCompatActivity() {
                 View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR)
 
         if (!getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE)
-                .getString(MNEMO,"").isNullOrEmpty()){
+                .getString(MNEMO,"").isNullOrEmpty())
+            if(!getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE)
+                    .getString(PIN,"").isNullOrEmpty()){
             navController.popBackStack(R.id.welcomeFrag,true)
             navController.navigate(R.id.pincodeFragment)
         }
 
-        val myWebView = WebView(this)
-        myWebView.webChromeClient = object : WebChromeClient() {
-
-            override fun onConsoleMessage(message: ConsoleMessage): Boolean {
-                Log.d("yTonWallet javascript", "${message.message()} -- From line " +
-                        "${message.lineNumber()} of ${message.sourceId()}")
-                return true
-            }
-        }
-        myWebView.settings.javaScriptEnabled = true
-        myWebView.addJavascriptInterface(WebAppInterface(this), "Android")
-//        myWebView.loadData("<input type=\"button\" value=\"Say hello\" onClick=\"showAndroidToast('Hello Android!')\" />\n" +
-//                "\n" +
-//                "<script type=\"text/javascript\">\n" +
-//                "    Android.showToast('toast');\n" +
-//                "    \n" +
-//                "</script>",null,null)
-        myWebView.loadUrl("file:///android_asset/test.html")
+//        val myWebView = WebView(this)
+//        myWebView.webChromeClient = object : WebChromeClient() {
+//
+//            override fun onConsoleMessage(message: ConsoleMessage): Boolean {
+//                Log.d("yTonWallet javascript", "${message.message()} -- From line " +
+//                        "${message.lineNumber()} of ${message.sourceId()}")
+//                return true
+//            }
+//        }
+//        myWebView.settings.javaScriptEnabled = true
+//        myWebView.addJavascriptInterface(WebAppInterface(this), "Android")
+////        myWebView.loadData("<input type=\"button\" value=\"Say hello\" onClick=\"showAndroidToast('Hello Android!')\" />\n" +
+////                "\n" +
+////                "<script type=\"text/javascript\">\n" +
+////                "    Android.showToast('toast');\n" +
+////                "    \n" +
+////                "</script>",null,null)
+//        myWebView.loadUrl("file:///android_asset/test.html")
     }
 
     /** Instantiate the interface and set the context.  */

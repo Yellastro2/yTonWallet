@@ -12,15 +12,19 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
+import com.google.android.material.appbar.AppBarLayout
 import com.yellastro.mytonwallet.MNEMO
 import com.yellastro.mytonwallet.MNEMO_LIST
 import com.yellastro.mytonwallet.PREF_KEY
 import com.yellastro.mytonwallet.R
+import com.yellastro.mytonwallet.pro_animations.onOffsetCollapseText
 import com.yellastro.mytonwallet.views.InputMnemoView
 import com.yellastro.mytonwallet.views.yDialog
+import com.yellastro.mytonwallet.pro_animations.onOffsetCollapseTitle
+import com.yellastro.mytonwallet.views.MaxCharsTextView
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -53,14 +57,32 @@ class ImportMnemoFragment : Fragment() {
         val toolbar = view.findViewById<Toolbar>(R.id.toolbar)
         (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
 
+
+        val fvTitleExp = view.findViewById<TextView>(R.id.fr_imort_mnemo_title_exp)
+        val fvTitleColps = view.findViewById<TextView>(R.id.fr_imort_mnemo_title_colps)
+        val appBarLayout = view.findViewById<AppBarLayout>(R.id.app_bar)
+
+        val fvTextSubtitle = view.findViewById<MaxCharsTextView>(R.id.fr_import_mnemo_desc)
+        fvTextSubtitle.setMaxWordsPerLine(8)
+        var fDesc = resources.getString(R.string.desc_import_mnemo_desc)
+        fvTextSubtitle.setText(Html.fromHtml(fDesc))
+
+        appBarLayout.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { _, verticalOffset ->
+            val totalScrollRange = appBarLayout.totalScrollRange
+            val progress = Math.abs(verticalOffset).toFloat() / totalScrollRange
+
+            onOffsetCollapseTitle(fvTitleExp,fvTitleColps,progress, 28F)
+            onOffsetCollapseText(fvTextSubtitle, progress, resources.getDimension(R.dimen.text_size_regular).toInt())
+        })
+
+
         toolbar.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
         mvInputs = ArrayList<InputMnemoView>()
 
-        var fDesc = resources.getString(R.string.desc_import_mnemo_desc)
 
-        view.findViewById<TextView>(R.id.fr_import_mnemo_desc).setText(Html.fromHtml(fDesc))
+
 
 
         val fvButton = view.findViewById<View>(R.id.fr_import_mneno_btn_done)

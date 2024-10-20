@@ -15,10 +15,16 @@
             app:title="Clear wallet"/>
 
         <SwitchPreference
-            android:defaultValue="true"
+            android:defaultValue="false"
             android:summary="enable check of mnemo phrase inputs"
             android:key="check_mnemo"
             android:title="check mnemo words" />
+
+        <Preference
+            app:key="close"
+            app:title="Close app"
+            app:summary="Close app to lock it by pin"
+            />
 
     </PreferenceCategory>
 

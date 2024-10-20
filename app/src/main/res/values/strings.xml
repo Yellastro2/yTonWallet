@@ -31,7 +31,7 @@
     <string name="desc_repeat_mnemo">Let’s check that you wrote it down correctly. Please enter the words PART, PART and PART.</string>
     <string name="title_repeat_mnemo">Let’s test</string>
     <string name="btn_continue">Continue</string>
-    <string name="desc_import_mnemo_desc"><![CDATA[You can restore access to your wallet by entering the <b>24 secret words</b> that you wrote down when creating the wallet.]]></string>
+    <string name="desc_import_mnemo_desc"><![CDATA[You can restore access to your wallet by entering the <b>24 secret words </b>that you wrote down when creating the wallet.]]></string>
     <string name="title_import_mnemo">Import wallet</string>
 
     <string name="title_dial_wrongmnemo">Wrong phrase</string>

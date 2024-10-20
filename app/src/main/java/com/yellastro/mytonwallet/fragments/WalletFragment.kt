@@ -1,6 +1,5 @@
 package com.yellastro.mytonwallet.fragments
 
-import android.content.Context
 import android.graphics.ImageDecoder
 import android.graphics.drawable.AnimatedImageDrawable
 import android.os.Bundle
@@ -13,21 +12,21 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.core.view.ViewCompat
+import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.navigation.NavigationBarView
-import com.yellastro.mytonwallet.PREF_KEY
 import com.yellastro.mytonwallet.R
 import com.yellastro.mytonwallet.loadHistory
 import com.yellastro.mytonwallet.loadJettons
+import com.yellastro.mytonwallet.pro_animations.onOffsetCollapseTitle
+import com.yellastro.mytonwallet.pro_animations.onOffsetCollapseTextIcon
 import com.yellastro.mytonwallet.sHistoryData
 import com.yellastro.mytonwallet.sJettonsWallet
 import com.yellastro.mytonwallet.viewmodels.WalletModel
@@ -108,13 +107,30 @@ class WalletFragment : Fragment() {
         mvBalance = view.findViewById(R.id.fr_wallet_balance_text)
         mvBalanceColapced = view.findViewById(R.id.fr_wallet_balance_colapse)
 
+        val fvActionLay = view.findViewById<ViewGroup>(R.id.fr_wallet_toolActionsLay)
+        fvActionLay.post{
+            val fvBaseWidth = resources.getDimension(R.dimen.size_icon_32)
+            val fvBaseTextSize = resources.getDimension(R.dimen.text_size_regular)
+            var isUpdating = false
+
         appBarLayout.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { _, verticalOffset ->
+
+            if (isUpdating) return@OnOffsetChangedListener
             val totalScrollRange = appBarLayout.totalScrollRange
             val progress = Math.abs(verticalOffset).toFloat() / totalScrollRange
 
-            onOffsetCollapse(frTitleExpand,frWalletTitleColapse,progress, 22F)
-            onOffsetCollapse(mvBalance,mvBalanceColapced,progress,36F)
+            onOffsetCollapseTitle(frTitleExpand,frWalletTitleColapse,progress, 22F)
+            onOffsetCollapseTitle(mvBalance,mvBalanceColapced,progress,36F)
+            isUpdating = true
+            fvActionLay.children.forEach { onOffsetCollapseTextIcon(
+                (it as ViewGroup),
+                progress,
+                fvBaseWidth.toInt(),
+                fvBaseTextSize.toInt()) }
+            fvActionLay.requestLayout()
+            isUpdating = false
         })
+        }
 
         view.findViewById<View>(R.id.fr_wallet_btn_send).setOnClickListener {
             findNavController().navigate(R.id.action_walletFragment_to_transChoseCurFragment)
@@ -170,27 +186,7 @@ class WalletFragment : Fragment() {
 
     }
 
-    fun onOffsetCollapse(fvExpand: TextView, fvColps: TextView, progress: Float, fromSp: Float){
-        val initialX = fvExpand.left
-        val targetX = fvColps.left
-        val initialY = fvExpand.top
-        val targetY = fvColps.top
 
-        val newX = initialX + (targetX - initialX) * progress
-        val newY = initialY + (targetY - initialY) * progress
-        val startTextSize = fromSp * getResources().getDisplayMetrics().scaledDensity // sp
-
-        // Конечные параметры
-        val endTextSize = fvColps.textSize.toFloat()  // sp
-
-        val fProgresTextSize = startTextSize * (1F - progress) + endTextSize * progress
-
-//        fvExpand.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, fProgresTextSize)
-        fvExpand.setTextSize(fProgresTextSize / getResources().getDisplayMetrics().scaledDensity)
-
-        fvExpand.translationX = newX - fvExpand.left
-        fvExpand.translationY = newY - fvExpand.top
-    }
 
     override fun onResume() {
         super.onResume()

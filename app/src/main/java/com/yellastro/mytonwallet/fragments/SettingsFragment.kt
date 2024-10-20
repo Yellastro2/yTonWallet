@@ -40,5 +40,11 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 findNavController().navigate(R.id.welcomeFrag)
                 true
             }
+
+        findPreference<Preference>("close")
+            ?.setOnPreferenceClickListener {
+                requireActivity().finishAndRemoveTask()
+                true
+            }
     }
 }

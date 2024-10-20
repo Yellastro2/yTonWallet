@@ -22,7 +22,7 @@ import com.yellastro.mytonwallet.R
 class InputMnemoView(   val ctx: Context,
                         vParentView: ViewGroup,
                         part: Int,
-                        onInputDone: ()-> Unit) {
+                        val onInputDone: ()-> Unit) {
 
     var mvInput: EditText
 
@@ -40,6 +40,12 @@ class InputMnemoView(   val ctx: Context,
 
         qvInputText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {
+                if (s.toString().contains(" ")){
+                    val fWord = s.toString().split(" ")[0]
+                    qvInputText.setText(fWord)
+                    setNextWord(qCurentCount,vParentView,s.toString().removePrefix("${fWord} "))
+                    return
+                }
                 if (MNEMO_LIST.any { qMnemoWord ->
                         qMnemoWord.startsWith(s.toString())
                     } || s.isEmpty())
@@ -52,9 +58,14 @@ class InputMnemoView(   val ctx: Context,
             }
 
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+                if (s.toString().contains(" ")){
+                    val fWord = s.toString().split(" ")[0]
+
+                }
+            }
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
 
             }
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
         })
 
         qvInputText.onFocusChangeListener = OnFocusChangeListener { v, hasFocus ->
@@ -105,6 +116,18 @@ class InputMnemoView(   val ctx: Context,
             }
             return@OnKeyListener false
         })
+    }
+
+    fun setNextWord(fCurentCount: Int, vParentView: ViewGroup, fWords: String){
+        if (fCurentCount < vParentView.childCount){
+
+            val qNextInput = vParentView.getChildAt(fCurentCount)
+                .findViewById<AutoCompleteTextView>(R.id.it_mneno_input_text)
+            getViewKeyboard(qNextInput)
+            qNextInput.setText(fWords)
+        }else{
+            onInputDone()
+        }
     }
 
     fun getViewKeyboard(fView: View){
